@@ -113,7 +113,7 @@ public class FacilityRegImpl implements Facility {
 		System.out.println(city + " , " + state);
 		System.out.println("-----------");
 		System.out.println("Rate per Day: " + itemsPerDay);
-		System.out.printf("Cost per Day: '%.1f''%\n'", costPerDay); //TODO correct this to use limited zeroes
+		System.out.printf("Cost per Day: '%.1f'%\n", costPerDay); //TODO correct this to use limited zeroes
 		System.out.println("");
 		System.out.println("Direct Links:");
 		//Detroit, MI (0.7d); Fargo, ND (1.6d); New York City, NY (2.0d); St. Louis, MO (0.7d);
