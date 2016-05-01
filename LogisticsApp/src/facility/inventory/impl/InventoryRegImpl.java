@@ -52,5 +52,11 @@ public class InventoryRegImpl implements Inventory {
 		
 		 
 	}
+
+	@Override
+	public void printReport() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
