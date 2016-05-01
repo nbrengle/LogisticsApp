@@ -43,20 +43,34 @@ public class InventoryRegImpl implements Inventory {
 	
 	public void consumeItem(String itemToConsume, int quantityToConsume) throws NoSuchItemException, InvalidParameterException {
 		int currentQuantity = active.get(itemToConsume);
-		if (itemIsActive(itemToConsume) && (currentQuantity >= quantityToConsume)) {
+		if (itemIsActive(itemToConsume) && (currentQuantity > quantityToConsume)) {
 			depleted.put(itemToConsume, quantityToConsume);
 			active.replace(itemToConsume, (currentQuantity - quantityToConsume));
 		}
+		else if (itemIsActive(itemToConsume) && (currentQuantity == quantityToConsume)) {
+			depleted.put(itemToConsume, quantityToConsume);
+			active.remove(itemToConsume);
+		}
 		//TODO consider a more descriptive unique exception
 		else throw new InvalidParameterException(itemToConsume + " has " + currentQuantity + " cannot consume " + quantityToConsume);
-		
 		 
 	}
 
 	@Override
 	public void printReport() {
-		// TODO Auto-generated method stub
 		
+		System.out.print("Active Inventory:");
+		if (active.isEmpty()) System.out.println(" None");
+		else {
+			System.out.println("\tItem ID\tQuantity");
+			active.forEach((k,v) -> System.out.printf("\t%s\t%d\n",k,v));
+		}
+		System.out.print("Depleted (Used-Up) Inventory:"); 
+		if (depleted.isEmpty()) System.out.println(" None");
+		else {
+			System.out.println("\tItem ID\tQuantity");
+			depleted.forEach((k,v) -> System.out.printf("\t%s\t%d\n",k,v));
+		}
 	}
 	
 }
