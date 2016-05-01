@@ -47,7 +47,16 @@ public final class ItemService {
 		for (Item i: items) {
 			if(i.getName().equals(itemName)) return i.getPrice();
 		}
+		//TODO consider a less specific exception
 		throw new InvalidPriceException(itemName + "does not have a valid price.");
+	}
+	
+	public void printReport() {
+		System.out.println("Item Catalog:");
+		for (Item item : items) {
+			//TODO confirm this appears correctly
+			System.out.printf("'%-8s': $'%,.0f'%\t" , item.getName(), item.getPrice()); 
+		}
 	}
 
 }

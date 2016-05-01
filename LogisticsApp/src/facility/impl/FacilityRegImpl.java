@@ -5,8 +5,10 @@ import java.util.HashMap;
 
 import facility.exceptions.InvalidParameterException;
 import facility.interfaces.Facility;
+import facility.inventory.InventoryFactory;
 import facility.inventory.interfaces.Inventory;
 import facility.loader.FacilityLoaderHelper;
+import facility.schedule.ScheduleFactory;
 import facility.schedule.interfaces.Schedule;
 
 
@@ -89,7 +91,8 @@ public class FacilityRegImpl implements Facility {
 	}
 	
 	private Inventory setInventory(HashMap<String, Integer> itemsIn) {
-		 return InventoryFactory.createInventory("Regular", itemsIn);
+		//TODO add appropriate exception handling 
+		return InventoryFactory.createInventory("Regular", itemsIn);
 	}
 	
 	public Schedule getSchedule() {
@@ -100,14 +103,28 @@ public class FacilityRegImpl implements Facility {
 	}
 	
 	private Schedule setSchedule() {
-		 return ScheduleFactory.createSchedule(); // TODO Add args
+		//TODO add appropriate exception handling
+		 return ScheduleFactory.createSchedule("Regular", itemsPerDay); // TODO Add args
 	}
 
 	@Override
 	public void printReport() {
-		// TODO Auto-generated method stub
+		System.out.println("---------------------------------------------------------------------------------");
+		System.out.println(city + " , " + state);
+		System.out.println("-----------");
+		System.out.println("Rate per Day: " + itemsPerDay);
+		System.out.printf("Cost per Day: '%.1f''%\n'", costPerDay); //TODO correct this to use limited zeroes
+		System.out.println("");
+		System.out.println("Direct Links:");
+		//Detroit, MI (0.7d); Fargo, ND (1.6d); New York City, NY (2.0d); St. Louis, MO (0.7d);
+		System.out.println("");
+		inventory.printReport();
+		System.out.println("");
+		schedule.printReport(20);
+		System.out.println("---------------------------------------------------------------------------------");
 		
 	}
 	
 	//Add the method for reporting how much data I have
+	
 }
