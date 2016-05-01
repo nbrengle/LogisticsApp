@@ -33,7 +33,6 @@ public final class ItemService {
 		return ourInstance;
 	}
 	
-	
 	public boolean isItem(String itemName) {
 		for (Item i : items) {
 			if (i.getName().equals(itemName)) return true;
