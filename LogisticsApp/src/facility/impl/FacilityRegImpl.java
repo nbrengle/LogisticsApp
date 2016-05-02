@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import facility.exceptions.InvalidParameterException;
+import facility.graph.FacilityGraph;
 import facility.interfaces.Facility;
 import facility.inventory.InventoryFactory;
 import facility.inventory.interfaces.Inventory;
@@ -17,6 +18,7 @@ public class FacilityRegImpl implements Facility {
 	
 	private String city;
 	private String state;
+	private String uniqueIdentifier;
 	private int itemsPerDay;
 	private double costPerDay;
 	//TODO This is definitely not an ArrayList
@@ -29,6 +31,7 @@ public class FacilityRegImpl implements Facility {
 		try {
 			this.city = setCity(cityIn);
 			this.state = setState(stateIn);
+			this.uniqueIdentifier = setUniqueIdentifier(cityIn, stateIn);
 			this.itemsPerDay = setItemsPerDay(ipdIn);
 			this.costPerDay = setCostPerDay(cpdIn);
 			this.inventory = setInventory(invIn);
@@ -43,7 +46,7 @@ public class FacilityRegImpl implements Facility {
 
 	//city;
 	public String getCity() {
-		return this.city;
+		return city;
 	}
 	
 	private String setCity(String name) {
@@ -53,12 +56,22 @@ public class FacilityRegImpl implements Facility {
 	
 	//state;
 	public String getState() {
-		return this.state;
+		return state;
 	}
 	
 	private String setState(String name) {
 		//consider additional validation
 		return name;
+	}
+	
+	//uniqueIdentifier
+	public String getUniqueIdentifier() {
+		return uniqueIdentifier;
+	}
+	
+	private String setUniqueIdentifier(String cityIn, String stateIn) {
+		//consider additional validation
+		return String.format("%s, %s", cityIn, stateIn);
 	}
 	
 	//itemsPerDay;
@@ -93,9 +106,24 @@ public class FacilityRegImpl implements Facility {
 		return InventoryFactory.createInventory("Regular", itemsIn);
 	}
 	
-	private Map<String, Integer> setConnectingFacilities(ArrayList<FacilityLoaderHelper> connectsIn) {
-		// TODO Auto-generated method stub
-		return null;
+	private void createConnectionsInFacilityGraph(ArrayList<FacilityLoaderHelper> connectsIn) throws InvalidParameterException {
+		for( FacilityLoaderHelper helper : connectsIn) {
+			//Facility Loader Helper has City, State, Distance
+			String connectionIdentifier = String.format("%s, %s", helper.getCity(), helper.getState());
+			FacilityGraph.getInstance().addEdge(uniqueIdentifier, connectionIdentifier, helper.getDistance());
+		}
+	}
+	
+	private Map<String, Integer> setConnectingFacilities(ArrayList<FacilityLoaderHelper> connectsIn) throws InvalidParameterException {
+		createConnectionsInFacilityGraph(connectsIn);
+		return FacilityGraph.getInstance().getNeigbors(uniqueIdentifier);
+	}
+	
+	private void printConnectFacilities(Map<String, Integer> connections) {
+		//Detroit, MI (0.7d); Fargo, ND (1.6d); New York City, NY (2.0d); St. Louis, MO (0.7d);
+		//TODO Consider making me a constant much, much higher up the chain please
+		int DistancePerDay = 400;
+		connections.forEach((k,v) -> System.out.printf("%s ('%.1f'd)",k,(v/DistancePerDay)));
 	}
 	
 	public Schedule getSchedule() {
@@ -116,10 +144,10 @@ public class FacilityRegImpl implements Facility {
 		System.out.println(city + " , " + state);
 		System.out.println("-----------");
 		System.out.println("Rate per Day: " + itemsPerDay);
-		System.out.printf("Cost per Day: '%.1f'%\n", costPerDay); //TODO correct this to use limited zeroes
+		System.out.printf("Cost per Day: '%.1f'%\n", costPerDay); 
 		System.out.println("");
 		System.out.println("Direct Links:");
-		//Detroit, MI (0.7d); Fargo, ND (1.6d); New York City, NY (2.0d); St. Louis, MO (0.7d);
+		printConnectFacilities(connectingFacilities);
 		System.out.println("");
 		inventory.printReport();
 		System.out.println("");
