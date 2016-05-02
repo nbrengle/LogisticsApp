@@ -3,7 +3,6 @@ package facility;
 import facility.interfaces.Facility;
 import facility.exceptions.NoSuchFacilityLoaderException;
 import facility.loader.FacilityLoaderFactory;
-import facility.loader.interfaces.FacilityLoader;
 
 import java.util.ArrayList;
 
