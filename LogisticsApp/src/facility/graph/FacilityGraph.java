@@ -1,9 +1,6 @@
 package facility.graph;
 
 import facility.exceptions.InvalidParameterException;
-import facility.graph.interfaces.FacilityGraph;
-import facility.interfaces.Facility;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +9,7 @@ import java.util.Map;
  * adapted from: http://introcs.cs.princeton.edu/java/45graph/Graph.java.html
  */
 
-public class FacilityGraphImpl implements FacilityGraph {
+public class FacilityGraph {
 	
 	//---Data Members---
 	//hashmap: key = vertex, value = hashmap of neighboring vertices and their integer edgeweight
@@ -24,18 +21,18 @@ public class FacilityGraphImpl implements FacilityGraph {
 	
 	
 	//---Singleton Constructor---
-	private volatile static FacilityGraphImpl ourInstance;
+	private volatile static FacilityGraph ourInstance;
 	
-	private FacilityGraphImpl() {
+	private FacilityGraph() {
 		//TODO empty constructor is a terrible plan, make this better
 		st = new HashMap<String, HashMap<String, Integer>>();
 	}
 	
-	public static FacilityGraphImpl getInstance() {
+	public static FacilityGraph getInstance() {
 		if (ourInstance == null) {
-			synchronized (FacilityGraphImpl.class) {
+			synchronized (FacilityGraph.class) {
 				if (ourInstance == null) //Double Check
-					ourInstance = new FacilityGraphImpl();
+					ourInstance = new FacilityGraph();
 			}
 		}
 		return ourInstance;
