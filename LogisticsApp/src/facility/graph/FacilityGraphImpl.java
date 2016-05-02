@@ -4,7 +4,9 @@ import facility.exceptions.InvalidParameterException;
 import facility.graph.interfaces.FacilityGraph;
 import facility.interfaces.Facility;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * adapted from: http://introcs.cs.princeton.edu/java/45graph/Graph.java.html
@@ -73,22 +75,16 @@ public class FacilityGraphImpl implements FacilityGraph {
 	}
 	
 	//TODO should I be public? Probably not
-	public void addEdge(Facility f, Facility c) {
-		try {
-			if (!hasVertex(f)) addVertex(f);
-			if (!hasVertex(c)) addVertex(c);
-			if (!hasEdge(f, c)) numEdges++;
-			st.get(f).add(c);
-			st.get(c).add(f);
-		}
-		catch {
-			//TODO fulfill me!
-		}
+	public void addEdge(String facilityName, String connectionName, int edgeWeight) throws InvalidParameterException {
+		if (!hasVertex(facilityName)) addVertex(facilityName);
+		if (!hasVertex(connectionName)) addVertex(connectionName);
+		if (!hasEdge(facilityName, connectionName)) numEdges++;
+		st.get(facilityName).put(connectionName, edgeWeight);
 	}
 	
-	public Iterable<Facility> adjacentTo(Facility f) throws InvalidParameterException {
-		validateVertex(f);
-		return st.get(f);
+	public Map<String, Integer> getNeigbors(String facilityName) throws InvalidParameterException {
+		validateVertex(facilityName);
+		return  Collections.unmodifiableMap(st.get(facilityName));
 	}
 
 }

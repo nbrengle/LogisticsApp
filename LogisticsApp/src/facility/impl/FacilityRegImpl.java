@@ -2,6 +2,7 @@ package facility.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import facility.exceptions.InvalidParameterException;
 import facility.interfaces.Facility;
@@ -19,7 +20,7 @@ public class FacilityRegImpl implements Facility {
 	private int itemsPerDay;
 	private double costPerDay;
 	//TODO This is definitely not an ArrayList
-	private ArrayList<Facility> connectingFacilities;
+	private Map<String, Integer> connectingFacilities;
 	private Inventory inventory;
 	private Schedule schedule;
 
@@ -31,7 +32,7 @@ public class FacilityRegImpl implements Facility {
 			this.itemsPerDay = setItemsPerDay(ipdIn);
 			this.costPerDay = setCostPerDay(cpdIn);
 			this.inventory = setInventory(invIn);
-			this.connectingFacilities = setConnectingFacilities(connectIn);
+			this.connectingFacilities = setConnectingFacilities(connectsIn);
 			this.schedule = setSchedule();
 		}
 		//TODO pass this exception back up to the Factory
@@ -39,10 +40,7 @@ public class FacilityRegImpl implements Facility {
 			e.printStackTrace();
 		}
 	}
-	
 
-	
-	
 	//city;
 	public String getCity() {
 		return this.city;
@@ -95,6 +93,11 @@ public class FacilityRegImpl implements Facility {
 		return InventoryFactory.createInventory("Regular", itemsIn);
 	}
 	
+	private Map<String, Integer> setConnectingFacilities(ArrayList<FacilityLoaderHelper> connectsIn) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	public Schedule getSchedule() {
 		//this abstraction is present for other potential implementations
 		//functionally the schedule in this case is much like a public member
@@ -104,7 +107,7 @@ public class FacilityRegImpl implements Facility {
 	
 	private Schedule setSchedule() {
 		//TODO add appropriate exception handling
-		 return ScheduleFactory.createSchedule("Regular", itemsPerDay); // TODO Add args
+		 return ScheduleFactory.createSchedule("Regular", itemsPerDay); 
 	}
 
 	@Override
