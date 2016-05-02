@@ -120,9 +120,9 @@ public class FacilityRegImpl implements Facility {
 	}
 	
 	private void printConnectFacilities(Map<String, Integer> connections) {
-		//Detroit, MI (0.7d); Fargo, ND (1.6d); New York City, NY (2.0d); St. Louis, MO (0.7d);
 		//TODO Consider making me a constant much, much higher up the chain please
 		int DistancePerDay = 400;
+		//Detroit, MI (0.7d); Fargo, ND (1.6d); New York City, NY (2.0d); St. Louis, MO (0.7d);
 		connections.forEach((k,v) -> System.out.printf("%s ('%.1f'd)",k,(v/DistancePerDay)));
 	}
 	
