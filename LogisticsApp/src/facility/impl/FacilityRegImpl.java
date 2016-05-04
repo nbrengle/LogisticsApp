@@ -117,7 +117,7 @@ public class FacilityRegImpl implements Facility {
 	
 	private ArrayList<FacilityNeighborHelper> setConnectingFacilities(ArrayList<FacilityLoaderHelper> connectsIn) throws InvalidParameterException {
 		createConnectionsInFacilityGraph(connectsIn);
-		return FacilityGraph.getInstance().getNeigbors(uniqueIdentifier);
+		return FacilityGraph.getInstance().getNeighbors(uniqueIdentifier);
 	}
 	
 	private void printConnectFacilities(ArrayList<FacilityNeighborHelper> connectsIn) {

@@ -1,63 +1,89 @@
 package facility.graph;
 
-import facility.FacilityGraphPathfinder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+
+import facility.exceptions.InvalidParameterException;
+import facility.graph.FacilityNeighborHelper;
 
 public class FacilityPathFinderImpl implements FacilityGraphPathfinder {
-
-	//consider re-imagining this as associated with a Factory rather than as a collection of procedures
-	private FacilityPathFinderImpl() {} //vacuous constructor because all methods are static
 	
-	public static RETURNTYPE findPath(String start, String goal) { //TODO Correct Return Type
-    // The set of nodes already evaluated.
-    closedSet := {}
-    // The set of currently discovered nodes still to be evaluated.
-    // Initially, only the start node is known.
-    openSet := {start}
-    // For each node, which node it can most efficiently be reached from.
-    // If a node can be reached from many nodes, cameFrom will eventually contain the
-    // most efficient previous step.
-    cameFrom := the empty map
+	//the Strings here are uniqueIdentifiers for Facilities
+	private HashMap<String, FacilityNeighborHelper> pairs = new HashMap<>(); // <Facility, <Neighbor,Distance>>
+	private HashSet<String> seen = new HashSet<>();
+	private ArrayList<FacilityNeighborHelper> lowPath = new ArrayList<>();
 
-    // For each node, the cost of getting from the start node to that node.
-    gScore := map with default value of Infinity
-    // The cost of going from start to start is zero.
-    gScore[start] := 0 
-    // For each node, the total cost of getting from the start node to the goal
-    // by passing by that node. That value is partly known, partly heuristic.
-    fScore := map with default value of Infinity
-    // For the first node, that value is completely heuristic.
-    fScore[start] := heuristic_cost_estimate(start, goal)
-
-    while openSet is not empty
-        current := the node in openSet having the lowest fScore[] value
-        if current = goal
-            return reconstruct_path(cameFrom, current)
-
-        openSet.Remove(current)
-        closedSet.Add(current)
-        for each neighbor of current
-            if neighbor in closedSet
-                continue		// Ignore the neighbor which is already evaluated.
-            // The distance from start to a neighbor
-            tentative_gScore := gScore[current] + dist_between(current, neighbor)
-            if neighbor not in openSet	// Discover a new node
-                openSet.Add(neighbor)
-            else if tentative_gScore >= gScore[neighbor]
-                continue		// This is not a better path.
-
-            // This path is the best until now. Record it!
-            cameFrom[neighbor] := current
-            gScore[neighbor] := tentative_gScore
-            fScore[neighbor] := gScore[neighbor] + heuristic_cost_estimate(neighbor, goal)
-
-    return failure
+	//TODO consider re-imagining this as associated with a Factory rather than as a collection of procedures
+	private FacilityPathFinderImpl() { //Constructor will need to set the values as above
+		pairs = new HashMap<>();
+		seen = new HashSet<>();
+		lowPath = new ArrayList<>();
+	} 
+	
+	private void mapPairs(String init) {
+		seen.add(init);
+		
+		ArrayList<FacilityNeighborHelper> neighbors = new ArrayList<>();
+		try {
+			neighbors.addAll(FacilityGraph.getInstance().getNeighbors(init));
+		}
+		catch (InvalidParameterException e) { e.printStackTrace(); }
+		
+		for (FacilityNeighborHelper neighbor : neighbors) {
+			pairs.put(init, neighbor);
+			if (!seen.contains(neighbor.getUniqueIdentifier())) 
+				mapPairs(neighbor.getUniqueIdentifier());
+		}
 	}
 	
-	public static RETURNTYPE reconstruct_path(cameFrom, current) { //TODO Correct Return Type
-	    total_path := [current]
-	    while current in cameFrom.Keys:
-	        current := cameFrom[current]
-	        total_path.append(current)
-	    return total_path
+	private int pathLength(ArrayList<FacilityNeighborHelper> nodes) {
+		int accumulator = 0;
+		for (FacilityNeighborHelper node : nodes) {
+			accumulator += node.getDistance();
+		}
+		return accumulator;
+	}
+	
+	private void findPath(String start, String end, ArrayList<FacilityNeighborHelper> pathList) {
+		if (start.equals(end)) {
+			int currentPathLength = pathLength(pathList);
+			if (currentPathLength < pathLength(lowPath)) {
+				lowPath = pathList;
+				return;
+			} 
+			else { return; }
+		}
+		else {
+			HashMap<String, FacilityNeighborHelper> fromHere = new HashMap<>();
+			pairs.forEach ((k,v) -> {if (k.equals(start)) fromHere.put(k,v);});
+			fromHere.forEach((k,v) -> {
+				if (!pathList.contains(v)) {
+					ArrayList<FacilityNeighborHelper> newPath = new ArrayList<>();
+					for (FacilityNeighborHelper node : pathList) {
+						newPath.add(new FacilityNeighborHelper(node.getUniqueIdentifier(), node.getDistance()));
+					}
+					newPath.add(v);
+					findPath(v.getUniqueIdentifier(),end,newPath);
+				}
+			});
+		}
+	}
+	
+	public ArrayList<FacilityNeighborHelper> findBestPath(String start, String end) {
+		mapPairs(start);
+		seen.clear();
+		ArrayList<FacilityNeighborHelper> pathList = new ArrayList<>();
+		pathList.add(new FacilityNeighborHelper(start,0)); 
+		findPath(start, end, pathList);
+		return lowPath;
+	}
+	
+	//equivalent to calling findBestPath but includes a print step
+	public void printBestPath(String start, String end) {
+		//Santa Fe, NM to Chicago, IL:
+		//	- Santa Fe, NM->St. Louis, MO->Chicago, IL = 1,329 mi 
+		//	-1,329 mi / (8 hours per day * 50 mph) = 3.32 days
+		
 	}
 }

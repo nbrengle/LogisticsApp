@@ -81,7 +81,7 @@ public class FacilityGraph {
 		st.get(facilityName).put(connectionName, edgeWeight);
 	}
 	
-	public ArrayList<FacilityNeighborHelper> getNeigbors(String facilityName) throws InvalidParameterException {
+	public ArrayList<FacilityNeighborHelper> getNeighbors(String facilityName) throws InvalidParameterException {
 		validateVertex(facilityName);
 		ArrayList<FacilityNeighborHelper> neighbors = new ArrayList<>();
 		st.get(facilityName).forEach((k,v) -> neighbors.add(new FacilityNeighborHelper(k,v))); 
