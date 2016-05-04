@@ -14,6 +14,8 @@ public class FacilityLoaderHelper {
 	private int distance;
 	
 	public FacilityLoaderHelper(String cityIn, String stateIn, int distanceIn) {
+		//currently relies on validation on either side
+		//TODO consider validation inside this class as well
 		this.city = cityIn;
 		this.state = stateIn;
 		this.distance = distanceIn;
