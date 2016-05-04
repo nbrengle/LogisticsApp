@@ -1,10 +1,12 @@
-package facility.graph;
+package facility.graph.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
 import facility.exceptions.InvalidParameterException;
+import facility.graph.interfaces.FacilityGraphPathfinder;
+import facility.graph.FacilityGraph;
 import facility.graph.FacilityNeighborHelper;
 
 public class FacilityPathFinderImpl implements FacilityGraphPathfinder {
@@ -77,6 +79,10 @@ public class FacilityPathFinderImpl implements FacilityGraphPathfinder {
 		pathList.add(new FacilityNeighborHelper(start,0)); 
 		findPath(start, end, pathList);
 		return lowPath;
+	}
+	
+	public int getBestPathLength(String start, String end) {
+		return pathLength(findBestPath(start, end));
 	}
 	
 	//equivalent to calling findBestPath but includes a print step
