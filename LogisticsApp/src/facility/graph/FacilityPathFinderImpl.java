@@ -80,10 +80,27 @@ public class FacilityPathFinderImpl implements FacilityGraphPathfinder {
 	}
 	
 	//equivalent to calling findBestPath but includes a print step
+	//TODO consider re-imaging this with STREAMS!
 	public void printBestPath(String start, String end) {
 		//Santa Fe, NM to Chicago, IL:
 		//	- Santa Fe, NM->St. Louis, MO->Chicago, IL = 1,329 mi 
-		//	-1,329 mi / (8 hours per day * 50 mph) = 3.32 days
+		//	- 1,329 mi / (8 hours per day * 50 mph) = 3.32 days
+		
+		ArrayList<FacilityNeighborHelper> pathElems = findBestPath(start, end);
+		System.out.println(start + " to " + end + ":");
+		System.out.print("- " + start + "->");
+		pathElems.forEach(elem -> { 
+			if (!elem.getUniqueIdentifier().equals(start) && !elem.getUniqueIdentifier().equals(end)) 
+				System.out.print(elem.getUniqueIdentifier() + "->");
+			});
+		int totalDist = pathLength(pathElems);
+		int hoursPerDay = 8; //TODO consider making me a constant much higher up in the stack
+		int milesPerHour = 50; //TODO consider making me a constant much higher up in the stack
+		double daysNecessary = totalDist / (hoursPerDay * milesPerHour);
+		System.out.printf("%s = '%,d' mi%\n", end, totalDist); //TODO confirm this linebreak character
+		System.out.printf("- '%,d' mi / (%d hours per day * %d mph) = '%.2f' days%\n",
+							totalDist, hoursPerDay, milesPerHour, daysNecessary);
+
 		
 	}
 }
