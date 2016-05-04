@@ -1,6 +1,8 @@
 package facility.graph;
 
 import facility.exceptions.InvalidParameterException;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -79,9 +81,11 @@ public class FacilityGraph {
 		st.get(facilityName).put(connectionName, edgeWeight);
 	}
 	
-	public Map<String, Integer> getNeigbors(String facilityName) throws InvalidParameterException {
+	public ArrayList<FacilityNeighborHelper> getNeigbors(String facilityName) throws InvalidParameterException {
 		validateVertex(facilityName);
-		return  Collections.unmodifiableMap(st.get(facilityName));
+		ArrayList<FacilityNeighborHelper> neighbors = new ArrayList<>();
+		st.get(facilityName).forEach((k,v) -> neighbors.add(new FacilityNeighborHelper(k,v))); 
+		return neighbors;	
 	}
 
 }

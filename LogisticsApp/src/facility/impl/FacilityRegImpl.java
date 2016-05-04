@@ -6,6 +6,7 @@ import java.util.Map;
 
 import facility.exceptions.InvalidParameterException;
 import facility.graph.FacilityGraph;
+import facility.graph.FacilityNeighborHelper;
 import facility.interfaces.Facility;
 import facility.inventory.InventoryFactory;
 import facility.inventory.interfaces.Inventory;
@@ -22,7 +23,7 @@ public class FacilityRegImpl implements Facility {
 	private int itemsPerDay;
 	private double costPerDay;
 	//TODO This is definitely not an ArrayList
-	private Map<String, Integer> connectingFacilities;
+	private ArrayList<FacilityNeighborHelper> connectingFacilities;
 	private Inventory inventory;
 	private Schedule schedule;
 
@@ -114,16 +115,17 @@ public class FacilityRegImpl implements Facility {
 		}
 	}
 	
-	private Map<String, Integer> setConnectingFacilities(ArrayList<FacilityLoaderHelper> connectsIn) throws InvalidParameterException {
+	private ArrayList<FacilityNeighborHelper> setConnectingFacilities(ArrayList<FacilityLoaderHelper> connectsIn) throws InvalidParameterException {
 		createConnectionsInFacilityGraph(connectsIn);
 		return FacilityGraph.getInstance().getNeigbors(uniqueIdentifier);
 	}
 	
-	private void printConnectFacilities(Map<String, Integer> connections) {
-		//TODO Consider making me a constant much, much higher up the chain please
-		int DistancePerDay = 400;
-		//Detroit, MI (0.7d); Fargo, ND (1.6d); New York City, NY (2.0d); St. Louis, MO (0.7d);
-		connections.forEach((k,v) -> System.out.printf("%s ('%.1f'd)",k,(v/DistancePerDay)));
+	private void printConnectFacilities(ArrayList<FacilityNeighborHelper> connectsIn) {
+		int DistancePerDay = 400; //TODO Consider making me a constant much, much higher up the chain please
+		//Prints format like: "Detroit, MI (0.7d);"
+		for (FacilityNeighborHelper connect : connectsIn) {
+			System.out.printf("%s ('%.1f'd);", connect.getUniqueIdentifier(), (connect.getDistance()/DistancePerDay));
+		}
 	}
 	
 	public Schedule getSchedule() {
