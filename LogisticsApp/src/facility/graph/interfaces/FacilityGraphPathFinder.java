@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import facility.graph.FacilityNeighborHelper;
 
-public interface FacilityGraphPathfinder {
+public interface FacilityGraphPathFinder {
 	
 	public void printBestPath(String start, String end);
 	public int getBestPathLength(String start, String end);

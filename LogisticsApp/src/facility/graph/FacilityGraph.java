@@ -1,17 +1,17 @@
 package facility.graph;
 
-import facility.exceptions.InvalidParameterException;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
+
+import facility.exceptions.InvalidParameterException;
+import facility.exceptions.NoSuchPathFinderException;
+import facility.graph.interfaces.FacilityGraphPathFinder;
 
 /**
  * adapted from: http://introcs.cs.princeton.edu/java/45graph/Graph.java.html
  */
 
-public class FacilityGraph {
+public class FacilityGraph implements FacilityGraphPathFinder{
 	
 	//---Data Members---
 	//hashmap: key = vertex, value = hashmap of neighboring vertices and their integer edgeweight
@@ -21,13 +21,20 @@ public class FacilityGraph {
 	private int numEdges;
 	//------------------
 	
+	//FacilityGraphPathFinder implementation
+	private FacilityGraphPathFinder pathFinder;
+	
 	
 	//---Singleton Constructor---
 	private volatile static FacilityGraph ourInstance;
 	
 	private FacilityGraph() {
 		//TODO empty constructor is a terrible plan, make this better
-		st = new HashMap<String, HashMap<String, Integer>>();
+		this.st = new HashMap<String, HashMap<String, Integer>>();
+		this.numEdges = 0;
+		try {
+			this.pathFinder = FacilityGraphPathFinderFactory.createFacilityPathFinder("Regular");
+		} catch (NoSuchPathFinderException e) { e.printStackTrace(); }
 	}
 	
 	public static FacilityGraph getInstance() {
@@ -86,6 +93,24 @@ public class FacilityGraph {
 		ArrayList<FacilityNeighborHelper> neighbors = new ArrayList<>();
 		st.get(facilityName).forEach((k,v) -> neighbors.add(new FacilityNeighborHelper(k,v))); 
 		return neighbors;	
+	}
+
+	@Override
+	public void printBestPath(String start, String end) {
+		
+		pathFinder.printBestPath(start, end);
+	}
+
+	@Override
+	public int getBestPathLength(String start, String end) {
+		
+		return pathFinder.getBestPathLength(start, end);
+	}
+
+	@Override
+	public ArrayList<FacilityNeighborHelper> findBestPath(String start, String end) {
+		
+		return pathFinder.findBestPath(start, end);
 	}
 
 }

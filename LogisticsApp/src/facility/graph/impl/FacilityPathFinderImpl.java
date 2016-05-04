@@ -5,22 +5,21 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import facility.exceptions.InvalidParameterException;
-import facility.graph.interfaces.FacilityGraphPathfinder;
+import facility.graph.interfaces.FacilityGraphPathFinder;
 import facility.graph.FacilityGraph;
 import facility.graph.FacilityNeighborHelper;
 
-public class FacilityPathFinderImpl implements FacilityGraphPathfinder {
+public class FacilityPathFinderImpl implements FacilityGraphPathFinder {
 	
 	//the Strings here are uniqueIdentifiers for Facilities
-	private HashMap<String, FacilityNeighborHelper> pairs = new HashMap<>(); // <Facility, <Neighbor,Distance>>
-	private HashSet<String> seen = new HashSet<>();
-	private ArrayList<FacilityNeighborHelper> lowPath = new ArrayList<>();
+	private HashMap<String, FacilityNeighborHelper> pairs; // <Facility, <Neighbor,Distance>>
+	private HashSet<String> seen;
+	private ArrayList<FacilityNeighborHelper> lowPath;
 
-	//TODO consider re-imagining this as associated with a Factory rather than as a collection of procedures
-	private FacilityPathFinderImpl() { //Constructor will need to set the values as above
-		pairs = new HashMap<>();
-		seen = new HashSet<>();
-		lowPath = new ArrayList<>();
+	public FacilityPathFinderImpl() { //TODO Constructor will need to set the values as above
+		this.pairs = new HashMap<>();
+		this.seen = new HashSet<>();
+		this.lowPath = new ArrayList<>();
 	} 
 	
 	private void mapPairs(String init) {
