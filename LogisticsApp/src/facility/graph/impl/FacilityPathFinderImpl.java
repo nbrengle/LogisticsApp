@@ -93,7 +93,7 @@ public class FacilityPathFinderImpl implements FacilityGraphPathFinder {
 		
 		ArrayList<FacilityNeighborHelper> pathElems = findBestPath(start, end);
 		System.out.println(start + " to " + end + ":");
-		System.out.print("- " + start + "->");
+		System.out.print("%\t- " + start + "->");
 		pathElems.forEach(elem -> { 
 			if (!elem.getUniqueIdentifier().equals(start) && !elem.getUniqueIdentifier().equals(end)) 
 				System.out.print(elem.getUniqueIdentifier() + "->");
@@ -103,7 +103,7 @@ public class FacilityPathFinderImpl implements FacilityGraphPathFinder {
 		int milesPerHour = 50; //TODO consider making me a constant much higher up in the stack
 		double daysNecessary = totalDist / (hoursPerDay * milesPerHour);
 		System.out.printf("%s = '%,d' mi%\n", end, totalDist); //TODO confirm this linebreak character
-		System.out.printf("- '%,d' mi / (%d hours per day * %d mph) = '%.2f' days%\n",
+		System.out.printf("%\t- '%,d' mi / (%d hours per day * %d mph) = '%.2f' days%\n",
 							totalDist, hoursPerDay, milesPerHour, daysNecessary);
 
 		
