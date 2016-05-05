@@ -39,8 +39,6 @@ public class Orchestrator {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println("Started");
-		System.out.println("printFacilityReport");
 		printFacilityReport();
 		System.out.println("printItemCatalogReport");
 		printItemCatalogReport();

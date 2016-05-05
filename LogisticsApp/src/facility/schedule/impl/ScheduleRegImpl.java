@@ -42,26 +42,26 @@ public class ScheduleRegImpl implements Schedule {
 	@Override
 	public void printReport(int valIn) {
 		System.out.println("Schedule:");
-		System.out.print("Day:\t"); //TODO confirm this creates the expected spacing
-		for (int i = 1; i < valIn; i++) {
-			System.out.printf("'%2d' ", i);
+		System.out.printf("%-11s\t","Date:"); //TODO confirm this creates the expected spacing
+		for (int i = 1; i <= valIn; i++) {
+			System.out.printf("%2d ", i);
 		}
-		
+		System.out.printf("%n");
 		System.out.print("Available:\t"); //TODO confirm this creates the expected spacing
 		
 		int temp = itemsOrdered;
-		for (int i = 1; i < valIn; i++) {
+		for (int i = 1; i <= valIn; i++) {
 			if (temp > itemsPerDay) {
 				temp = temp - itemsPerDay;
-				System.out.printf("'%2d' ", 0);
+				System.out.printf("%2d ", 0);
 			}
 			else if (temp > 0 && temp < itemsPerDay) {
 				int val = itemsPerDay - temp;
 				temp = temp - itemsPerDay;
-				System.out.printf("'%2d' ", val);
+				System.out.printf("%2d ", val);
 			}
 			else { //temp <= 0s
-				System.out.printf("'%2d' ", itemsPerDay);
+				System.out.printf("%2d ", itemsPerDay);
 			}
 		}
 	}

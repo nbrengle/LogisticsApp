@@ -121,10 +121,12 @@ public class FacilityRegImpl implements Facility {
 	}
 	
 	private void printConnectFacilities(ArrayList<FacilityNeighborHelper> connectsIn) {
-		int DistancePerDay = 400; //TODO Consider making me a constant much, much higher up the chain please
+		int distancePerDay = 400; //TODO Consider making me a constant much, much higher up the chain please
 		//Prints format like: "Detroit, MI (0.7d);"
+		
 		for (FacilityNeighborHelper connect : connectsIn) {
-			System.out.printf("%s ('%.1f'd);", connect.getUniqueIdentifier(), (connect.getDistance()/DistancePerDay));
+			double day = (connect.getDistance()/distancePerDay);
+			System.out.printf("%s (%.1fd); ", connect.getUniqueIdentifier(), day);
 		}
 	}
 	
@@ -145,14 +147,16 @@ public class FacilityRegImpl implements Facility {
 		System.out.println(city + " , " + state);
 		System.out.println("-----------");
 		System.out.println("Rate per Day: " + itemsPerDay);
-		System.out.printf("Cost per Day: '%.1f'%n", costPerDay); 
+		System.out.printf("Cost per Day: %.1f %n", costPerDay); 
 		System.out.println("");
 		System.out.println("Direct Links:");
 		printConnectFacilities(connectingFacilities);
+		System.out.printf("%n");
 		System.out.println("");
 		inventory.printReport();
 		System.out.println("");
 		schedule.printReport(20);
+		System.out.printf("%n");
 		System.out.println("---------------------------------------------------------------------------------");
 		
 	}

@@ -17,6 +17,7 @@ public class InventoryRegImpl implements Inventory {
 			for (String key : itemsIn.keySet()) validateItem(key);
 			active = new HashMap<>();
 			itemsIn.forEach((k,v) -> active.put(k, v));
+			depleted = new HashMap<>();
 		} catch (NoSuchItemException e) { e.printStackTrace(); }
 	}
 	
@@ -63,13 +64,13 @@ public class InventoryRegImpl implements Inventory {
 		if (active.isEmpty()) System.out.println(" None");
 		else {
 			System.out.println("\tItem ID\tQuantity");
-			active.forEach((k,v) -> System.out.printf("\t%s\t%d\n",k,v));
+			active.forEach((k,v) -> System.out.printf("\t%s\t%d%n",k,v));
 		}
 		System.out.print("Depleted (Used-Up) Inventory:"); 
 		if (depleted.isEmpty()) System.out.println(" None");
 		else {
 			System.out.println("\tItem ID\tQuantity");
-			depleted.forEach((k,v) -> System.out.printf("\t%s\t%d\n",k,v));
+			depleted.forEach((k,v) -> System.out.printf("\t%s\t%d%n",k,v));
 		}
 	}
 	
