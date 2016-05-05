@@ -4,12 +4,12 @@ import facility.exceptions.InvalidParameterException;
 
 //this is a helper to map a neighbor to its distance in a unmodifiable way
 
-public class FacilityNeighborHelper {
+public class FacilityGraphHelper implements Comparable<FacilityGraphHelper> {
 	
 	private String uniqueIdentifier;
 	private int distance;
 	
-	public FacilityNeighborHelper(String idIn, int distIn) {
+	public FacilityGraphHelper(String idIn, int distIn) {
 		try{
 			this.uniqueIdentifier = setUniqueIdentifier(idIn);
 			this.distance = setDistance(distIn);
@@ -37,6 +37,11 @@ public class FacilityNeighborHelper {
 		if (distIn < 0) throw new InvalidParameterException(distIn + "is not a valid distance, must be > 0");
 		//else
 		return distIn;
+	}
+
+	@Override
+	public int compareTo(FacilityGraphHelper o) {
+		return this.getDistance() - o.getDistance();
 	}
 	
 	

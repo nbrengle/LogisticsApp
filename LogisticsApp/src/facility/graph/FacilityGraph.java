@@ -88,10 +88,10 @@ public class FacilityGraph implements FacilityGraphPathFinder{
 		st.get(facilityName).put(connectionName, edgeWeight);
 	}
 	
-	public ArrayList<FacilityNeighborHelper> getNeighbors(String facilityName) throws InvalidParameterException {
+	public ArrayList<FacilityGraphHelper> getNeighbors(String facilityName) throws InvalidParameterException {
 		validateVertex(facilityName);
-		ArrayList<FacilityNeighborHelper> neighbors = new ArrayList<>();
-		st.get(facilityName).forEach((k,v) -> neighbors.add(new FacilityNeighborHelper(k,v))); 
+		ArrayList<FacilityGraphHelper> neighbors = new ArrayList<>();
+		st.get(facilityName).forEach((k,v) -> neighbors.add(new FacilityGraphHelper(k,v))); 
 		return neighbors;	
 	}
 
@@ -108,7 +108,7 @@ public class FacilityGraph implements FacilityGraphPathFinder{
 	}
 
 	@Override
-	public ArrayList<FacilityNeighborHelper> findBestPath(String start, String end) {
+	public ArrayList<FacilityGraphHelper> findBestPath(String start, String end) {
 		
 		return pathFinder.findBestPath(start, end);
 	}
