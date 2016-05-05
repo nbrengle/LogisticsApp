@@ -1,95 +1,87 @@
 package facility.graph.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.PriorityQueue;
-import java.util.Queue;
 
 import facility.exceptions.InvalidParameterException;
 import facility.graph.FacilityGraph;
 import facility.graph.FacilityGraphHelper;
+import facility.graph.NodePair;
+import facility.graph.WeightedNodePair;
 import facility.graph.interfaces.FacilityGraphPathFinder;
 
 public class FacilityGraphPathFinderImpl implements FacilityGraphPathFinder {
 
-	HashMap<String, FacilityGraphHelper> pairs;
-	PriorityQueue<String> toCheck;
+	ArrayList<WeightedNodePair> pairs;
 	HashSet<String> seen;
-	ArrayList<FacilityGraphHelper> lowPath;
+	ArrayList<NodePair> lowPath;
 	
 	public FacilityGraphPathFinderImpl() {
-		this.pairs = new HashMap<>();
-		this.toCheck = new PriorityQueue<>();
+		this.pairs = new ArrayList<>();
 		this.seen = new HashSet<>();
 		this.lowPath = new ArrayList<>();
 	}
 	
 	@Override
-	public ArrayList<FacilityGraphHelper> findBestPath(String start, String end) throws InvalidParameterException {
-		FacilityGraphHelper selfLoop = new FacilityGraphHelper (start, 0);
-		toCheck.add(start);
-		mapPairs(toCheck);
-		System.out.print(pairs);
+	public ArrayList<NodePair> findBestPath(String start, String end) throws InvalidParameterException {
+		mapPairs(start);
 		seen.clear();
-		ArrayList<FacilityGraphHelper> pathList = new ArrayList<>();
-		pathList.add(selfLoop);
+		ArrayList<NodePair> pathList = new ArrayList<>();
+		pathList.add(new NodePair (start,start));
 		findPaths(start, end, pathList);
 		return lowPath;
 	}
 
-	private void mapPairs(PriorityQueue<String> toCheck) throws InvalidParameterException {
-		while (!toCheck.isEmpty()) {
-			String current = toCheck.poll();
-			seen.add(current);
-			ArrayList<FacilityGraphHelper> neighbors = FacilityGraph.getInstance().getNeighbors(current);
-			for (FacilityGraphHelper neighbor : neighbors) {
-				System.out.print(current + neighbor);
-				pairs.put(current, neighbor);
-				if(!seen.contains(neighbor.getUniqueIdentifier()))
-					toCheck.add(neighbor.getUniqueIdentifier());
-			}
-		}
-		
-/*		seen.put(init);
+	private void mapPairs(String init) throws InvalidParameterException {
+		seen.add(init);
 		ArrayList<FacilityGraphHelper> neighbors = FacilityGraph.getInstance().getNeighbors(init);
 		for (FacilityGraphHelper neighbor : neighbors) {
-			pairs.put(init, neighbor);
-			//if see doesn't have my childnode, call seen on my childnode
-			if (!seen.get) {
+			pairs.add(new WeightedNodePair(init,neighbor.getUniqueIdentifier(),neighbor.getDistance()));
+			if(!seen.contains(neighbor.getUniqueIdentifier()))
 				mapPairs(neighbor.getUniqueIdentifier());
-			}
-		}*/
+		}
 	}
-	
-	private void findPaths(String start, String end, ArrayList<FacilityGraphHelper> pathList) {
+		
+	private void findPaths(String start, String end, ArrayList<NodePair> pathList) {
 		if (start.equals(end)) {				
-			if (lowPath.isEmpty() || (pathLength(pathList) < pathLength(lowPath)))
-				lowPath = pathList;
+			try {
+				if (lowPath.isEmpty() || (pathLength(pathList) < pathLength(lowPath)))
+					lowPath = copyPath(pathList);
+			} catch (InvalidParameterException e) {
+				e.printStackTrace();
+			}
 			return;
 		}
-		HashMap<String, FacilityGraphHelper> fromHere = new HashMap<>();
-		pairs.forEach((facilityName,connection) -> {
-			if(facilityName.equals(start))
-				fromHere.put(facilityName, connection);
-		});
-		fromHere.forEach((facilityName,connection) -> {
-			if(!pathList.contains(connection)) {
-				ArrayList<FacilityGraphHelper> newPath = new ArrayList<>();
-				for (FacilityGraphHelper node : pathList) {
-					newPath.add(node);
-				}
-				newPath.add(connection);
-				findPaths(connection.getUniqueIdentifier(), end, newPath);
+		HashSet<WeightedNodePair> fromHere = new HashSet<>();
+		for (WeightedNodePair pair : pairs) {
+			if(pair.getNode().equals(start))
+				fromHere.add(pair);
+		}
+		for (WeightedNodePair pair : fromHere) {
+			NodePair connection = new NodePair(pair.getNode(),pair.getConnection());
+			if (!pathList.contains(connection)) { //TODO may need to OR this to the reverse of the connection!
+				ArrayList<NodePair> newPath = copyPath(pathList);
+				newPath.add(new NodePair(connection.getConnection(),connection.getConnection()));
+				findPaths(connection.getConnection(),end,newPath);
 			}
-		});
+			
+		}
+		
 		return;
 	}
 
-	private int pathLength(ArrayList<FacilityGraphHelper> nodes) {
+	private ArrayList<NodePair> copyPath(ArrayList<NodePair> pathNodes) {
+		ArrayList<NodePair> returnArray = new ArrayList<>();
+		for (NodePair node : pathNodes) {
+			returnArray.add(node);
+		}
+		return returnArray;
+	}
+
+	private int pathLength(ArrayList<NodePair> nodes) throws InvalidParameterException {
 		int accumulator = 0;
-		for (FacilityGraphHelper node : nodes) {
-			accumulator += node.getDistance();
+		for (NodePair node : nodes) {
+			accumulator += FacilityGraph.getInstance().getEdgeWeight(node.getNode(), node.getConnection());
 		}
 		return accumulator;
 	}
@@ -107,7 +99,7 @@ public class FacilityGraphPathFinderImpl implements FacilityGraphPathFinder {
 		//	- Santa Fe, NM->St. Louis, MO->Chicago, IL = 1,329 mi 
 		//	- 1,329 mi / (8 hours per day * 50 mph) = 3.32 days
 		
-		ArrayList<FacilityGraphHelper> pathElems = null;
+		ArrayList<NodePair> pathElems = null;
 		try {
 			pathElems = findBestPath(start, end);
 		} catch (InvalidParameterException e) {
@@ -115,11 +107,16 @@ public class FacilityGraphPathFinderImpl implements FacilityGraphPathFinder {
 		}
 		System.out.println(start + " to " + end + ":");
 		System.out.print("\t- " + start + "->");
-		for (FacilityGraphHelper elem : pathElems) { 
-			if (!elem.getUniqueIdentifier().equals(start) && !elem.getUniqueIdentifier().equals(end)) 
-				System.out.print(elem.getUniqueIdentifier() + "->");
+		for (NodePair elem : pathElems) { 
+			if (!elem.getNode().equals(start) && !elem.getNode().equals(end)) 
+				System.out.print(elem.getNode() + "->");
 			}
-		int totalDist = pathLength(pathElems);
+		int totalDist = 0;
+		try {
+			totalDist = pathLength(pathElems);
+		} catch (InvalidParameterException e) {
+			e.printStackTrace();
+		}
 		double hoursPerDay = 8.00; //TODO consider making me a constant much higher up in the stack
 		double milesPerHour = 50.00; //TODO consider making me a constant much higher up in the stack
 		double daysNecessary = totalDist / (hoursPerDay * milesPerHour);

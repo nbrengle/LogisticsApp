@@ -65,6 +65,12 @@ public class FacilityGraph implements FacilityGraphPathFinder{
 		return st.get(facilityName).containsKey(connectionName);
 	}
 	
+	public int getEdgeWeight(String facilityName, String connectionName) throws InvalidParameterException {
+		if (hasEdge(facilityName, connectionName))
+			return st.get(facilityName).get(connectionName);
+		else throw new InvalidParameterException(facilityName + " and " + connectionName + "do not have a valid distance");
+	}
+	
 	private void validateVertex(String facilityName) throws InvalidParameterException{
 		if (!hasVertex(facilityName)) throw new InvalidParameterException(facilityName + " is not in the FacilityGraph");
 	}
@@ -105,7 +111,7 @@ public class FacilityGraph implements FacilityGraphPathFinder{
 	}
 
 	@Override
-	public ArrayList<FacilityGraphHelper> findBestPath(String start, String end) throws InvalidParameterException {
+	public ArrayList<NodePair> findBestPath(String start, String end) throws InvalidParameterException {
 		
 		return pathFinder.findBestPath(start, end);
 	}
