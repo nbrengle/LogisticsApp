@@ -29,7 +29,6 @@ public class FacilityGraph implements FacilityGraphPathFinder{
 	private volatile static FacilityGraph ourInstance;
 	
 	private FacilityGraph() {
-		//TODO empty constructor is a terrible plan, make this better
 		this.st = new HashMap<String, HashMap<String, Integer>>();
 		this.numEdges = 0;
 		try {
@@ -75,12 +74,10 @@ public class FacilityGraph implements FacilityGraphPathFinder{
 		return st.get(facilityName).size();
 	}
 	
-	//TODO should I be public? Probably not
 	public void addVertex (String facilityName) {
 		if (!hasVertex(facilityName)) st.put(facilityName, new HashMap<String, Integer>());
 	}
 	
-	//TODO should I be public? Probably not
 	public void addEdge(String facilityName, String connectionName, int edgeWeight) throws InvalidParameterException {
 		if (!hasVertex(facilityName)) addVertex(facilityName);
 		if (!hasVertex(connectionName)) addVertex(connectionName);
@@ -102,13 +99,13 @@ public class FacilityGraph implements FacilityGraphPathFinder{
 	}
 
 	@Override
-	public int getBestPathLength(String start, String end) {
+	public int getBestPathLength(String start, String end) throws InvalidParameterException {
 		
 		return pathFinder.getBestPathLength(start, end);
 	}
 
 	@Override
-	public ArrayList<FacilityGraphHelper> findBestPath(String start, String end) {
+	public ArrayList<FacilityGraphHelper> findBestPath(String start, String end) throws InvalidParameterException {
 		
 		return pathFinder.findBestPath(start, end);
 	}

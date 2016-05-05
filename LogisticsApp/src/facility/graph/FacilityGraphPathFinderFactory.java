@@ -1,7 +1,7 @@
 package facility.graph;
 
 import facility.exceptions.NoSuchPathFinderException;
-import facility.graph.impl.FacilityGraphAStarImpl;
+import facility.graph.impl.FacilityGraphPathFinderImpl;
 import facility.graph.interfaces.FacilityGraphPathFinder;
 
 public class FacilityGraphPathFinderFactory {
@@ -12,7 +12,7 @@ public class FacilityGraphPathFinderFactory {
 	
 	public static FacilityGraphPathFinder createFacilityPathFinder(String type) throws NoSuchPathFinderException{
 		if (type.equals("Regular")) 
-			return new FacilityGraphAStarImpl(); 
+			return new FacilityGraphPathFinderImpl(); 
 		else throw new NoSuchPathFinderException("Pathfinder type :" + type + " Does Not Exist");
 	}
 }
