@@ -3,6 +3,8 @@ package facility.graph.impl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 import facility.exceptions.InvalidParameterException;
 import facility.graph.FacilityGraph;
@@ -12,34 +14,52 @@ import facility.graph.interfaces.FacilityGraphPathFinder;
 public class FacilityGraphPathFinderImpl implements FacilityGraphPathFinder {
 
 	HashMap<String, FacilityGraphHelper> pairs;
+	PriorityQueue<String> toCheck;
 	HashSet<String> seen;
 	ArrayList<FacilityGraphHelper> lowPath;
 	
 	public FacilityGraphPathFinderImpl() {
 		this.pairs = new HashMap<>();
+		this.toCheck = new PriorityQueue<>();
 		this.seen = new HashSet<>();
 		this.lowPath = new ArrayList<>();
 	}
 	
 	@Override
 	public ArrayList<FacilityGraphHelper> findBestPath(String start, String end) throws InvalidParameterException {
-		mapPairs(start);
+		FacilityGraphHelper selfLoop = new FacilityGraphHelper (start, 0);
+		toCheck.add(start);
+		mapPairs(toCheck);
+		System.out.print(pairs);
 		seen.clear();
 		ArrayList<FacilityGraphHelper> pathList = new ArrayList<>();
-		pathList.add(new FacilityGraphHelper (start, 0));
+		pathList.add(selfLoop);
 		findPaths(start, end, pathList);
 		return lowPath;
 	}
 
-	private void mapPairs(String init) throws InvalidParameterException {
-		seen.add(init);
+	private void mapPairs(PriorityQueue<String> toCheck) throws InvalidParameterException {
+		while (!toCheck.isEmpty()) {
+			String current = toCheck.poll();
+			seen.add(current);
+			ArrayList<FacilityGraphHelper> neighbors = FacilityGraph.getInstance().getNeighbors(current);
+			for (FacilityGraphHelper neighbor : neighbors) {
+				System.out.print(current + neighbor);
+				pairs.put(current, neighbor);
+				if(!seen.contains(neighbor.getUniqueIdentifier()))
+					toCheck.add(neighbor.getUniqueIdentifier());
+			}
+		}
+		
+/*		seen.put(init);
 		ArrayList<FacilityGraphHelper> neighbors = FacilityGraph.getInstance().getNeighbors(init);
 		for (FacilityGraphHelper neighbor : neighbors) {
 			pairs.put(init, neighbor);
-			if (!seen.contains(neighbor.getUniqueIdentifier())) {
+			//if see doesn't have my childnode, call seen on my childnode
+			if (!seen.get) {
 				mapPairs(neighbor.getUniqueIdentifier());
 			}
-		}
+		}*/
 	}
 	
 	private void findPaths(String start, String end, ArrayList<FacilityGraphHelper> pathList) {

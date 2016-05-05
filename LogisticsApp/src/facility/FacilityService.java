@@ -19,7 +19,7 @@ public class FacilityService {
 			facilities = new ArrayList<>();
 			facilities.addAll( FacilityLoaderFactory.createFacilityLoader("XML").loadFacilities(filePath) );
 		}
-		catch (NoSuchFacilityLoaderException | NullPointerException e) {
+		catch (NoSuchFacilityLoaderException | NullPointerException  e) {
 			e.printStackTrace();
 		}
 	}
@@ -39,6 +39,5 @@ public class FacilityService {
 	public void printReport() {
 		for (Facility f : facilities) f.printReport();
 	}
-	
 
 }

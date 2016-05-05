@@ -44,5 +44,9 @@ public class FacilityGraphHelper implements Comparable<FacilityGraphHelper> {
 		return this.getDistance() - o.getDistance();
 	}
 	
+	public String toString() {
+		return String.format("(%s, %,d miles)", this.getUniqueIdentifier(), this.getDistance());
+	}
+	
 	
 }
