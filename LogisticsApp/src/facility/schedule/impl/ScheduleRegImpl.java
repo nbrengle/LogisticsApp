@@ -13,10 +13,7 @@ public class ScheduleRegImpl implements Schedule {
 			this.itemsPerDay = setItemsPerDay(itemsPerDayIn);
 			this.itemsOrdered = 0;
 		}
-		//TODO promulgate this up to the Factory
-		catch {
-			print (stacktrace);
-		}
+		catch (InvalidParameterException e) { e.printStackTrace(); }
 	}
 	
 	private int setItemsPerDay(int valIn) throws InvalidParameterException {

@@ -114,6 +114,8 @@ public class FacilityXmlLoader implements FacilityLoader {
 		catch (ParserConfigurationException | SAXException | IOException | DOMException e) {
 			e.printStackTrace();
 		}
+		
+		return facilityList;
 	}
 
 }

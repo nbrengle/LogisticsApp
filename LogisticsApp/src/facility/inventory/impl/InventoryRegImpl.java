@@ -14,10 +14,12 @@ public class InventoryRegImpl implements Inventory {
 	private HashMap<String, Integer> active;
 	private HashMap<String, Integer> depleted;
 	
-	public InventoryRegImpl(HashMap<String, Integer> itemsIn) throws NoSuchItemException {
-		for (String key : itemsIn.keySet()) validateItem(key);
-		active = new HashMap<>();
-		itemsIn.forEach((k,v) -> active.put(k, v));
+	public InventoryRegImpl(HashMap<String, Integer> itemsIn) {
+		try {
+			for (String key : itemsIn.keySet()) validateItem(key);
+			active = new HashMap<>();
+			itemsIn.forEach((k,v) -> active.put(k, v));
+		} catch (NoSuchItemException e) { e.printStackTrace(); }
 	}
 	
 	private void validateItem(String itemIn) throws NoSuchItemException {

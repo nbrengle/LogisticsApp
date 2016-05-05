@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import facility.exceptions.InvalidParameterException;
+import facility.exceptions.NoSuchInventoryException;
+import facility.exceptions.NoSuchScheduleException;
 import facility.graph.FacilityGraph;
 import facility.graph.FacilityNeighborHelper;
 import facility.interfaces.Facility;
@@ -13,6 +15,7 @@ import facility.inventory.interfaces.Inventory;
 import facility.loader.FacilityLoaderHelper;
 import facility.schedule.ScheduleFactory;
 import facility.schedule.interfaces.Schedule;
+import item.exceptions.NoSuchItemException;
 
 
 public class FacilityRegImpl implements Facility {
@@ -22,7 +25,6 @@ public class FacilityRegImpl implements Facility {
 	private String uniqueIdentifier;
 	private int itemsPerDay;
 	private double costPerDay;
-	//TODO This is definitely not an ArrayList
 	private ArrayList<FacilityNeighborHelper> connectingFacilities;
 	private Inventory inventory;
 	private Schedule schedule;
@@ -39,8 +41,7 @@ public class FacilityRegImpl implements Facility {
 			this.connectingFacilities = setConnectingFacilities(connectsIn);
 			this.schedule = setSchedule();
 		}
-		//TODO pass this exception back up to the Factory
-		catch (InvalidParameterException e) {
+		catch (InvalidParameterException | NoSuchInventoryException | NoSuchScheduleException e) {
 			e.printStackTrace();
 		}
 	}
@@ -102,8 +103,7 @@ public class FacilityRegImpl implements Facility {
 		return this.inventory;
 	}
 	
-	private Inventory setInventory(HashMap<String, Integer> itemsIn) {
-		//TODO add appropriate exception handling 
+	private Inventory setInventory(HashMap<String, Integer> itemsIn) throws NoSuchInventoryException {
 		return InventoryFactory.createInventory("Regular", itemsIn);
 	}
 	
@@ -135,8 +135,7 @@ public class FacilityRegImpl implements Facility {
 		return this.schedule;
 	}
 	
-	private Schedule setSchedule() {
-		//TODO add appropriate exception handling
+	private Schedule setSchedule() throws NoSuchScheduleException {
 		 return ScheduleFactory.createSchedule("Regular", itemsPerDay); 
 	}
 
