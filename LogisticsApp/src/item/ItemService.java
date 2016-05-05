@@ -56,7 +56,7 @@ public final class ItemService {
 		System.out.println("Item Catalog:");
 		for (Item item : items) {
 			//TODO confirm this appears correctly
-			System.out.printf("'%-8s': $'%,.0f'%\t" , item.getName(), item.getPrice()); 
+			System.out.printf("'%-8s': $'%,.0f'\t" , item.getName(), item.getPrice()); 
 		}
 	}
 
