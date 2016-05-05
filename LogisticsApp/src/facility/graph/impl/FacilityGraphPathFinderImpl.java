@@ -2,6 +2,8 @@ package facility.graph.impl;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.PriorityQueue;
+import java.util.Stack;
 
 import facility.exceptions.InvalidParameterException;
 import facility.graph.FacilityGraph;
@@ -11,61 +13,77 @@ import facility.graph.interfaces.FacilityGraphPathFinder;
 
 public class FacilityGraphPathFinderImpl implements FacilityGraphPathFinder {
 
-	ArrayList<NodePair> pairs;
 	HashSet<String> seen;
+	HashSet<String> visited;
 	ArrayList<NodePair> lowPath;
 	
+	PriorityQueue<String> q; //vertex FacilityName
+	ArrayList<NodePair> path; //vertex FacilityName
+	
 	public FacilityGraphPathFinderImpl() {
-		this.pairs = new ArrayList<>();
-		this.seen = new HashSet<>();
+		this.visited = new HashSet<>();
 		this.lowPath = new ArrayList<>();
+		this.q = new PriorityQueue<>();
+		this.path = new ArrayList<>();
 	}
 	
 	@Override
 	public ArrayList<NodePair> findBestPath(String start, String end) throws InvalidParameterException {
-		mapPairs(start);
-		seen.clear();
 		ArrayList<NodePair> pathList = new ArrayList<>();
 		pathList.add(new NodePair (start,start));
 		findPaths(start, end, pathList);
 		return lowPath;
 	}
-
-	private void mapPairs(String init) throws InvalidParameterException {
-		seen.add(init);
-		ArrayList<FacilityGraphHelper> neighbors = FacilityGraph.getInstance().getNeighbors(init);
-		for (FacilityGraphHelper neighbor : neighbors) {
-			pairs.add(new NodePair(init,neighbor.getUniqueIdentifier()));
-			if(!seen.contains(neighbor.getUniqueIdentifier()))
-				mapPairs(neighbor.getUniqueIdentifier());
-		}
-	}
 		
-	private void findPaths(String start, String end, ArrayList<NodePair> pathList) {
-		if (start.equals(end)) {				
+	private void findPaths(String current, String goal, ArrayList<NodePair> pathList) throws InvalidParameterException {
+		if (current.equals(goal)) {				
 			try {
 				if (lowPath.isEmpty() || (pathLength(pathList) < pathLength(lowPath)))
 					lowPath = copyPath(pathList);
 			} catch (InvalidParameterException e) {
 				e.printStackTrace();
 			}
-			return;
-		}
-		HashSet<NodePair> fromHere = new HashSet<>();
-		for (NodePair pair : pairs) {
-			if(pair.getNode().equals(start))
-				fromHere.add(pair);
-		}
-		for (NodePair pair : fromHere) {
-			if (!pathList.contains(pair)) { //TODO may need to OR this to the reverse of the connection!
-				ArrayList<NodePair> newPath = copyPath(pathList);
-				newPath.add(new NodePair(pair.getConnection(),pair.getConnection()));
-				findPaths(pair.getConnection(),end,newPath);
-			}
-			
 		}
 		
-		return;
+		q.add(current);
+		visited.add(current);
+
+		while (! q.isEmpty() )
+		{
+		    String node = q.poll();
+		    visited.add(node);
+
+		    if (node == goal)
+		    {
+		        reversePath(path,goal,current);
+		        return;
+		    }
+		    ArrayList<FacilityGraphHelper> neighbors = FacilityGraph.getInstance().getNeighbors(current);
+		    for (FacilityGraphHelper child : neighbors) {
+			    if (! (child == null) ) {
+			    	if (!visited.contains(child.getUniqueIdentifier())) {
+			    	   q.add(child.getUniqueIdentifier());
+			    	   path.add(new NodePair(current, child.getUniqueIdentifier()));
+			       }
+			    }
+		    }
+		}
+	}
+
+	private void reversePath(ArrayList<NodePair> path,String goal, String start) {
+		Stack<NodePair> s = new Stack<>();
+		String name = goal;
+		while (name != start)
+			for (NodePair test : path) {
+				if (test.getConnection() == name) {
+					name = test.getNode();
+					s.push(new NodePair(test.getConnection(),test.getNode())); 
+				}
+			}
+		path.clear();
+		while (!s.isEmpty()) {
+			path.add(s.pop());
+		}
 	}
 
 	private ArrayList<NodePair> copyPath(ArrayList<NodePair> pathNodes) {
@@ -79,7 +97,10 @@ public class FacilityGraphPathFinderImpl implements FacilityGraphPathFinder {
 	private int pathLength(ArrayList<NodePair> nodes) throws InvalidParameterException {
 		int accumulator = 0;
 		for (NodePair node : nodes) {
-			accumulator += FacilityGraph.getInstance().getEdgeWeight(node.getNode(), node.getConnection());
+			if (node.getNode().equals(node.getConnection()))
+				accumulator += 0;
+			else
+				accumulator += FacilityGraph.getInstance().getEdgeWeight(node.getNode(), node.getConnection());
 		}
 		return accumulator;
 	}
