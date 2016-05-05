@@ -5,20 +5,21 @@ import facility.exceptions.NoSuchFacilityException;
 import facility.interfaces.Facility;
 import facility.loader.FacilityLoaderHelper;
 import facility.loader.interfaces.FacilityLoader;
-import item.ItemFactory;
-import item.exceptions.NoSuchItemException;
-import item.interfaces.Item;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import javax.xml.parsers.*;
-import org.w3c.dom.*;
-import org.xml.sax.*;
-
-
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 
 public class FacilityXmlLoader implements FacilityLoader {
@@ -32,7 +33,7 @@ public class FacilityXmlLoader implements FacilityLoader {
 			
 			File xml = new File(inputFile);
 			if (!xml.exists()) {
-				System.err.println("XML File" + inputFile + "cannot be found");
+				System.err.println("XML File " + inputFile + " cannot be found");
 				System.exit(-1);
 			}
 			
@@ -52,7 +53,7 @@ public class FacilityXmlLoader implements FacilityLoader {
 				
 				//City, State, ItemsPerDay, CostPerDay
 				//Get a named node
-				Element elem = (Element) facEntries.item(i).getAttributes();
+				Element elem = (Element) facEntries.item(i);
 				String facCity = elem.getElementsByTagName("City").item(0).getTextContent();
 				String facState = elem.getElementsByTagName("State").item(0).getTextContent();
 				int facItemsPerDay = Integer.parseInt(elem.getElementsByTagName("ItemsPerDay").item(0).getTextContent());
@@ -60,13 +61,13 @@ public class FacilityXmlLoader implements FacilityLoader {
 				
 				//Get all subnodes named Connecting Facility
 				ArrayList<FacilityLoaderHelper> connections = new ArrayList<>();
-				NodeList connectList = elem.getElementsByTagName("Connection");
+				NodeList connectList = elem.getElementsByTagName("ConnectingFacility");
 				for (int j = 0; j < connectList.getLength(); j++) {
 					if (connectList.item(j).getNodeType() == Node.TEXT_NODE) 
 						continue;
 					
 					entryName = connectList.item(j).getNodeName();
-					if  (!entryName.equals("Connection")) {
+					if  (!entryName.equals("ConnectingFacility")) {
 						System.err.println("Unexpected node found: " + entryName);
 					}
 					
@@ -104,7 +105,7 @@ public class FacilityXmlLoader implements FacilityLoader {
 					facilityList.add( FacilityFactory.createFacility("Regular", facCity, facState, 
 										facItemsPerDay, facCostPerDay, connections, inventory) );
 				}
-				catch (NoSuchFacilityException e) {
+				catch (NoSuchFacilityException | NullPointerException e) {
 					e.printStackTrace();
 				}
 			

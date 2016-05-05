@@ -113,10 +113,6 @@
 				<Name>XTP202</Name>
 				<Quantity>32</Quantity>
 			</Item>
-			<Item>
-				<Name></Name>
-				<Quantity></Quantity>
-			</Item>
 		</Inventory>
 	</Facility>
 
@@ -733,5 +729,4 @@
 			</Item>
 		</Inventory>
 	</Facility>
-
 </TransportNetwork>

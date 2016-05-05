@@ -24,7 +24,7 @@ public class ItemXmlLoader implements ItemLoader{
 			
 			File xml = new File(fileName);
 			if (!xml.exists()) {
-				System.err.println("XML file" + fileName + "cannot be found");
+				System.err.println("XML file " + fileName + " cannot be found");
 				System.exit(-1);
 			}
 			

@@ -40,10 +40,13 @@ public class FacilityRegImpl implements Facility {
 			this.inventory = setInventory(invIn);
 			this.connectingFacilities = setConnectingFacilities(connectsIn);
 			this.schedule = setSchedule();
+			System.out.println("Created Facility" + city + state);
 		}
 		catch (InvalidParameterException | NoSuchInventoryException | NoSuchScheduleException e) {
 			e.printStackTrace();
 		}
+		
+		
 	}
 
 	//city;
@@ -145,7 +148,7 @@ public class FacilityRegImpl implements Facility {
 		System.out.println(city + " , " + state);
 		System.out.println("-----------");
 		System.out.println("Rate per Day: " + itemsPerDay);
-		System.out.printf("Cost per Day: '%.1f'%\n", costPerDay); 
+		System.out.printf("Cost per Day: '%.1f'%n", costPerDay); 
 		System.out.println("");
 		System.out.println("Direct Links:");
 		printConnectFacilities(connectingFacilities);

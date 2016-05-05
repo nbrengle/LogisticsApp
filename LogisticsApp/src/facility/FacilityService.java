@@ -14,10 +14,12 @@ public class FacilityService {
 	private volatile static FacilityService ourInstance;
 	
 	private FacilityService() {
+		String filePath = "data/TransportNetwork.xml";
 		try {
-			facilities.addAll( FacilityLoaderFactory.createFacilityLoader("XML").loadFacilities("TransportNetwork.xml") );
+			facilities = new ArrayList<>();
+			facilities.addAll( FacilityLoaderFactory.createFacilityLoader("XML").loadFacilities(filePath) );
 		}
-		catch (NoSuchFacilityLoaderException e) {
+		catch (NoSuchFacilityLoaderException | NullPointerException e) {
 			e.printStackTrace();
 		}
 	}

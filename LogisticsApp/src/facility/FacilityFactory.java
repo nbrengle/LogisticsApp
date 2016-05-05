@@ -18,8 +18,9 @@ public class FacilityFactory {
 	
 	public static Facility createFacility(String type, String cityIn, String stateIn, int ipdIn, double cpdIn, 
 									ArrayList<FacilityLoaderHelper> connectionsIn, HashMap<String, Integer> inventoryIn) throws NoSuchFacilityException{
-		if (type.equals("Regular")) 
+		if (type.equals("Regular")) {
 			return new FacilityRegImpl(cityIn, stateIn, ipdIn, cpdIn, connectionsIn, inventoryIn); 
+		}
 		else throw new NoSuchFacilityException("Facility type :" + type + " Does Not Exist");
 	}
 }

@@ -15,8 +15,9 @@ public final class ItemService {
 	private volatile static ItemService ourInstance;
 	
 	private ItemService() {	
+		String filePath = "data/ItemCatalog.xml";
 		try {
-			items.addAll( ItemLoaderFactory.createItemLoader("XML").loadItems("ItemCatalog.xml") );
+			items.addAll( ItemLoaderFactory.createItemLoader("XML").loadItems(filePath) );
 		}
 		catch (NoSuchItemLoaderException e) {
 			e.printStackTrace();
