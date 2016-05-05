@@ -16,7 +16,7 @@ public class FacilityPathFinderImpl implements FacilityGraphPathFinder {
 	private HashSet<String> seen;
 	private ArrayList<FacilityNeighborHelper> lowPath;
 
-	public FacilityPathFinderImpl() { //TODO Constructor will need to set the values as above
+	public FacilityPathFinderImpl() { 
 		this.pairs = new HashMap<>();
 		this.seen = new HashSet<>();
 		this.lowPath = new ArrayList<>();
@@ -57,7 +57,11 @@ public class FacilityPathFinderImpl implements FacilityGraphPathFinder {
 		}
 		else {
 			HashMap<String, FacilityNeighborHelper> fromHere = new HashMap<>();
-			pairs.forEach ((k,v) -> {if (k.equals(start)) fromHere.put(k,v);});
+			pairs.forEach ((k,v) -> {
+				if (k.equals(start)) 
+					fromHere.put(k,v);
+				}
+			);
 			fromHere.forEach((k,v) -> {
 				if (!pathList.contains(v)) {
 					ArrayList<FacilityNeighborHelper> newPath = new ArrayList<>();
