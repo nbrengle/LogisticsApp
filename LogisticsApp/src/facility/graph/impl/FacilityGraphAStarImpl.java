@@ -14,7 +14,7 @@ public class FacilityGraphAStarImpl implements FacilityGraphPathFinder {
 	
     // The set of nodes already evaluated.
     //closedSet := {}
-	HashSet<FacilityGraphHelper> closedSet; //<ConnectionId, Distance>
+	HashSet<String> closedSet; //<ConnectionId, Distance>
 	
 	// The set of currently discovered nodes still to be evaluated.
     // Initially, only the start node is known.
@@ -43,14 +43,16 @@ public class FacilityGraphAStarImpl implements FacilityGraphPathFinder {
 		gScore.clear();
 		
 		//add the start node into the PriorityQueue
-		openSet.add(new FacilityGraphHelper(start,0));
+		FacilityGraphHelper startNode = new FacilityGraphHelper(start,0);
+		openSet.add(startNode);
+		gScore.put(startNode, 0);
 		
 		while (!openSet.isEmpty()) {
 			FacilityGraphHelper current = openSet.poll();
 			if (current.getUniqueIdentifier() == end) {
 				return reversePath(reversedSolution, current);
 			}
-			closedSet.add(current);
+			closedSet.add(current.getUniqueIdentifier());
 			
 			ArrayList<FacilityGraphHelper> currentNeighbors = null;
 			try {
@@ -58,27 +60,34 @@ public class FacilityGraphAStarImpl implements FacilityGraphPathFinder {
 			} catch (InvalidParameterException e) {
 				e.printStackTrace();
 			}
-			currentNeighbors.forEach( (neighbor) -> {
-				if (!closedSet.contains(neighbor)) {
-					int tentativeGScore = gScore.get(current) + neighbor.getDistance();
-		            if (!openSet.contains(neighbor)) // Discover a new node
-		                openSet.add(neighbor);
-		            else if (tentativeGScore < gScore.get(neighbor)) {  
-			            // This path is the best until now. Record it!
-			            reversedSolution.put(neighbor, current); //we might need replace
-			            gScore.put(neighbor, tentativeGScore);
-		            }
-				}
-			}); 
+			
+			for (FacilityGraphHelper neighbor : currentNeighbors) {
+     
+                if (closedSet.contains(neighbor)) continue;
+
+                if (!gScore.containsKey(neighbor))
+                	gScore.put(neighbor,9999999);
+                
+                int g = gScore.get(neighbor);
+                int distanceBetweenTwoNodes = neighbor.getDistance();
+                int tentativeG = distanceBetweenTwoNodes + g;
+
+                if (tentativeG < gScore.get(neighbor)) {
+                    if (gScore.containsKey(neighbor))
+                    	gScore.replace(neighbor, tentativeG);
+
+                    //path.put(neighbor.getNodeId(), nodeData.getNodeId());
+                    reversedSolution.put(neighbor, current);
+                    if (!openSet.contains(neighbor)) {
+                        openSet.add(neighbor);
+                    }
+                }
+            }
 		}
 		
-		return null;
+		return new ArrayList<FacilityGraphHelper>();
 	}
-
-	private int heuristicCostEstimate(FacilityGraphHelper neighbor, String end) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
 
 	private ArrayList<FacilityGraphHelper> reversePath(HashMap<FacilityGraphHelper, FacilityGraphHelper> backwardsPath, 
 														FacilityGraphHelper node) {
@@ -115,16 +124,16 @@ public class FacilityGraphAStarImpl implements FacilityGraphPathFinder {
 		ArrayList<FacilityGraphHelper> pathElems = findBestPath(start, end);
 		System.out.println(start + " to " + end + ":");
 		System.out.print("\t- " + start + "->");
-		pathElems.forEach(elem -> { 
+		for (FacilityGraphHelper elem : pathElems) { 
 			if (!elem.getUniqueIdentifier().equals(start) && !elem.getUniqueIdentifier().equals(end)) 
 				System.out.print(elem.getUniqueIdentifier() + "->");
-			});
+			}
 		int totalDist = pathLength(pathElems);
 		int hoursPerDay = 8; //TODO consider making me a constant much higher up in the stack
 		int milesPerHour = 50; //TODO consider making me a constant much higher up in the stack
 		double daysNecessary = totalDist / (hoursPerDay * milesPerHour);
-		System.out.printf("%s = '%,d' mi%n", end, totalDist); //TODO confirm this linebreak character
-		System.out.printf("\t- '%,d' mi / (%d hours per day * %d mph) = '%.2f' days%n",
+		System.out.printf("%s = %,d mi%n", end, totalDist); //TODO confirm this linebreak character
+		System.out.printf("\t- %,d mi / (%d hours per day * %d mph) = %.2f days%n",
 							totalDist, hoursPerDay, milesPerHour, daysNecessary);
 	}
 

@@ -7,7 +7,7 @@ import facility.exceptions.InvalidParameterException;
 import facility.exceptions.NoSuchInventoryException;
 import facility.exceptions.NoSuchScheduleException;
 import facility.graph.FacilityGraph;
-import facility.graph.FacilityNeighborHelper;
+import facility.graph.FacilityGraphHelper;
 import facility.interfaces.Facility;
 import facility.inventory.InventoryFactory;
 import facility.inventory.interfaces.Inventory;
@@ -22,7 +22,7 @@ public class FacilityRegImpl implements Facility {
 	private String uniqueIdentifier;
 	private int itemsPerDay;
 	private double costPerDay;
-	private ArrayList<FacilityNeighborHelper> connectingFacilities;
+	private ArrayList<FacilityGraphHelper> connectingFacilities;
 	private Inventory inventory;
 	private Schedule schedule;
 
@@ -114,16 +114,16 @@ public class FacilityRegImpl implements Facility {
 		}
 	}
 	
-	private ArrayList<FacilityNeighborHelper> setConnectingFacilities(ArrayList<FacilityLoaderHelper> connectsIn) throws InvalidParameterException {
+	private ArrayList<FacilityGraphHelper> setConnectingFacilities(ArrayList<FacilityLoaderHelper> connectsIn) throws InvalidParameterException {
 		createConnectionsInFacilityGraph(connectsIn);
 		return FacilityGraph.getInstance().getNeighbors(uniqueIdentifier);
 	}
 	
-	private void printConnectFacilities(ArrayList<FacilityNeighborHelper> connectsIn) {
+	private void printConnectFacilities(ArrayList<FacilityGraphHelper> connectsIn) {
 		double distancePerDay = 400.00; //TODO Consider making me a constant much, much higher up the chain please
 		//Prints format like: "Detroit, MI (0.7d);"
 		
-		for (FacilityNeighborHelper connect : connectsIn) {
+		for (FacilityGraphHelper connect : connectsIn) {
 			double day = (connect.getDistance()/distancePerDay);
 			System.out.printf("%s (%.1fd); ", connect.getUniqueIdentifier(), day);
 		}
