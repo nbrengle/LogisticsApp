@@ -7,12 +7,11 @@ import facility.exceptions.InvalidParameterException;
 import facility.graph.FacilityGraph;
 import facility.graph.FacilityGraphHelper;
 import facility.graph.NodePair;
-import facility.graph.WeightedNodePair;
 import facility.graph.interfaces.FacilityGraphPathFinder;
 
 public class FacilityGraphPathFinderImpl implements FacilityGraphPathFinder {
 
-	ArrayList<WeightedNodePair> pairs;
+	ArrayList<NodePair> pairs;
 	HashSet<String> seen;
 	ArrayList<NodePair> lowPath;
 	
@@ -36,7 +35,7 @@ public class FacilityGraphPathFinderImpl implements FacilityGraphPathFinder {
 		seen.add(init);
 		ArrayList<FacilityGraphHelper> neighbors = FacilityGraph.getInstance().getNeighbors(init);
 		for (FacilityGraphHelper neighbor : neighbors) {
-			pairs.add(new WeightedNodePair(init,neighbor.getUniqueIdentifier(),neighbor.getDistance()));
+			pairs.add(new NodePair(init,neighbor.getUniqueIdentifier()));
 			if(!seen.contains(neighbor.getUniqueIdentifier()))
 				mapPairs(neighbor.getUniqueIdentifier());
 		}
@@ -52,17 +51,16 @@ public class FacilityGraphPathFinderImpl implements FacilityGraphPathFinder {
 			}
 			return;
 		}
-		HashSet<WeightedNodePair> fromHere = new HashSet<>();
-		for (WeightedNodePair pair : pairs) {
+		HashSet<NodePair> fromHere = new HashSet<>();
+		for (NodePair pair : pairs) {
 			if(pair.getNode().equals(start))
 				fromHere.add(pair);
 		}
-		for (WeightedNodePair pair : fromHere) {
-			NodePair connection = new NodePair(pair.getNode(),pair.getConnection());
-			if (!pathList.contains(connection)) { //TODO may need to OR this to the reverse of the connection!
+		for (NodePair pair : fromHere) {
+			if (!pathList.contains(pair)) { //TODO may need to OR this to the reverse of the connection!
 				ArrayList<NodePair> newPath = copyPath(pathList);
-				newPath.add(new NodePair(connection.getConnection(),connection.getConnection()));
-				findPaths(connection.getConnection(),end,newPath);
+				newPath.add(new NodePair(pair.getConnection(),pair.getConnection()));
+				findPaths(pair.getConnection(),end,newPath);
 			}
 			
 		}
