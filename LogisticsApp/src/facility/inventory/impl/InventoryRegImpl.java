@@ -63,14 +63,16 @@ public class InventoryRegImpl implements Inventory {
 		System.out.print("Active Inventory:");
 		if (active.isEmpty()) System.out.println(" None");
 		else {
-			System.out.println("\tItem ID\tQuantity");
-			active.forEach((k,v) -> System.out.printf("\t%s\t%d%n",k,v));
+			System.out.printf("%n");
+			System.out.printf("\t%-8s\t%-8s%n","Item ID","Quantity");
+			active.forEach((k,v) -> System.out.printf("\t%-8s\t%d%n",k,v));
 		}
+		System.out.printf("%n");
 		System.out.print("Depleted (Used-Up) Inventory:"); 
 		if (depleted.isEmpty()) System.out.println(" None");
 		else {
 			System.out.println("\tItem ID\tQuantity");
-			depleted.forEach((k,v) -> System.out.printf("\t%s\t%d%n",k,v));
+			depleted.forEach((k,v) -> System.out.printf("\t%-8s\t%d%n",k,v));
 		}
 	}
 	

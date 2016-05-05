@@ -58,6 +58,9 @@ public class FacilityXmlLoader implements FacilityLoader {
 				int facItemsPerDay = Integer.parseInt(elem.getElementsByTagName("ItemsPerDay").item(0).getTextContent());
 				double facCostPerDay = Double.parseDouble(elem.getElementsByTagName("CostPerDay").item(0).getTextContent());
 				
+				//Clone for Inventory Use down the line
+				Element invElem = (Element) elem.cloneNode(true);
+				
 				//Get all subnodes named Connecting Facility
 				ArrayList<FacilityLoaderHelper> connections = new ArrayList<>();
 				NodeList connectList = elem.getElementsByTagName("ConnectingFacility");
@@ -82,7 +85,7 @@ public class FacilityXmlLoader implements FacilityLoader {
 				
 				//Get all subnodes called Item
 				HashMap<String, Integer> inventory = new HashMap<>();
-				NodeList itemList = elem.getElementsByTagName("Item");
+				NodeList itemList = invElem.getElementsByTagName("Item");
 				for (int k = 0; k < itemList.getLength(); k++) {
 					if (itemList.item(k).getNodeType() == Node.TEXT_NODE)
 						continue;

@@ -37,7 +37,6 @@ public class FacilityRegImpl implements Facility {
 			this.inventory = setInventory(invIn);
 			this.connectingFacilities = setConnectingFacilities(connectsIn);
 			this.schedule = setSchedule();
-			System.out.println("Created Facility" + city + state);
 		}
 		catch (InvalidParameterException | NoSuchInventoryException | NoSuchScheduleException e) {
 			e.printStackTrace();
