@@ -54,9 +54,11 @@ public final class ItemService {
 	
 	public void printReport() {
 		System.out.println("Item Catalog:");
-		for (Item item : items) {
-			//TODO confirm this appears correctly
-			System.out.printf("'%-8s': $'%,.0f'\t" , item.getName(), item.getPrice()); 
+		for (int i = 0; i < items.size(); i++) {
+			if ( (i +1) % 4 == 0)
+				System.out.printf("%-8s: $%-,6.0f%n" , items.get(i).getName(), items.get(i).getPrice());
+			else
+				System.out.printf("%-8s: $%-,6.0f\t" , items.get(i).getName(), items.get(i).getPrice());
 		}
 	}
 

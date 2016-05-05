@@ -40,11 +40,9 @@ public class Orchestrator {
 	
 	public static void main(String[] args) {
 		printFacilityReport();
-		System.out.println("printItemCatalogReport");
 		printItemCatalogReport();
 		System.out.println("printShortestPathTestsReport");
-		printShortestPathTestsReport();
-		System.out.println("Finished");
+		//printShortestPathTestsReport();
 	}
 
 }
