@@ -3,7 +3,6 @@ package facility.schedule;
 import facility.exceptions.NoSuchScheduleException;
 import facility.schedule.impl.ScheduleRegImpl;
 import facility.schedule.interfaces.Schedule;
-import item.exceptions.NoSuchItemException;
 
 public class ScheduleFactory {
 	private ScheduleFactory() {}; // empty constructor as methods are static

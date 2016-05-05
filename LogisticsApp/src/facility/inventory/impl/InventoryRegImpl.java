@@ -2,9 +2,7 @@ package facility.inventory.impl;
 
 import item.ItemService;
 import item.exceptions.NoSuchItemException;
-import item.interfaces.Item;
 import java.util.HashMap;
-import java.util.Map;
 
 import facility.exceptions.InvalidParameterException;
 import facility.inventory.interfaces.Inventory;

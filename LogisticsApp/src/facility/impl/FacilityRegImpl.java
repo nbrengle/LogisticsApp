@@ -2,7 +2,6 @@ package facility.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import facility.exceptions.InvalidParameterException;
 import facility.exceptions.NoSuchInventoryException;
@@ -15,8 +14,6 @@ import facility.inventory.interfaces.Inventory;
 import facility.loader.FacilityLoaderHelper;
 import facility.schedule.ScheduleFactory;
 import facility.schedule.interfaces.Schedule;
-import item.exceptions.NoSuchItemException;
-
 
 public class FacilityRegImpl implements Facility {
 	

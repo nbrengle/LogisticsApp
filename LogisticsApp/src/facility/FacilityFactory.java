@@ -7,8 +7,6 @@ import facility.exceptions.NoSuchFacilityException;
 import facility.impl.FacilityRegImpl;
 import facility.interfaces.Facility;
 import facility.loader.FacilityLoaderHelper;
-import item.impl.ItemRegImpl;
-import item.interfaces.Item;
 
 public class FacilityFactory {
 

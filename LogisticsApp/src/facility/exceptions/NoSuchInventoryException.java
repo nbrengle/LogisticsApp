@@ -1,6 +1,8 @@
 package facility.exceptions;
 
 public class NoSuchInventoryException extends Exception{
+
+	private static final long serialVersionUID = -5250128990830215400L;
 	private String message = null;
     
     public NoSuchInventoryException() {

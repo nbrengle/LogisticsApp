@@ -2,7 +2,8 @@ package item.exceptions;
 
 public class NoSuchItemException extends Exception {
 	
-    private String message = null;
+	private static final long serialVersionUID = -4606301894563792657L;
+	private String message = null;
  
     public NoSuchItemException() {
         super();

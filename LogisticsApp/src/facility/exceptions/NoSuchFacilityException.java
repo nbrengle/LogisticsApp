@@ -2,6 +2,7 @@ package facility.exceptions;
 
 public class NoSuchFacilityException extends Exception{
     
+	private static final long serialVersionUID = -8221029829950786928L;
 	private String message = null;
     
     public NoSuchFacilityException() {
