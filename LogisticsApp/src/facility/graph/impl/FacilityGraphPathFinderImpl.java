@@ -31,20 +31,12 @@ public class FacilityGraphPathFinderImpl implements FacilityGraphPathFinder {
 	public ArrayList<NodePair> findBestPath(String start, String end) throws InvalidParameterException {
 		ArrayList<NodePair> pathList = new ArrayList<>();
 		pathList.add(new NodePair (start,start));
-		findPaths(start, end, pathList);
+		findPaths(start, end);
 		return lowPath;
 	}
 		
-	private void findPaths(String current, String goal, ArrayList<NodePair> pathList) throws InvalidParameterException {
-		if (current.equals(goal)) {				
-			try {
-				if (lowPath.isEmpty() || (pathLength(pathList) < pathLength(lowPath)))
-					lowPath = copyPath(pathList);
-			} catch (InvalidParameterException e) {
-				e.printStackTrace();
-			}
-		}
-		
+	private void findPaths(String current, String goal) throws InvalidParameterException {
+
 		q.add(current);
 		visited.add(current);
 
@@ -55,14 +47,13 @@ public class FacilityGraphPathFinderImpl implements FacilityGraphPathFinder {
 
 		    if (node == goal)
 		    {
-		        reversePath(path,goal,current);
+		        lowPath = reversePath(path,goal,current);
 		        return;
 		    }
 		    ArrayList<FacilityGraphHelper> neighbors = FacilityGraph.getInstance().getNeighbors(current);
 		    for (FacilityGraphHelper child : neighbors) {
 			    if (! (child == null) ) {
 			    	if (!visited.contains(child.getUniqueIdentifier())) {
-			    	   q.add(child.getUniqueIdentifier());
 			    	   path.add(new NodePair(current, child.getUniqueIdentifier()));
 			       }
 			    }
@@ -70,7 +61,7 @@ public class FacilityGraphPathFinderImpl implements FacilityGraphPathFinder {
 		}
 	}
 
-	private void reversePath(ArrayList<NodePair> path,String goal, String start) {
+	private ArrayList<NodePair> reversePath(ArrayList<NodePair> path,String goal, String start) {
 		Stack<NodePair> s = new Stack<>();
 		String name = goal;
 		while (name != start)
@@ -80,10 +71,11 @@ public class FacilityGraphPathFinderImpl implements FacilityGraphPathFinder {
 					s.push(new NodePair(test.getConnection(),test.getNode())); 
 				}
 			}
-		path.clear();
+		ArrayList<NodePair> returnArray = new ArrayList<>();
 		while (!s.isEmpty()) {
-			path.add(s.pop());
+			returnArray.add(s.pop());
 		}
+		return returnArray;
 	}
 
 	private ArrayList<NodePair> copyPath(ArrayList<NodePair> pathNodes) {
