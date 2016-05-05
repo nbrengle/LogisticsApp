@@ -120,7 +120,7 @@ public class FacilityRegImpl implements Facility {
 	}
 	
 	private void printConnectFacilities(ArrayList<FacilityNeighborHelper> connectsIn) {
-		int distancePerDay = 400; //TODO Consider making me a constant much, much higher up the chain please
+		double distancePerDay = 400.00; //TODO Consider making me a constant much, much higher up the chain please
 		//Prints format like: "Detroit, MI (0.7d);"
 		
 		for (FacilityNeighborHelper connect : connectsIn) {
