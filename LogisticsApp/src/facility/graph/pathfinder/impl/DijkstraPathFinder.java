@@ -39,35 +39,38 @@ public class DijkstraPathFinder<T> implements GraphPathFinder<T>{
 	@Override
 	public List<T> findBestPath(T start, T end) {
 		
-		final Queue<NodeData<T>> open = new PriorityQueue<NodeData<T>>();
+		final Queue<NodeData<T>> open = new PriorityQueue<>();
 		
 		NodeData<T> startNodeData = graph.getNodeData(start);
 		startNodeData.setDistance(0);
 		open.add(startNodeData);
 		
 		final Map<T, T> path = new HashMap<T, T>();
-		final Set<NodeData<T>> closed = new HashSet<NodeData<T>>();
+		final Set<NodeData<T>> visited = new HashSet<>();
 		
 		while (!open.isEmpty()) {
 			final NodeData<T> nodeData = open.poll();
+			
 			if (nodeData.getNodeId().equals(end)) {
 				pathLength = nodeData.getDistance();
 				return path(path, end);
 			}
 			
-			closed.add(nodeData);
+			visited.add(nodeData);
 			
 			for (NeighborNode<T> neighbor : graph.getNeighbors(nodeData.getNodeId())) {
 				
-				if (!closed.contains(neighbor)) continue;
+				if (visited.contains(neighbor.getNodeData())) continue;
 				
 				int distanceBetweenTwoNodes = neighbor.getWeight();
 				int tentativeG = distanceBetweenTwoNodes + nodeData.getDistance();
 				
-				if (tentativeG <neighbor.getWeight()) {
+				if (tentativeG < neighbor.getNodeData().getDistance()) {
 					neighbor.getNodeData().setDistance(tentativeG);
+					//Need a notion of Prev?
 					
 					path.put(neighbor.getNodeData().getNodeId(), nodeData.getNodeId());
+					
 					if (!open.contains(neighbor.getNodeData()))
 						open.add(neighbor.getNodeData());
 				}
