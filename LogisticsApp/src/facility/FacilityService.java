@@ -2,6 +2,7 @@ package facility;
 
 import facility.interfaces.Facility;
 import facility.exceptions.NoSuchFacilityLoaderException;
+import facility.graph.FacilityGraph;
 import facility.loader.FacilityLoaderFactory;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 public class FacilityService {
 	
 	private ArrayList<Facility> facilities;
+	private FacilityGraph graph;
 	
 	//---Singleton Constructor---
 	private volatile static FacilityService ourInstance;
@@ -18,6 +20,7 @@ public class FacilityService {
 		try {
 			facilities = new ArrayList<>();
 			facilities.addAll( FacilityLoaderFactory.createFacilityLoader("XML").loadFacilities(filePath) );
+			//TODO Build the Graph!
 		}
 		catch (NoSuchFacilityLoaderException | NullPointerException  e) {
 			e.printStackTrace();
@@ -36,7 +39,7 @@ public class FacilityService {
 	//------------------
 	
 	
-	public void printReport() {
+	public void printFacilityReport() {
 		for (Facility f : facilities) f.printReport();
 	}
 

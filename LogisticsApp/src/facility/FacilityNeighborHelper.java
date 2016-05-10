@@ -1,19 +1,18 @@
-package facility.loader;
+package facility;
 
 /**
  * The purpose of this class is to act as a pseudo-tuple to transfer
  * ConnectingFacility information from the Raw data to the FacilityFactory
- * @author nathaniel
  *
  */
 
-public class FacilityLoaderHelper {
+public class FacilityNeighborHelper {
 	
 	private String city;
 	private String state;
 	private int distance;
 	
-	public FacilityLoaderHelper(String cityIn, String stateIn, int distanceIn) {
+	public FacilityNeighborHelper(String cityIn, String stateIn, int distanceIn) {
 		//currently relies on validation on either side
 		//TODO consider validation inside this class as well
 		this.city = cityIn;
@@ -31,5 +30,9 @@ public class FacilityLoaderHelper {
 	
 	public int getDistance() {
 		return distance;
+	}
+
+	public String getUniqueIdentifier() {
+		return String.format("%s, %s", city, state);
 	}
 }

@@ -3,15 +3,14 @@ package facility.impl;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import facility.FacilityNeighborHelper;
 import facility.exceptions.InvalidParameterException;
 import facility.exceptions.NoSuchInventoryException;
 import facility.exceptions.NoSuchScheduleException;
 import facility.graph.FacilityGraph;
-import facility.graph.FacilityGraphHelper;
 import facility.interfaces.Facility;
 import facility.inventory.InventoryFactory;
 import facility.inventory.interfaces.Inventory;
-import facility.loader.FacilityLoaderHelper;
 import facility.schedule.ScheduleFactory;
 import facility.schedule.interfaces.Schedule;
 
@@ -22,12 +21,12 @@ public class FacilityRegImpl implements Facility {
 	private String uniqueIdentifier;
 	private int itemsPerDay;
 	private double costPerDay;
-	private ArrayList<FacilityGraphHelper> connectingFacilities;
+	private ArrayList<FacilityNeighborHelper> connectingFacilities;
 	private Inventory inventory;
 	private Schedule schedule;
 
 	public FacilityRegImpl(String cityIn, String stateIn, int ipdIn, double cpdIn, 
-							ArrayList<FacilityLoaderHelper> connectsIn, HashMap<String, Integer> invIn) { 
+							ArrayList<FacilityNeighborHelper> connectsIn, HashMap<String, Integer> invIn) { 
 		try {
 			this.city = setCity(cityIn);
 			this.state = setState(stateIn);
@@ -106,24 +105,24 @@ public class FacilityRegImpl implements Facility {
 		return InventoryFactory.createInventory("Regular", itemsIn);
 	}
 	
-	private void createConnectionsInFacilityGraph(ArrayList<FacilityLoaderHelper> connectsIn) throws InvalidParameterException {
-		for( FacilityLoaderHelper helper : connectsIn) {
-			//Facility Loader Helper has City, State, Distance
-			String connectionIdentifier = String.format("%s, %s", helper.getCity(), helper.getState());
+	private void createConnectionsInFacilityGraph(ArrayList<FacilityNeighborHelper> connectsIn) throws InvalidParameterException {
+		for( FacilityNeighborHelper helper : connectsIn) {
+			//Facility Neighbor Helper has City, State, Distance, UniqueIdentifier
+			//TODO correct this
 			FacilityGraph.getInstance().addEdge(uniqueIdentifier, connectionIdentifier, helper.getDistance());
 		}
 	}
 	
-	private ArrayList<FacilityGraphHelper> setConnectingFacilities(ArrayList<FacilityLoaderHelper> connectsIn) throws InvalidParameterException {
+	private ArrayList<FacilityNeighborHelper> setConnectingFacilities(ArrayList<FacilityNeighborHelper> connectsIn) throws InvalidParameterException {
 		createConnectionsInFacilityGraph(connectsIn);
-		return FacilityGraph.getInstance().getNeighbors(uniqueIdentifier);
+		return connectsIn;
 	}
 	
-	private void printConnectFacilities(ArrayList<FacilityGraphHelper> connectsIn) {
+	private void printConnectFacilities(ArrayList<FacilityNeighborHelper> connectsIn) {
 		double distancePerDay = 400.00; //TODO Consider making me a constant much, much higher up the chain please
 		//Prints format like: "Detroit, MI (0.7d);"
 		
-		for (FacilityGraphHelper connect : connectsIn) {
+		for (FacilityNeighborHelper connect : connectsIn) {
 			double day = (connect.getDistance()/distancePerDay);
 			System.out.printf("%s (%.1fd); ", connect.getUniqueIdentifier(), day);
 		}

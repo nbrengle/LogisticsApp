@@ -1,9 +1,9 @@
 package facility.loader.impl;
 
 import facility.FacilityFactory;
+import facility.FacilityNeighborHelper;
 import facility.exceptions.NoSuchFacilityException;
 import facility.interfaces.Facility;
-import facility.loader.FacilityLoaderHelper;
 import facility.loader.interfaces.FacilityLoader;
 
 import java.io.File;
@@ -62,7 +62,7 @@ public class FacilityXmlLoader implements FacilityLoader {
 				Element invElem = (Element) elem.cloneNode(true);
 				
 				//Get all subnodes named Connecting Facility
-				ArrayList<FacilityLoaderHelper> connections = new ArrayList<>();
+				ArrayList<FacilityNeighborHelper> connections = new ArrayList<>();
 				NodeList connectList = elem.getElementsByTagName("ConnectingFacility");
 				for (int j = 0; j < connectList.getLength(); j++) {
 					if (connectList.item(j).getNodeType() == Node.TEXT_NODE) 
@@ -79,7 +79,7 @@ public class FacilityXmlLoader implements FacilityLoader {
 					String connectCity  = elem.getElementsByTagName("City").item(0).getTextContent();
 					String connectState = elem.getElementsByTagName("State").item(0).getTextContent();
 					int connectDistance = Integer.parseInt( elem.getElementsByTagName("Distance").item(0).getTextContent());
-					FacilityLoaderHelper helper = new FacilityLoaderHelper(connectCity, connectState, connectDistance);
+					FacilityNeighborHelper helper = new FacilityNeighborHelper(connectCity, connectState, connectDistance);
 					connections.add(helper);
 				}
 				

@@ -10,30 +10,34 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 
+import facility.graph.GraphDijkstra;
+import facility.graph.NeighborNode;
+import facility.graph.NodeData;
+
 /**
  * based on http://codereview.stackexchange.com/questions/38376/a-search-algorithm
  */
 
-public class GraphAStarImpl {
+public class DijkstraPathfinder<T> {
 
-	private final GraphAStar<T> graph;
+	private GraphDijkstra<T> graph = null;
 	
 	//TODO improve this constructor
-	public GraphAStarImpl (GraphAStar<T> graphIn) {
-		this.graph = setGraph(graphIn); 
+	public DijkstraPathfinder (GraphDijkstra<T> graphIn) {
+		setGraph(graphIn); 
 	}
 	
-	private setGraph(GraphAStar<T> graphIn) {
-		//TODO Method stub, complete me with validation on graph
+	private void setGraph(GraphDijkstra<T> graphIn) {
+		// TODO include validation!
+		this.graph = graphIn;
 	}
 	
-	public List<T> aStar (T start, T end) {
+	public List<T> dijkstra(T start, T end) {
 		
 		final Queue<NodeData<T>> open = new PriorityQueue<NodeData<T>>();
 		
 		NodeData<T> startNodeData = graph.getNodeData(start);
-		startNodeData.setG(0);
-		startNodeData.calcF(end);
+		startNodeData.setDistance(0);
 		open.add(startNodeData);
 		
 		final Map<T, T> path = new HashMap<T, T>();
@@ -47,21 +51,19 @@ public class GraphAStarImpl {
 			
 			closed.add(nodeData);
 			
-			for (Entry<NodeData<T>, Double> neighborEntry : graph.edgesFrom(nodeData.getNodeId()).entrySet()) {
-				NodeData<T> neighbor = neighborEntry.getKey();
+			for (NeighborNode<T> neighbor : graph.getNeighbors(nodeData.getNodeId())) {
 				
 				if (!closed.contains(neighbor)) continue;
 				
-				int distanceBetweenTwoNodes = neighborEntry.getValue();
-				int tentativeG = distanceBetweenTwoNodes + nodeData.getG();
+				int distanceBetweenTwoNodes = neighbor.getWeight();
+				int tentativeG = distanceBetweenTwoNodes + nodeData.getDistance();
 				
-				if (tentativeG <neighbor.getG()) {
-					neighbor.setG(tentativeG);
-					neighbor.calcF(end);
+				if (tentativeG <neighbor.getWeight()) {
+					neighbor.getNodeData().setDistance(tentativeG);
 					
-					path.put(neighbor.getNodeId(), nodeData.getNodeId());
-					if (!open.contains(neighbor))
-						open.add(neighbor);
+					path.put(neighbor.getNodeData().getNodeId(), nodeData.getNodeId());
+					if (!open.contains(neighbor.getNodeData()))
+						open.add(neighbor.getNodeData());
 				}
 			}
 		}

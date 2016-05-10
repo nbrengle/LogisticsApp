@@ -3,10 +3,10 @@ package facility;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import facility.FacilityNeighborHelper;
 import facility.exceptions.NoSuchFacilityException;
 import facility.impl.FacilityRegImpl;
 import facility.interfaces.Facility;
-import facility.loader.FacilityLoaderHelper;
 
 public class FacilityFactory {
 
@@ -15,7 +15,7 @@ public class FacilityFactory {
 	private FacilityFactory() {}; // empty constructor as methods are static
 	
 	public static Facility createFacility(String type, String cityIn, String stateIn, int ipdIn, double cpdIn, 
-									ArrayList<FacilityLoaderHelper> connectionsIn, HashMap<String, Integer> inventoryIn) throws NoSuchFacilityException{
+									ArrayList<FacilityNeighborHelper> connectionsIn, HashMap<String, Integer> inventoryIn) throws NoSuchFacilityException{
 		if (type.equals("Regular")) {
 			return new FacilityRegImpl(cityIn, stateIn, ipdIn, cpdIn, connectionsIn, inventoryIn); 
 		}
