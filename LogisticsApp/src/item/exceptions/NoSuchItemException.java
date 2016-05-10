@@ -3,6 +3,7 @@ package item.exceptions;
 public class NoSuchItemException extends Exception {
 	
 	private static final long serialVersionUID = -4606301894563792657L;
+	@SuppressWarnings("unused")
 	private String message = null;
  
     public NoSuchItemException() {

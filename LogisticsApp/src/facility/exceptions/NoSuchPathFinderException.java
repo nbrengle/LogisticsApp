@@ -3,6 +3,7 @@ package facility.exceptions;
 public class NoSuchPathFinderException extends Exception{
 
 	private static final long serialVersionUID = -4959993325792703455L;
+	@SuppressWarnings("unused")
 	private String message = null;
     
     public NoSuchPathFinderException() {

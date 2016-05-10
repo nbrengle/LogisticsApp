@@ -8,6 +8,7 @@ public class GraphFactory<T> {
 	
 	public GraphFactory() {}; // empty constructor as methods are reference across it
 	
+	@SuppressWarnings("unchecked")
 	public EdgeWeightedGraph<T> createGraph(String type) throws NoSuchGraphException{
 		if (type.equals("Dijkstra")) 
 			return (EdgeWeightedGraph<T>) new GraphDijkstra<T>(); 

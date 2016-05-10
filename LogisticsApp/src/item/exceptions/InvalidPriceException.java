@@ -3,6 +3,7 @@ package item.exceptions;
 public class InvalidPriceException extends Exception {
 	 
 	private static final long serialVersionUID = 1382216470993962338L;
+	@SuppressWarnings("unused")
 	private String message = null;
  
     public InvalidPriceException() {
