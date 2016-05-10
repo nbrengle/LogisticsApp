@@ -72,6 +72,7 @@ public class DijkstraPathFinder<T> implements GraphPathFinder<T>{
 					path.put(neighbor.getNodeData().getNodeId(), nodeData.getNodeId());
 					
 					//TODO looks like a lot of extra stuff is getting put in here
+					//neighbors aren't the same objects =(
 					if (!open.contains(neighbor.getNodeData()))
 						open.add(neighbor.getNodeData());
 				}
