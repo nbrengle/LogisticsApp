@@ -1,4 +1,4 @@
-package facility.graph;
+package facility.graph.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,6 +6,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+
+import facility.graph.helpers.NodeData;
+import facility.graph.helpers.NeighborNode;
 
 /**
  * Adapted from: http://codereview.stackexchange.com/questions/38376/a-search-algorithm

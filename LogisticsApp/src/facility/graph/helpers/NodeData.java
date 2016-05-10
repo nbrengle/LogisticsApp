@@ -1,4 +1,4 @@
-package facility.graph;
+package facility.graph.helpers;
 
 public class NodeData<T> {
 	

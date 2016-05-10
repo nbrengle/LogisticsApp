@@ -1,7 +1,7 @@
 package facility.loader.impl;
 
 import facility.FacilityFactory;
-import facility.FacilityNeighborHelper;
+import facility.helpers.FacilityNeighborHelper;
 import facility.exceptions.NoSuchFacilityException;
 import facility.interfaces.Facility;
 import facility.loader.interfaces.FacilityLoader;

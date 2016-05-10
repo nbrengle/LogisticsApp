@@ -1,4 +1,4 @@
-package facility.graph;
+package facility.graph.helpers;
 
 import facility.exceptions.InvalidParameterException;
 

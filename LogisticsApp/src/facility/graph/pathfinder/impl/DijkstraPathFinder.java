@@ -1,4 +1,4 @@
-package facility.graph.impl;
+package facility.graph.pathfinder.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,11 +11,10 @@ import java.util.Queue;
 import java.util.Set;
 
 import facility.exceptions.InvalidParameterException;
-import facility.graph.GraphDijkstra;
-import facility.graph.NeighborNode;
-import facility.graph.NodeData;
-import facility.graph.NodePair;
-import facility.graph.interfaces.GraphPathFinder;
+import facility.graph.helpers.NodeData;
+import facility.graph.impl.GraphDijkstra;
+import facility.graph.pathfinder.interfaces.GraphPathFinder;
+
 
 /**
  * simplified from on http://codereview.stackexchange.com/questions/38376/a-search-algorithm
@@ -35,6 +34,7 @@ public class DijkstraPathFinder<T> implements GraphPathFinder{
 		this.graph = graphIn;
 	}
 	
+	@Override
 	public List<T> findBestPath(T start, T end) {
 		
 		final Queue<NodeData<T>> open = new PriorityQueue<NodeData<T>>();
@@ -88,14 +88,15 @@ public class DijkstraPathFinder<T> implements GraphPathFinder{
 	}
 	
 	@Override
-	public int getBestPathLength(String start, String end) throws InvalidParameterException {
-		return pathLength(findBestPath(start, end));
+	public int getBestPathLength<T>(T init, T dest) throws InvalidParameterException {
+		//TODO Implement me!
+		return 0;
 	}
 	
 	//equivalent to calling findBestPath but includes a print step
 	//TODO consider re-imaging this with STREAMS!
 	@Override
-	public void printBestPath(String start, String end) {
+	public void printBestPath<T>(T start, T end) {
 		//Santa Fe, NM to Chicago, IL:
 		//	- Santa Fe, NM->St. Louis, MO->Chicago, IL = 1,329 mi 
 		//	- 1,329 mi / (8 hours per day * 50 mph) = 3.32 days

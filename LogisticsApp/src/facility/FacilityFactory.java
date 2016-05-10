@@ -3,7 +3,7 @@ package facility;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import facility.FacilityNeighborHelper;
+import facility.helpers.FacilityNeighborHelper;
 import facility.exceptions.NoSuchFacilityException;
 import facility.impl.FacilityRegImpl;
 import facility.interfaces.Facility;

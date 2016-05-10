@@ -2,7 +2,7 @@ package facility.graph.interfaces;
 
 import java.util.List;
 
-import facility.graph.NeighborNode;
+import facility.graph.helpers.NeighborNode;
 
 public interface EdgeWeightedGraph<T> {
 

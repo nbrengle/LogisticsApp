@@ -3,7 +3,7 @@ package facility.impl;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import facility.FacilityNeighborHelper;
+import facility.helpers.FacilityNeighborHelper;
 import facility.exceptions.InvalidParameterException;
 import facility.exceptions.NoSuchInventoryException;
 import facility.exceptions.NoSuchScheduleException;

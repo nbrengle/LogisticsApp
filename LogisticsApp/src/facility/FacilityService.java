@@ -2,9 +2,7 @@ package facility;
 
 import facility.interfaces.Facility;
 import facility.exceptions.NoSuchFacilityLoaderException;
-import facility.graph.FacilityGraph;
 import facility.graph.interfaces.EdgeWeightedGraph;
-import facility.graph.interfaces.Graph;
 import facility.loader.FacilityLoaderFactory;
 
 import java.util.ArrayList;

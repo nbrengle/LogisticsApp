@@ -1,7 +1,9 @@
-package facility.graph;
+package facility.graph.pathfinder;
 
 import facility.exceptions.NoSuchPathFinderException;
-import facility.graph.interfaces.GraphPathFinder;
+import facility.graph.pathfinder.impl.DijkstraPathFinder;
+import facility.graph.pathfinder.interfaces.GraphPathFinder;
+
 
 public class GraphPathFinderFactory {
 
