@@ -7,7 +7,7 @@ public class NodeData<T> implements Comparable<NodeData<T>>{
 	
 	public NodeData(T nodeIn) {
 		this.nodeId = nodeIn;
-		this.distance = 900000; //TODO confirm this works!
+		this.distance = Integer.MAX_VALUE; //TODO confirm this works!
 	}
 	
 	public T getNodeId() {

@@ -67,10 +67,11 @@ public class DijkstraPathFinder<T> implements GraphPathFinder<T>{
 				
 				if (tentativeG < neighbor.getNodeData().getDistance()) {
 					neighbor.getNodeData().setDistance(tentativeG);
-					//Need a notion of Prev?
 					
+					//TODO I'm putting in too many nodes right now!
 					path.put(neighbor.getNodeData().getNodeId(), nodeData.getNodeId());
 					
+					//TODO looks like a lot of extra stuff is getting put in here
 					if (!open.contains(neighbor.getNodeData()))
 						open.add(neighbor.getNodeData());
 				}
@@ -85,10 +86,6 @@ public class DijkstraPathFinder<T> implements GraphPathFinder<T>{
 
         final List<T> pathList = new ArrayList<T>();
         pathList.add(destination);
-        /*while (pathIn.containsKey(destination)) {
-            destination = pathIn.get(destination);
-            pathList.add(destination);
-        }*/
         pathIn.forEach((k,v) -> pathList.add(v));
         Collections.reverse(pathList);
         return pathList;

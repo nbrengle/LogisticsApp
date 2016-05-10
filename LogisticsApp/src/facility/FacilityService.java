@@ -37,7 +37,7 @@ public class FacilityService {
 				facilityGraph.addNode(fac);
 				for (FacilityNeighborHelper neighbor : fac.getConnectingFacilities()) {
 					Facility neighborFac = null;
-					//TODO do me up pretty in Java lambdas some day
+					//TODO do me up pretty in lambdas
 					for (Facility facPluck : facilities) {
 						if (facPluck.getUniqueIdentifier().equals(neighbor.getUniqueIdentifier()))
 							neighborFac = facPluck;
