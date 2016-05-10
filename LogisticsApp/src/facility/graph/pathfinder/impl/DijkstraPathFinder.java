@@ -79,19 +79,20 @@ public class DijkstraPathFinder<T> implements GraphPathFinder<T>{
 		return null;
 	}
 	
-	private List<T> path(Map <T, T> path, T end) {
-		assert path != null; //TODO do this differently
-		assert end != null;
-		
-		final List<T> pathList = new ArrayList<T>();
-		pathList.add(end);
-		while (path.containsKey(end)) {
-			end = path.get(end);
-			pathList.add(end);
-		}
-		Collections.reverse(pathList);
-		return pathList;
-	}
+    private List<T> path(Map<T, T> pathIn, T destination) {
+        assert pathIn != null;
+        assert destination != null;
+
+        final List<T> pathList = new ArrayList<T>();
+        pathList.add(destination);
+        /*while (pathIn.containsKey(destination)) {
+            destination = pathIn.get(destination);
+            pathList.add(destination);
+        }*/
+        pathIn.forEach((k,v) -> pathList.add(v));
+        Collections.reverse(pathList);
+        return pathList;
+    }
 	
 	@Override
 	public int getBestPathLength(T init, T dest) throws InvalidParameterException {
