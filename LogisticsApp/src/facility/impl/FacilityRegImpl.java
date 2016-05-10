@@ -2,6 +2,7 @@ package facility.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import facility.helpers.FacilityNeighborHelper;
 import facility.exceptions.InvalidParameterException;
@@ -20,7 +21,7 @@ public class FacilityRegImpl implements Facility {
 	private String uniqueIdentifier;
 	private int itemsPerDay;
 	private double costPerDay;
-	private ArrayList<FacilityNeighborHelper> connectingFacilities;
+	private List<FacilityNeighborHelper> connectingFacilities;
 	private Inventory inventory;
 	private Schedule schedule;
 
@@ -105,10 +106,15 @@ public class FacilityRegImpl implements Facility {
 	}
 	
 	private ArrayList<FacilityNeighborHelper> setConnectingFacilities(ArrayList<FacilityNeighborHelper> connectsIn) throws InvalidParameterException {
+		//TODO add more validation!
 		return connectsIn;
 	}
 	
-	private void printConnectFacilities(ArrayList<FacilityNeighborHelper> connectsIn) {
+	public List<FacilityNeighborHelper> getConnectingFacilities() {
+		return connectingFacilities;
+	}
+	
+	private void printConnectFacilities(List<FacilityNeighborHelper> connectsIn) {
 		double distancePerDay = 400.00; //TODO Consider making me a constant much, much higher up the chain please
 		//Prints format like: "Detroit, MI (0.7d);"
 		

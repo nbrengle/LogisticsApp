@@ -32,7 +32,9 @@ public class FacilityService {
 			facilities = new ArrayList<>();
 			facilities.addAll( FacilityLoaderFactory.createFacilityLoader("XML").loadFacilities(filePath) );
 			facilityGraph = graphBuilder.createGraph("Dijkstra");
-			
+			for (Facility fac : facilities) {
+				for (FacilityNeighborHelper )
+			}
 			
 			facilityPathFinder = pathFinderBuilder.createPathFinder("Dijkstra", facilityGraph);
 			
