@@ -114,7 +114,8 @@ public class DijkstraPathFinder<T> implements GraphPathFinder<T>{
 		//uses overriden toString to just get name this is really fragile
 		//TODO improve this 
 		for (T elem : pathElems) { 
-			if (!elem.toString().equals(start) && !elem.toString().equals(end)) 
+			if (pathElems == null) System.out.println("Unable to Find Shortest Path between" + start + " , " + end);
+			else if (!elem.toString().equals(start) && !elem.toString().equals(end)) 
 				System.out.print(elem.toString() + "->");
 			}
 		int totalDist = pathLength;
