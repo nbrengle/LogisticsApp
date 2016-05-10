@@ -9,6 +9,7 @@ import java.util.NoSuchElementException;
 
 import facility.graph.helpers.NodeData;
 import facility.graph.interfaces.EdgeWeightedGraph;
+import item.exceptions.NoSuchItemException;
 import facility.graph.helpers.NeighborNode;
 
 /**
@@ -40,11 +41,12 @@ public class GraphDijkstra<T> implements Iterable<T>, EdgeWeightedGraph<T>{
     	nodeIdNodeData.put(nodeId, new NodeData<T>(nodeId));
     }
     
-    public void addEdge(T nodeIdFirst, T nodeIdSecond, int edgeWeight) {
-    	if (nodeIdFirst == null || nodeIdSecond == null) throw new NullPointerException("Nodes cannot be null");
+    public void addEdge(T nodeIdFirst, T nodeIdSecond, int edgeWeight) throws NoSuchItemException {
+    	if (nodeIdFirst == null || nodeIdSecond == null) 
+    		throw new NullPointerException("Nodes cannot be null");
     	
-    	if (!graph.containsKey(nodeIdFirst)) addNode(nodeIdFirst);
-    	if (!graph.containsKey(nodeIdSecond)) addNode(nodeIdSecond);
+    	if (!graph.containsKey(nodeIdFirst) || !graph.containsKey(nodeIdSecond)) 
+    		throw new NoSuchItemException("One of the two nodes is not in the graph: " + nodeIdFirst + " , " + nodeIdSecond );
     	//TODO first confirm that no such edge exists!
     	//TODO confirm that two-way edges are appropriate!
     	

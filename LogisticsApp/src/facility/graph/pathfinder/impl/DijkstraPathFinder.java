@@ -71,8 +71,8 @@ public class DijkstraPathFinder<T> implements GraphPathFinder<T>{
 					//TODO I'm putting in too many nodes right now!
 					path.put(neighbor.getNodeData().getNodeId(), nodeData.getNodeId());
 					
-					//TODO looks like a lot of extra stuff is getting put in here
-					//neighbors aren't the same objects =(
+					//TODO looks like a lot of extra stuff is getting put in here?
+
 					if (!open.contains(neighbor.getNodeData()))
 						open.add(neighbor.getNodeData());
 				}
@@ -108,22 +108,28 @@ public class DijkstraPathFinder<T> implements GraphPathFinder<T>{
 		
 		List<T> pathElems = null;
 		pathElems = findBestPath(start, end);
-		System.out.println(start + " to " + end + ":");
-		System.out.print("\t- " + start + "->");
+
 		//uses overriden toString to just get name this is really fragile
 		//TODO improve this 
-		for (T elem : pathElems) { 
-			if (pathElems == null) System.out.println("Unable to Find Shortest Path between" + start + " , " + end);
-			else if (!elem.toString().equals(start) && !elem.toString().equals(end)) 
+		if (pathElems == null) { 
+			System.out.println("Unable to Find Shortest Path between" + start + " , " + end);
+		}
+		else {
+			System.out.println(start + " to " + end + ":");
+			System.out.print("\t- " + start + "->");
+			for (T elem : pathElems) {
+				if (!elem.toString().equals(start) && !elem.toString().equals(end)) 
 				System.out.print(elem.toString() + "->");
 			}
-		int totalDist = pathLength;
-		double hoursPerDay = 8.00; //TODO consider making me a constant much higher up in the stack
-		double milesPerHour = 50.00; //TODO consider making me a constant much higher up in the stack
-		double daysNecessary = totalDist / (hoursPerDay * milesPerHour);
-		System.out.printf("%s = %,d mi%n", end, totalDist); //TODO confirm this linebreak character
-		System.out.printf("\t- %,d mi / (%.0f hours per day * %.0f mph) = %.2f days%n",
-							totalDist, hoursPerDay, milesPerHour, daysNecessary);
+			int totalDist = pathLength;
+			double hoursPerDay = 8.00; //TODO consider making me a constant much higher up in the stack
+			double milesPerHour = 50.00; //TODO consider making me a constant much higher up in the stack
+			double daysNecessary = totalDist / (hoursPerDay * milesPerHour);
+			System.out.printf("%s = %,d mi%n", end, totalDist); //TODO confirm this linebreak character
+			System.out.printf("\t- %,d mi / (%.0f hours per day * %.0f mph) = %.2f days%n",
+								totalDist, hoursPerDay, milesPerHour, daysNecessary);
+		}
 	}
+
 
 }

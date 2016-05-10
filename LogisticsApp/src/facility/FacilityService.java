@@ -10,6 +10,7 @@ import facility.graph.pathfinder.interfaces.GraphPathFinder;
 import facility.helpers.FacilityNeighborHelper;
 import facility.interfaces.Facility;
 import facility.loader.FacilityLoaderFactory;
+import item.exceptions.NoSuchItemException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,15 +18,15 @@ import java.util.List;
 public class FacilityService {
 	
 	private List<Facility> facilities;
-	private EdgeWeightedGraph<Facility> facilityGraph;
-	private GraphPathFinder<Facility> facilityPathFinder;
+	private EdgeWeightedGraph<String> facilityGraph;
+	private GraphPathFinder<String> facilityPathFinder;
 	
 	//---Singleton Constructor---
 	private volatile static FacilityService ourInstance;
 	
 	private FacilityService() {
-		GraphFactory<Facility> graphBuilder = new GraphFactory<>();
-		GraphPathFinderFactory<Facility> pathFinderBuilder = new GraphPathFinderFactory<>();
+		GraphFactory<String> graphBuilder = new GraphFactory<>();
+		GraphPathFinderFactory<String> pathFinderBuilder = new GraphPathFinderFactory<>();
 		
 		String filePath = "data/TransportNetwork.xml";
 		
@@ -33,27 +34,31 @@ public class FacilityService {
 			facilities = new ArrayList<>();
 			facilities.addAll( FacilityLoaderFactory.createFacilityLoader("XML").loadFacilities(filePath) );
 			facilityGraph = graphBuilder.createGraph("Dijkstra");
+			//Pass one to add all the nodes
 			for (Facility fac : facilities) {
-				facilityGraph.addNode(fac);
+				String facName = fac.getUniqueIdentifier();
+				facilityGraph.addNode(facName);
+			}
+			//Pass two to add the edges
+			for (Facility fac: facilities) {
 				for (FacilityNeighborHelper neighbor : fac.getConnectingFacilities()) {
-					Facility neighborFac = null;
-					//TODO do me up pretty in lambdas
-					for (Facility facPluck : facilities) {
-						if (facPluck.getUniqueIdentifier().equals(neighbor.getUniqueIdentifier()))
-							neighborFac = facPluck;
-					}
-					facilityGraph.addEdge(fac, neighborFac, neighbor.getDistance());
+					facilityGraph.addEdge(fac.getUniqueIdentifier(), neighbor.getUniqueIdentifier(), neighbor.getDistance());
 				}
 			}
 			
 			facilityPathFinder = pathFinderBuilder.createPathFinder("Dijkstra", facilityGraph);
 			
 		}
-		catch (NoSuchFacilityLoaderException | NullPointerException | NoSuchGraphException | NoSuchPathFinderException e) {
+		catch (NoSuchFacilityLoaderException | 
+				NullPointerException | 
+				NoSuchGraphException | 
+				NoSuchPathFinderException | 
+				NoSuchItemException
+				e ) {
 			e.printStackTrace();
-			}
+			} 
+		}
 
-	}
 	
 	public static FacilityService getInstance() {
 		if (ourInstance == null) {
@@ -72,13 +77,8 @@ public class FacilityService {
 	}
 
 	public void printBestPath(String start, String end) {
-		Facility startFac = null, endFac = null;
-		for (Facility facPluck : facilities) {
-			if (facPluck.getUniqueIdentifier().equals(start)) startFac = facPluck;
-			if (facPluck.getUniqueIdentifier().equals(end)) endFac = facPluck;
-		}
 		
-		facilityPathFinder.printBestPath(startFac, endFac);
+		facilityPathFinder.printBestPath(start, end);
 	}
 
 }
