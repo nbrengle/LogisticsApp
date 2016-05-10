@@ -7,6 +7,7 @@ import facility.graph.GraphFactory;
 import facility.graph.interfaces.EdgeWeightedGraph;
 import facility.graph.pathfinder.GraphPathFinderFactory;
 import facility.graph.pathfinder.interfaces.GraphPathFinder;
+import facility.helpers.FacilityNeighborHelper;
 import facility.interfaces.Facility;
 import facility.loader.FacilityLoaderFactory;
 
@@ -33,7 +34,16 @@ public class FacilityService {
 			facilities.addAll( FacilityLoaderFactory.createFacilityLoader("XML").loadFacilities(filePath) );
 			facilityGraph = graphBuilder.createGraph("Dijkstra");
 			for (Facility fac : facilities) {
-				for (FacilityNeighborHelper )
+				facilityGraph.addNode(fac);
+				for (FacilityNeighborHelper neighbor : fac.getConnectingFacilities()) {
+					Facility neighborFac = null;
+					//TODO do me up pretty in Java lambdas some day
+					for (Facility facPluck : facilities) {
+						if (facPluck.getUniqueIdentifier().equals(neighbor.getUniqueIdentifier()))
+							neighborFac = facPluck;
+					}
+					facilityGraph.addEdge(fac, neighborFac, neighbor.getDistance());
+				}
 			}
 			
 			facilityPathFinder = pathFinderBuilder.createPathFinder("Dijkstra", facilityGraph);
@@ -62,8 +72,13 @@ public class FacilityService {
 	}
 
 	public void printBestPath(String start, String end) {
+		Facility startFac = null, endFac = null;
+		for (Facility facPluck : facilities) {
+			if (facPluck.getUniqueIdentifier().equals(start)) startFac = facPluck;
+			if (facPluck.getUniqueIdentifier().equals(end)) endFac = facPluck;
+		}
 		
-		
+		facilityPathFinder.printBestPath(startFac, endFac);
 	}
 
 }

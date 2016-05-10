@@ -18,12 +18,13 @@ import facility.graph.pathfinder.interfaces.GraphPathFinder;
 
 
 /**
- * simplified from on http://codereview.stackexchange.com/questions/38376/a-search-algorithm
+ * simplified from http://codereview.stackexchange.com/questions/38376/a-search-algorithm
  */
 
 public class DijkstraPathFinder<T> implements GraphPathFinder<T>{
 
 	private GraphDijkstra<T> graph = null;
+	private int pathLength = 0;
 	
 	//TODO improve this constructor
 	public DijkstraPathFinder (GraphDijkstra<T> graphIn) {
@@ -50,6 +51,7 @@ public class DijkstraPathFinder<T> implements GraphPathFinder<T>{
 		while (!open.isEmpty()) {
 			final NodeData<T> nodeData = open.poll();
 			if (nodeData.getNodeId().equals(end)) {
+				pathLength = nodeData.getDistance();
 				return path(path, end);
 			}
 			
@@ -102,24 +104,17 @@ public class DijkstraPathFinder<T> implements GraphPathFinder<T>{
 		//	- Santa Fe, NM->St. Louis, MO->Chicago, IL = 1,329 mi 
 		//	- 1,329 mi / (8 hours per day * 50 mph) = 3.32 days
 		
-		ArrayList<NodePair> pathElems = null;
-		try {
-			pathElems = findBestPath(start, end);
-		} catch (InvalidParameterException e) {
-			e.printStackTrace();
-		}
+		List<T> pathElems = null;
+		pathElems = findBestPath(start, end);
 		System.out.println(start + " to " + end + ":");
 		System.out.print("\t- " + start + "->");
-		for (NodePair elem : pathElems) { 
-			if (!elem.getNode().equals(start) && !elem.getNode().equals(end)) 
-				System.out.print(elem.getNode() + "->");
+		//uses overriden toString to just get name this is really fragile
+		//TODO improve this 
+		for (T elem : pathElems) { 
+			if (!elem.toString().equals(start) && !elem.toString().equals(end)) 
+				System.out.print(elem.toString() + "->");
 			}
-		int totalDist = 0;
-		try {
-			totalDist = pathLength(pathElems);
-		} catch (InvalidParameterException e) {
-			e.printStackTrace();
-		}
+		int totalDist = pathLength;
 		double hoursPerDay = 8.00; //TODO consider making me a constant much higher up in the stack
 		double milesPerHour = 50.00; //TODO consider making me a constant much higher up in the stack
 		double daysNecessary = totalDist / (hoursPerDay * milesPerHour);

@@ -25,8 +25,7 @@ public class InventoryRegImpl implements Inventory {
 		if (!ItemService.getInstance().isItem(itemIn)) throw new NoSuchItemException(itemIn + "is not an item in the catalog");
 	}
 	
-	//TODO do you need me? Should I become public? 
-	private boolean hasItem(String itemTest) throws NoSuchItemException {
+	public boolean hasItem(String itemTest) throws NoSuchItemException {
 		validateItem(itemTest);
 		return active.containsKey(itemTest) || depleted.containsKey(itemTest);
 	}
@@ -36,8 +35,7 @@ public class InventoryRegImpl implements Inventory {
 		return active.containsKey(itemTest);
 	}
 	
-	//TODO do you need me? Should I become public? 
-	private boolean itemIsDepleted(String itemTest) throws NoSuchItemException {
+	public boolean itemIsDepleted(String itemTest) throws NoSuchItemException {
 		validateItem(itemTest);
 		return depleted.containsKey(itemTest);
 	}

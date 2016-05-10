@@ -134,6 +134,11 @@ public class FacilityRegImpl implements Facility {
 	private Schedule setSchedule() throws NoSuchScheduleException {
 		 return ScheduleFactory.createSchedule("Regular", itemsPerDay); 
 	}
+	
+	@Override
+	public String toString() {
+		return uniqueIdentifier;
+	}
 
 	@Override
 	public void printReport() {

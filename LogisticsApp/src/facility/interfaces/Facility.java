@@ -16,5 +16,6 @@ public interface Facility {
 	public String getUniqueIdentifier();
 	public int getItemsPerDay();
 	public double getCostPerDay();
+	public String toString();
 
 }

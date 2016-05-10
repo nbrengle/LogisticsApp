@@ -26,7 +26,6 @@ public class GraphDijkstra<T> implements Iterable<T>{
      * A map between nodeId and nodeData.
      */
     private final Map<T, NodeData<T>> nodeIdNodeData;
-
     
     public GraphDijkstra() {
     	graph = new HashMap<T, Map<NodeData<T>, Integer>>();
