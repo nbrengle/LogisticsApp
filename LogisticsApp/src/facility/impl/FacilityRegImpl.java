@@ -105,16 +105,7 @@ public class FacilityRegImpl implements Facility {
 		return InventoryFactory.createInventory("Regular", itemsIn);
 	}
 	
-	private void createConnectionsInFacilityGraph(ArrayList<FacilityNeighborHelper> connectsIn) throws InvalidParameterException {
-		for( FacilityNeighborHelper helper : connectsIn) {
-			//Facility Neighbor Helper has City, State, Distance, UniqueIdentifier
-			//TODO correct this
-			FacilityGraph.getInstance().addEdge(uniqueIdentifier, connectionIdentifier, helper.getDistance());
-		}
-	}
-	
 	private ArrayList<FacilityNeighborHelper> setConnectingFacilities(ArrayList<FacilityNeighborHelper> connectsIn) throws InvalidParameterException {
-		createConnectionsInFacilityGraph(connectsIn);
 		return connectsIn;
 	}
 	

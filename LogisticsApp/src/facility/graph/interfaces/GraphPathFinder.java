@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import facility.exceptions.InvalidParameterException;
 import facility.graph.NodePair;
 
-public interface GraphPathFinder {
+public interface GraphPathFinder<T>{
 	
-	public void printBestPath(String start, String end);
-	public int getBestPathLength(String start, String end) throws InvalidParameterException;
-	public ArrayList<NodePair> findBestPath(String start, String end) throws InvalidParameterException;
+	public void printBestPath(T start, T end);
+	public int getBestPathLength(T start, T end) throws InvalidParameterException;
+	public ArrayList<T> findBestPath(T start, T end) throws InvalidParameterException;
 }

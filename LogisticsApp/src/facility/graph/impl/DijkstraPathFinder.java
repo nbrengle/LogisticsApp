@@ -10,20 +10,23 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 
+import facility.exceptions.InvalidParameterException;
 import facility.graph.GraphDijkstra;
 import facility.graph.NeighborNode;
 import facility.graph.NodeData;
+import facility.graph.NodePair;
+import facility.graph.interfaces.GraphPathFinder;
 
 /**
- * based on http://codereview.stackexchange.com/questions/38376/a-search-algorithm
+ * simplified from on http://codereview.stackexchange.com/questions/38376/a-search-algorithm
  */
 
-public class DijkstraPathfinder<T> {
+public class DijkstraPathFinder<T> implements GraphPathFinder{
 
 	private GraphDijkstra<T> graph = null;
 	
 	//TODO improve this constructor
-	public DijkstraPathfinder (GraphDijkstra<T> graphIn) {
+	public DijkstraPathFinder (GraphDijkstra<T> graphIn) {
 		setGraph(graphIn); 
 	}
 	
@@ -32,7 +35,7 @@ public class DijkstraPathfinder<T> {
 		this.graph = graphIn;
 	}
 	
-	public List<T> dijkstra(T start, T end) {
+	public List<T> findBestPath(T start, T end) {
 		
 		final Queue<NodeData<T>> open = new PriorityQueue<NodeData<T>>();
 		
@@ -83,4 +86,44 @@ public class DijkstraPathfinder<T> {
 		Collections.reverse(pathList);
 		return pathList;
 	}
+	
+	@Override
+	public int getBestPathLength(String start, String end) throws InvalidParameterException {
+		return pathLength(findBestPath(start, end));
+	}
+	
+	//equivalent to calling findBestPath but includes a print step
+	//TODO consider re-imaging this with STREAMS!
+	@Override
+	public void printBestPath(String start, String end) {
+		//Santa Fe, NM to Chicago, IL:
+		//	- Santa Fe, NM->St. Louis, MO->Chicago, IL = 1,329 mi 
+		//	- 1,329 mi / (8 hours per day * 50 mph) = 3.32 days
+		
+		ArrayList<NodePair> pathElems = null;
+		try {
+			pathElems = findBestPath(start, end);
+		} catch (InvalidParameterException e) {
+			e.printStackTrace();
+		}
+		System.out.println(start + " to " + end + ":");
+		System.out.print("\t- " + start + "->");
+		for (NodePair elem : pathElems) { 
+			if (!elem.getNode().equals(start) && !elem.getNode().equals(end)) 
+				System.out.print(elem.getNode() + "->");
+			}
+		int totalDist = 0;
+		try {
+			totalDist = pathLength(pathElems);
+		} catch (InvalidParameterException e) {
+			e.printStackTrace();
+		}
+		double hoursPerDay = 8.00; //TODO consider making me a constant much higher up in the stack
+		double milesPerHour = 50.00; //TODO consider making me a constant much higher up in the stack
+		double daysNecessary = totalDist / (hoursPerDay * milesPerHour);
+		System.out.printf("%s = %,d mi%n", end, totalDist); //TODO confirm this linebreak character
+		System.out.printf("\t- %,d mi / (%.0f hours per day * %.0f mph) = %.2f days%n",
+							totalDist, hoursPerDay, milesPerHour, daysNecessary);
+	}
+
 }

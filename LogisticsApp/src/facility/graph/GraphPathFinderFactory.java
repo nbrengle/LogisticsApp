@@ -1,8 +1,7 @@
 package facility.graph;
 
 import facility.exceptions.NoSuchPathFinderException;
-import facility.graph.impl.FacilityGraphPathFinderImpl;
-import facility.graph.interfaces.FacilityGraphPathFinder;
+import facility.graph.interfaces.GraphPathFinder;
 
 public class GraphPathFinderFactory {
 
@@ -11,8 +10,8 @@ public class GraphPathFinderFactory {
 	private GraphPathFinderFactory() {}; // empty constructor as methods are static
 	
 	public static GraphPathFinder createPathFinder(String type) throws NoSuchPathFinderException{
-		if (type.equals("Regular")) 
-			return new FacilityGraphPathFinderImpl(); 
+		if (type.equals("Dijkstra")) 
+			return new DijkstraPathFinder(); 
 		else throw new NoSuchPathFinderException("Pathfinder type :" + type + " Does Not Exist");
 	}
 }
