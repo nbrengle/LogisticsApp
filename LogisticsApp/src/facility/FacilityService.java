@@ -44,7 +44,7 @@ public class FacilityService {
 	}
 
 	public void printBestPath(String start, String end) {
-		graph.getInstance.
+		
 		
 	}
 
