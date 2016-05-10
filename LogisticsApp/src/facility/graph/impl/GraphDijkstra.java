@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 import facility.graph.helpers.NodeData;
+import facility.graph.interfaces.EdgeWeightedGraph;
 import facility.graph.helpers.NeighborNode;
 
 /**
@@ -16,7 +17,7 @@ import facility.graph.helpers.NeighborNode;
  * @param <T>
  */
 
-public class GraphDijkstra<T> implements Iterable<T>{
+public class GraphDijkstra<T> implements Iterable<T>, EdgeWeightedGraph<T>{
 	/*
      * A map from the nodeId to outgoing edge.
      * An outgoing edge is represented as a tuple of NodeData and the edge length
