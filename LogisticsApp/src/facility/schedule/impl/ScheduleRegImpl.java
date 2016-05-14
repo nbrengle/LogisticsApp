@@ -10,15 +10,16 @@ public class ScheduleRegImpl implements Schedule {
 
 	public ScheduleRegImpl (int itemsPerDayIn) {
 		try {
-			this.itemsPerDay = setItemsPerDay(itemsPerDayIn);
+			setItemsPerDay(itemsPerDayIn);
 			this.itemsOrdered = 0;
 		}
 		catch (InvalidParameterException e) { e.printStackTrace(); }
 	}
 	
-	private int setItemsPerDay(int valIn) throws InvalidParameterException {
+	private void setItemsPerDay(int valIn) throws InvalidParameterException {
 		//this exists to do more complex validation if needed at some point
-		if (valIn > 0) return valIn;
+		if (valIn > 0) 
+			this.itemsPerDay = valIn;
 		
 		//TODO consider a more specific exception
 		else throw new InvalidParameterException(valIn + "is not a valid number of items per day for a schedule");

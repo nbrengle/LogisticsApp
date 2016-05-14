@@ -28,14 +28,14 @@ public class FacilityRegImpl implements Facility {
 	public FacilityRegImpl(String cityIn, String stateIn, int ipdIn, double cpdIn, 
 							ArrayList<FacilityNeighborHelper> connectsIn, HashMap<String, Integer> invIn) { 
 		try {
-			this.city = setCity(cityIn);
-			this.state = setState(stateIn);
-			this.uniqueIdentifier = setUniqueIdentifier(cityIn, stateIn);
-			this.itemsPerDay = setItemsPerDay(ipdIn);
-			this.costPerDay = setCostPerDay(cpdIn);
-			this.inventory = setInventory(invIn);
-			this.connectingFacilities = setConnectingFacilities(connectsIn);
-			this.schedule = setSchedule();
+			setCity(cityIn);
+			setState(stateIn);
+			setUniqueIdentifier(cityIn, stateIn);
+			setItemsPerDay(ipdIn);
+			setCostPerDay(cpdIn);
+			setInventory(invIn);
+			setConnectingFacilities(connectsIn);
+			setSchedule();
 		}
 		catch (InvalidParameterException | NoSuchInventoryException | NoSuchScheduleException e) {
 			e.printStackTrace();
@@ -49,9 +49,9 @@ public class FacilityRegImpl implements Facility {
 		return city;
 	}
 	
-	private String setCity(String name) {
+	private void setCity(String name) {
 		//consider additional necessary validation
-		return name;
+		this.city = name;
 	}
 	
 	//state;
@@ -59,9 +59,9 @@ public class FacilityRegImpl implements Facility {
 		return state;
 	}
 	
-	private String setState(String name) {
+	private void setState(String name) {
 		//consider additional validation
-		return name;
+		this.state = name;
 	}
 	
 	//uniqueIdentifier
@@ -69,9 +69,9 @@ public class FacilityRegImpl implements Facility {
 		return uniqueIdentifier;
 	}
 	
-	private String setUniqueIdentifier(String cityIn, String stateIn) {
+	private void setUniqueIdentifier(String cityIn, String stateIn) {
 		//consider additional validation
-		return String.format("%s, %s", cityIn, stateIn);
+		this.uniqueIdentifier = String.format("%s, %s", cityIn, stateIn);
 	}
 	
 	//itemsPerDay;
@@ -79,9 +79,10 @@ public class FacilityRegImpl implements Facility {
 		return this.itemsPerDay;
 	}
 	
-	private int setItemsPerDay(int valIn) throws InvalidParameterException {
-		if (valIn < 0) { throw new InvalidParameterException("ItemsPerDay must be >= 0"); }
-		return valIn;
+	private void setItemsPerDay(int valIn) throws InvalidParameterException {
+		if (valIn < 0) 
+			throw new InvalidParameterException("ItemsPerDay must be >= 0");
+		this.itemsPerDay = valIn;
 	}
 	
 	//costPerDay;
@@ -89,25 +90,29 @@ public class FacilityRegImpl implements Facility {
 		return this.costPerDay;
 	}
 	
-	private double setCostPerDay(double valIn) throws InvalidParameterException {
-		if (valIn < 0.00) { throw new InvalidParameterException("CostPerDay must be >= 0"); }
-		return valIn;
+	private void setCostPerDay(double valIn) throws InvalidParameterException {
+		//TODO consider creating a price class
+		if (valIn < 0.00)  
+			throw new InvalidParameterException("CostPerDay must be >= 0"); 
+		this.costPerDay = valIn;
 	}
 	
 	public Inventory getInventory() {
 		//this abstraction is present for other potential implementations
 		//functionally the inventory in this case is much like a public member
 		//the inventory is expected to manage its own privacy appropriately
+		
+		//TODO do not return this inventory!
 		return this.inventory;
 	}
 	
-	private Inventory setInventory(HashMap<String, Integer> itemsIn) throws NoSuchInventoryException {
-		return InventoryFactory.createInventory("Regular", itemsIn);
+	private void setInventory(HashMap<String, Integer> itemsIn) throws NoSuchInventoryException {
+		this.inventory = InventoryFactory.createInventory("Regular", itemsIn);
 	}
 	
-	private ArrayList<FacilityNeighborHelper> setConnectingFacilities(ArrayList<FacilityNeighborHelper> connectsIn) throws InvalidParameterException {
+	private void setConnectingFacilities(ArrayList<FacilityNeighborHelper> connectsIn) throws InvalidParameterException {
 		//TODO add more validation!
-		return connectsIn;
+		this.connectingFacilities = connectsIn;
 	}
 	
 	public List<FacilityNeighborHelper> getConnectingFacilities() {
@@ -128,11 +133,13 @@ public class FacilityRegImpl implements Facility {
 		//this abstraction is present for other potential implementations
 		//functionally the schedule in this case is much like a public member
 		//the schedule is expected to manage its own privacy appropriately
+		
+		//TODO do not return this schedule raw!
 		return this.schedule;
 	}
 	
-	private Schedule setSchedule() throws NoSuchScheduleException {
-		 return ScheduleFactory.createSchedule("Regular", itemsPerDay); 
+	private void setSchedule() throws NoSuchScheduleException {
+		 this.schedule = ScheduleFactory.createSchedule("Regular", itemsPerDay); 
 	}
 	
 	@Override
@@ -160,6 +167,6 @@ public class FacilityRegImpl implements Facility {
 		
 	}
 	
-	//Add the method for reporting how much data I have
+	//TODO Add the method for reporting how much data I have
 	
 }
