@@ -10,6 +10,7 @@ import facility.graph.pathfinder.interfaces.GraphPathFinder;
 import facility.helpers.FacilityNeighborHelper;
 import facility.interfaces.Facility;
 import facility.loader.FacilityLoaderFactory;
+import item.exceptions.NoSuchItemException;
 
 import java.util.ArrayList;
 import java.util.List;
