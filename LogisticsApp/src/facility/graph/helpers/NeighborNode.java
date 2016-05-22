@@ -7,14 +7,9 @@ public class NeighborNode<T> {
 	private NodeData<T> nodeData;
 	private int weight;
 	
-	public NeighborNode(T nodeIn, int weightIn) {
-		try {
+	public NeighborNode(T nodeIn, int weightIn) throws InvalidParameterException {
 			setNodeData(nodeIn);
 			setWeight(weightIn);
-		} 
-		catch (InvalidParameterException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	public NodeData<T> getNodeData() {

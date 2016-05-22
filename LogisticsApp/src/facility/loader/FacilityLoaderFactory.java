@@ -8,7 +8,7 @@ public class FacilityLoaderFactory {
 	
 	private FacilityLoaderFactory() {}; // empty constructor as methods are static
 	
-	public static FacilityLoader createFacilityLoader(String type) throws NoSuchFacilityLoaderException{
+	public static FacilityLoader createFacilityLoader(String type) throws NoSuchFacilityLoaderException {
 		if (type.equals("XML")) 
 			return new FacilityXmlLoader(); 
 		else throw new NoSuchFacilityLoaderException("FacilityLoader type :" + type + " Does Not Exist");

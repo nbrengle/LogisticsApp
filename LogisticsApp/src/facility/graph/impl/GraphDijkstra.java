@@ -9,6 +9,7 @@ import java.util.NoSuchElementException;
 
 import facility.graph.helpers.NodeData;
 import facility.graph.interfaces.EdgeWeightedGraph;
+import facility.exceptions.InvalidParameterException;
 import facility.graph.helpers.NeighborNode;
 
 /**
@@ -56,12 +57,14 @@ public class GraphDijkstra<T> implements Iterable<T>, EdgeWeightedGraph<T>{
     	if (!graph.containsKey(nodeId)) throw new NoSuchElementException(graph + " does not contain " + nodeId);
     }
     
-    public List<NeighborNode<T>> getNeighbors(T nodeId) {
-    	validateNode(nodeId);
+    
+    public List<NeighborNode<T>> getNeighbors(T nodeId) throws InvalidParameterException {
     	
     	//NodeData<T>, Integer
-    	List<NeighborNode<T>> returnList = new ArrayList<NeighborNode<T>>();
-    	graph.get(nodeId).forEach((k,v) -> returnList.add(new NeighborNode<T>(k.getNodeId(), v)));
+    	List<NeighborNode<T>> returnList = new ArrayList<>();
+    	graph.get(nodeId).forEach((k,v) -> {
+    		returnList.add(new NeighborNode(k.getNodeId(),v));
+    	});
     	
     	return returnList;
     }

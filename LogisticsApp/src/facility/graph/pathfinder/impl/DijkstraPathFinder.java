@@ -37,7 +37,7 @@ public class DijkstraPathFinder<T> implements GraphPathFinder<T>{
 	}
 	
 	@Override
-	public List<T> findBestPath(T start, T end) {
+	public List<T> findBestPath(T start, T end) throws InvalidParameterException {
 		
 		final Queue<NodeData<T>> open = new PriorityQueue<>();
 		
@@ -101,7 +101,7 @@ public class DijkstraPathFinder<T> implements GraphPathFinder<T>{
 	//equivalent to calling findBestPath but includes a print step
 	//TODO consider re-imaging this with STREAMS!
 	@Override
-	public void printBestPath(T start, T end) {
+	public void printBestPath(T start, T end) throws InvalidParameterException {
 		//Santa Fe, NM to Chicago, IL:
 		//	- Santa Fe, NM->St. Louis, MO->Chicago, IL = 1,329 mi 
 		//	- 1,329 mi / (8 hours per day * 50 mph) = 3.32 days

@@ -13,6 +13,7 @@ import facility.inventory.InventoryFactory;
 import facility.inventory.interfaces.Inventory;
 import facility.schedule.ScheduleFactory;
 import facility.schedule.interfaces.Schedule;
+import item.exceptions.NoSuchItemException;
 
 public class FacilityRegImpl implements Facility {
 	
@@ -26,8 +27,8 @@ public class FacilityRegImpl implements Facility {
 	private Schedule schedule;
 
 	public FacilityRegImpl(String cityIn, String stateIn, int ipdIn, double cpdIn, 
-							ArrayList<FacilityNeighborHelper> connectsIn, HashMap<String, Integer> invIn) { 
-		try {
+							ArrayList<FacilityNeighborHelper> connectsIn, HashMap<String, Integer> invIn) 
+							throws InvalidParameterException, NoSuchInventoryException, NoSuchScheduleException, NoSuchItemException { 
 			setCity(cityIn);
 			setState(stateIn);
 			setUniqueIdentifier(cityIn, stateIn);
@@ -36,12 +37,6 @@ public class FacilityRegImpl implements Facility {
 			setInventory(invIn);
 			setConnectingFacilities(connectsIn);
 			setSchedule();
-		}
-		catch (InvalidParameterException | NoSuchInventoryException | NoSuchScheduleException e) {
-			e.printStackTrace();
-		}
-		
-		
 	}
 
 	//city;
@@ -106,7 +101,7 @@ public class FacilityRegImpl implements Facility {
 		return this.inventory;
 	}
 	
-	private void setInventory(HashMap<String, Integer> itemsIn) throws NoSuchInventoryException {
+	private void setInventory(HashMap<String, Integer> itemsIn) throws NoSuchInventoryException, NoSuchItemException {
 		this.inventory = InventoryFactory.createInventory("Regular", itemsIn);
 	}
 	
@@ -138,7 +133,7 @@ public class FacilityRegImpl implements Facility {
 		return this.schedule;
 	}
 	
-	private void setSchedule() throws NoSuchScheduleException {
+	private void setSchedule() throws NoSuchScheduleException, InvalidParameterException {
 		 this.schedule = ScheduleFactory.createSchedule("Regular", itemsPerDay); 
 	}
 	

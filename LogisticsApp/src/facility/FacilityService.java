@@ -1,8 +1,12 @@
 package facility;
 
+import facility.exceptions.InvalidParameterException;
+import facility.exceptions.NoSuchFacilityException;
 import facility.exceptions.NoSuchFacilityLoaderException;
 import facility.exceptions.NoSuchGraphException;
+import facility.exceptions.NoSuchInventoryException;
 import facility.exceptions.NoSuchPathFinderException;
+import facility.exceptions.NoSuchScheduleException;
 import facility.graph.GraphFactory;
 import facility.graph.interfaces.EdgeWeightedGraph;
 import facility.graph.pathfinder.GraphPathFinderFactory;
@@ -10,6 +14,7 @@ import facility.graph.pathfinder.interfaces.GraphPathFinder;
 import facility.helpers.FacilityNeighborHelper;
 import facility.interfaces.Facility;
 import facility.loader.FacilityLoaderFactory;
+import item.exceptions.NoSuchItemException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +38,7 @@ public class FacilityService {
 			facilities = new ArrayList<>();
 			facilities.addAll( FacilityLoaderFactory.createFacilityLoader("XML").loadFacilities(filePath) );
 			facilityGraph = graphBuilder.createGraph("Dijkstra");
+			//TODO move this logic into the factory! Or some alternate interface, I shouldn't own this logic
 			for (Facility fac : facilities) {
 				facilityGraph.addNode(fac);
 				for (FacilityNeighborHelper neighbor : fac.getConnectingFacilities()) {
@@ -49,7 +55,17 @@ public class FacilityService {
 			facilityPathFinder = pathFinderBuilder.createPathFinder("Dijkstra", facilityGraph);
 			
 		}
-		catch (NoSuchFacilityLoaderException | NullPointerException | NoSuchGraphException | NoSuchPathFinderException e) {
+		//TODO that's a TON of exceptions -- consider re-use options and de-particularizing some of them...
+		catch (NoSuchFacilityLoaderException | 
+				NullPointerException | 
+				NoSuchGraphException | 
+				NoSuchPathFinderException | 
+				NoSuchFacilityException | 
+				InvalidParameterException | 
+				NoSuchInventoryException | 
+				NoSuchScheduleException | 
+				NoSuchItemException e) {
+			//TODO pretty sure I need you to do more here!
 			e.printStackTrace();
 			}
 
@@ -71,7 +87,7 @@ public class FacilityService {
 		for (Facility f : facilities) f.printReport();
 	}
 
-	public void printBestPath(String start, String end) {
+	public void printBestPath(String start, String end) throws InvalidParameterException {
 		Facility startFac = null, endFac = null;
 		for (Facility facPluck : facilities) {
 			if (facPluck.getUniqueIdentifier().equals(start)) startFac = facPluck;

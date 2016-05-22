@@ -1,5 +1,6 @@
 package facility.schedule.impl;
 
+//TODO consider moving me to the java.security.InvalidParameterException
 import facility.exceptions.InvalidParameterException;
 import facility.schedule.interfaces.Schedule;
 
@@ -8,12 +9,9 @@ public class ScheduleRegImpl implements Schedule {
 	private int itemsOrdered;
 	private int itemsPerDay;
 
-	public ScheduleRegImpl (int itemsPerDayIn) {
-		try {
+	public ScheduleRegImpl (int itemsPerDayIn) throws InvalidParameterException  {
 			setItemsPerDay(itemsPerDayIn);
 			this.itemsOrdered = 0;
-		}
-		catch (InvalidParameterException e) { e.printStackTrace(); }
 	}
 	
 	private void setItemsPerDay(int valIn) throws InvalidParameterException {
@@ -43,12 +41,12 @@ public class ScheduleRegImpl implements Schedule {
 	@Override
 	public void printReport(int valIn) {
 		System.out.println("Schedule:");
-		System.out.printf("%-11s\t","Date:"); //TODO confirm this creates the expected spacing
+		System.out.printf("%-11s\t","Date:"); 
 		for (int i = 1; i <= valIn; i++) {
 			System.out.printf("%2d ", i);
 		}
 		System.out.printf("%n");
-		System.out.print("Available:\t"); //TODO confirm this creates the expected spacing
+		System.out.print("Available:\t"); 
 		
 		int temp = itemsOrdered;
 		for (int i = 1; i <= valIn; i++) {

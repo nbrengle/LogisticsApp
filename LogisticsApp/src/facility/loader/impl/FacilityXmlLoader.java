@@ -2,9 +2,13 @@ package facility.loader.impl;
 
 import facility.FacilityFactory;
 import facility.helpers.FacilityNeighborHelper;
+import facility.exceptions.InvalidParameterException;
 import facility.exceptions.NoSuchFacilityException;
+import facility.exceptions.NoSuchInventoryException;
+import facility.exceptions.NoSuchScheduleException;
 import facility.interfaces.Facility;
 import facility.loader.interfaces.FacilityLoader;
+import item.exceptions.NoSuchItemException;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +27,13 @@ import org.xml.sax.SAXException;
 
 public class FacilityXmlLoader implements FacilityLoader {
 	
-	public ArrayList<Facility> loadFacilities (String inputFile){
+	public ArrayList<Facility> loadFacilities (String inputFile) 
+							throws NoSuchFacilityException, 
+								   InvalidParameterException, 
+								   NoSuchInventoryException, 
+								   NoSuchScheduleException, 
+								   NoSuchItemException, 
+								   NumberFormatException {
 		ArrayList<Facility> facilityList = new ArrayList<Facility>();
 		
 		try {
@@ -103,13 +113,8 @@ public class FacilityXmlLoader implements FacilityLoader {
 			}
 				
 				// Create an Item object loaded from the XML
-				try {
-					facilityList.add( FacilityFactory.createFacility("Regular", facCity, facState, 
+				facilityList.add( FacilityFactory.createFacility("Regular", facCity, facState, 
 										facItemsPerDay, facCostPerDay, connections, inventory) );
-				}
-				catch (NoSuchFacilityException | NullPointerException e) {
-					e.printStackTrace();
-				}
 			
 		} 
 		
