@@ -19,7 +19,7 @@ public final class ItemService {
 		try {
 			items.addAll( ItemLoaderFactory.createItemLoader("XML").loadItems(filePath) );
 		}
-		catch (NoSuchItemLoaderException e) {
+		catch (NoSuchItemLoaderException | NoSuchItemException e) {
 			e.printStackTrace();
 		}
 	}

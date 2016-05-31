@@ -17,12 +17,13 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import order.OrderFactory;
+import order.execeptions.NoSuchOrderException;
 import order.interfaces.Order;
 import order.loader.interfaces.OrderLoader;
 
 public class OrderXmlLoader implements OrderLoader {
 	
-	public ArrayList<Order> loadOrders(String inputFile) {
+	public ArrayList<Order> loadOrders(String inputFile) throws NoSuchOrderException {
 		ArrayList<Order> orderList = new ArrayList<>(); 
 		
 		try {
