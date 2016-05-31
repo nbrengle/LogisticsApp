@@ -25,6 +25,7 @@ public class FacilityService {
 	private List<Facility> facilities;
 	private EdgeWeightedGraph<Facility> facilityGraph;
 	private GraphPathFinder<Facility> facilityPathFinder;
+
 	
 	//---Singleton Constructor---
 	private volatile static FacilityService ourInstance;
@@ -96,6 +97,16 @@ public class FacilityService {
 		}
 		
 		facilityPathFinder.printBestPath(startFac, endFac);
+	}
+	
+	public void getBestPathLength(String start, String end) throws InvalidParameterException {
+		Facility startFac = null, endFac = null;
+		for (Facility facPluck : facilities) {
+			if (facPluck.getUniqueIdentifier().equals(start)) startFac = facPluck;
+			if (facPluck.getUniqueIdentifier().equals(end)) endFac = facPluck;
+		}
+		
+		facilityPathFinder.getBestPathLength(startFac, endFac);
 	}
 	
 	public ArrayList<FacilityDTO> getFacilities() {

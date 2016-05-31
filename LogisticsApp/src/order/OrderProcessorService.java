@@ -6,12 +6,15 @@ import java.util.Observable;
 import facility.FacilityService;
 import facility.DTO.FacilityDTO;
 import order.exceptions.NoSuchOrderObserverException;
+import order.interfaces.Order;
 import order.observer.OrderObserverFactory;
+import order.processor.OrderProcessorFactory;
 
 public class OrderProcessorService extends Observable {
 
 	//Singleton Facade for a Catalog of Orders
 	private volatile static OrderProcessorService ourInstance;
+	private ArrayList<OrderDTO> orders = new ArrayList<>();
 
 	private OrderProcessorService() {	
 		ArrayList<FacilityDTO> facilities = FacilityService.getInstance().getFacilities();
@@ -22,7 +25,7 @@ public class OrderProcessorService extends Observable {
 				e.printStackTrace();
 			}
 		}
-
+		orders.addAll(OrderService.getInstance().getOrders()); //TODO this needs a little thinking through
 	}
 
 	public static OrderProcessorService getInstance() {
@@ -34,4 +37,6 @@ public class OrderProcessorService extends Observable {
 		}
 		return ourInstance;
 	}
+	
+
 }
