@@ -5,6 +5,8 @@ import java.util.Observable;
 
 import facility.FacilityService;
 import facility.DTO.FacilityDTO;
+import order.exceptions.NoSuchOrderObserverException;
+import order.observer.OrderObserverFactory;
 
 public class OrderProcessorService extends Observable {
 
@@ -14,7 +16,11 @@ public class OrderProcessorService extends Observable {
 	private OrderProcessorService() {	
 		ArrayList<FacilityDTO> facilities = FacilityService.getInstance().getFacilities();
 		for (FacilityDTO f : facilities) {
-			addObserver(new OrderObserver(f));
+			try {
+				addObserver(OrderObserverFactory.createOrderObserver("Regular", f));
+			} catch (NoSuchOrderObserverException e) {
+				e.printStackTrace();
+			}
 		}
 
 	}

@@ -5,6 +5,8 @@ import order.exceptions.NoSuchOrderException;
 import order.exceptions.NoSuchOrderObserverException;
 import order.impl.OrderRegImpl;
 import order.interfaces.Order;
+import order.observer.impl.OrderObserverRegImpl;
+import order.observer.interfaces.OrderObserver;
 
 public class OrderObserverFactory {
 	//TODO optimizations include creating an abstract factory that works smarter than this
@@ -12,7 +14,7 @@ public class OrderObserverFactory {
 	private OrderObserverFactory() {}; // empty constructor as methods are static
 	
 	//OrderFactory.createOrder("Regular",orderId, startDay, destCity, destState, items)
-	public static OrderObserver createOrder(String type, FacilityDTO facility) throws NoSuchOrderObserverException {
+	public static OrderObserver createOrderObserver(String type, FacilityDTO facility) throws NoSuchOrderObserverException {
 		if (type.equals("Regular")) {
 			return new OrderObserverRegImpl(facility); 
 		}
