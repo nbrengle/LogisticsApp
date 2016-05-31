@@ -14,7 +14,7 @@ import org.xml.sax.*;
 
 public class ItemXmlLoader implements ItemLoader{
 
-	public ArrayList<Item> loadItems(String inputFile) {
+	public ArrayList<Item> loadItems(String inputFile) throws NoSuchItemException {
 		ArrayList<Item> itemList = new ArrayList<Item>(); 
 		
 		try {
@@ -49,12 +49,8 @@ public class ItemXmlLoader implements ItemLoader{
 				Double itemPrice = Double.parseDouble(elem.getElementsByTagName("Price").item(0).getTextContent());
 				
 				// Create an Item object loaded from the XML
-				try {
-					itemList.add( ItemFactory.createItem("Regular", itemName, itemPrice) );
-				}
-				catch (NoSuchItemException e) {
-					e.printStackTrace();
-				}
+				itemList.add( ItemFactory.createItem("Regular", itemName, itemPrice) );
+
 			}
 		}
 		catch (ParserConfigurationException | SAXException | IOException | DOMException e) {

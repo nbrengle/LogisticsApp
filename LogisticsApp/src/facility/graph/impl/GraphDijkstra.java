@@ -63,7 +63,7 @@ public class GraphDijkstra<T> implements Iterable<T>, EdgeWeightedGraph<T>{
     	//NodeData<T>, Integer
     	List<NeighborNode<T>> returnList = new ArrayList<>();
     	graph.get(nodeId).forEach((k,v) -> {
-    		returnList.add(new NeighborNode(k.getNodeId(),v));
+    		returnList.add(new NeighborNode<T>(k.getNodeId(),v));
     	});
     	
     	return returnList;
