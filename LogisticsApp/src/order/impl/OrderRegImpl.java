@@ -73,6 +73,8 @@ public class OrderRegImpl implements Order {
 	public HashMap<String, Integer> getItems() {
 		//TODO THIS IS ALL WRONG HUGE INFORMATION HIDING VIOLATON
 		return items;
+		//TODO fix this syntax error and the associated information hiding issue
+		/
 	}
 
 	private void setItems(HashMap<String, Integer> items) {
