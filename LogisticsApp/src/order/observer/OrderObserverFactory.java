@@ -1,10 +1,7 @@
 package order.observer;
 
 import facility.DTO.FacilityDTO;
-import order.exceptions.NoSuchOrderException;
 import order.exceptions.NoSuchOrderObserverException;
-import order.impl.OrderRegImpl;
-import order.interfaces.Order;
 import order.observer.impl.OrderObserverRegImpl;
 import order.observer.interfaces.OrderObserver;
 
@@ -18,6 +15,6 @@ public class OrderObserverFactory {
 		if (type.equals("Regular")) {
 			return new OrderObserverRegImpl(facility); 
 		}
-		else throw new NoSuchOrderException("OrderObserver type :" + type + " does Not Exist");
+		else throw new NoSuchOrderObserverException("OrderObserver type :" + type + " does Not Exist");
 	}
 }

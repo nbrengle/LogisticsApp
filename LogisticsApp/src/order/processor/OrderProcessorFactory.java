@@ -1,10 +1,8 @@
 package order.processor;
 
-import java.util.HashMap;
-
 import order.exceptions.NoSuchOrderProcessorException;
-import order.impl.OrderRegImpl;
-import order.interfaces.Order;
+import order.processor.impl.OrderProcessorRegImpl;
+import order.processor.interfaces.OrderProcessor;
 
 public class OrderProcessorFactory {
 	//TODO optimizations include creating an abstract factory that works smarter than this
