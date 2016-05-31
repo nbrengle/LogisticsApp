@@ -2,7 +2,7 @@ package order;
 
 import java.util.HashMap;
 
-import order.execeptions.NoSuchOrderException;
+import order.exceptions.NoSuchOrderException;
 import order.impl.OrderRegImpl;
 import order.interfaces.Order;
 

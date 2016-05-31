@@ -2,8 +2,8 @@ package order;
 
 import java.util.ArrayList;
 
-import order.execeptions.NoSuchOrderException;
-import order.execeptions.NoSuchOrderLoaderException;
+import order.exceptions.NoSuchOrderException;
+import order.exceptions.NoSuchOrderLoaderException;
 import order.interfaces.Order;
 import order.loader.OrderLoaderFactory;
 

@@ -1,5 +1,6 @@
 package facility;
 
+import facility.DTO.FacilityDTO;
 import facility.exceptions.InvalidParameterException;
 import facility.exceptions.NoSuchFacilityException;
 import facility.exceptions.NoSuchFacilityLoaderException;
@@ -95,6 +96,15 @@ public class FacilityService {
 		}
 		
 		facilityPathFinder.printBestPath(startFac, endFac);
+	}
+	
+	public ArrayList<FacilityDTO> getFacilities() {
+		ArrayList<FacilityDTO> returnList = new ArrayList<>();
+		for (Facility f : facilities) {
+			returnList.add(new FacilityDTO(facility.))
+		}
+		return returnList;
+		
 	}
 
 }

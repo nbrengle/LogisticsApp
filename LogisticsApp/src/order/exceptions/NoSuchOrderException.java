@@ -1,4 +1,4 @@
-package order.execeptions;
+package order.exceptions;
 
 public class NoSuchOrderException extends Exception {
 
