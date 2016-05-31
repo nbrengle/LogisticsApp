@@ -17,7 +17,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import order.OrderFactory;
-import order.execeptions.NoSuchOrderException;
+import order.exceptions.NoSuchOrderException;
 import order.interfaces.Order;
 import order.loader.interfaces.OrderLoader;
 

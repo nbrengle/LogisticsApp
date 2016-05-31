@@ -1,6 +1,6 @@
 package order.loader;
 
-import order.execeptions.NoSuchOrderLoaderException;
+import order.exceptions.NoSuchOrderLoaderException;
 import order.loader.impl.OrderXmlLoader;
 import order.loader.interfaces.OrderLoader;
 
