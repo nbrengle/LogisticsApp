@@ -3,6 +3,7 @@ package order.impl;
 import java.security.InvalidParameterException;
 import java.util.HashMap;
 
+import facility.graph.helpers.NeighborNode;
 import order.interfaces.Order;
 
 public class OrderRegImpl implements Order {
@@ -91,5 +92,29 @@ public class OrderRegImpl implements Order {
 		validateStringInput(destinationCity); 
 		validateStringInput(destinationState); 
 		this.destinationUniqueIdentifier = String.format("%s, %s", destinationCity, destinationState);
+	}
+	/*
+	----------------------------------------------------------------------------------
+	Order #1
+		Order Id: TO-001
+		Order Time: Day 1
+		Destination: Miami, FL
+		List of Order Items:
+			1) Item ID: 	ABC123, 	Quantity: 180
+			2) Item ID: 	CR2032, 	Quantity: 320
+	*/
+	
+	public void printReport(int index) {
+		System.out.println("----------------------------------------------------------------------------------");
+		System.out.printf("\tOrder #" + index);
+		System.out.printf("\tOrder Id: %s %n", id);
+		System.out.printf("\tOrder Time: Day %d %n", startDay);
+		System.out.printf("\tDestination: %s %n", destinationUniqueIdentifier);
+		System.out.printf("\tList of Order Items:%n");
+    	int i = 0; //counter for print format below. 
+		items.forEach((k,v) -> {
+    		System.out.printf("\t\t%d) Item ID:\t %s,\tQuantity: %d",i,k,v);
+    		
+    	});
 	}
 }
