@@ -2,6 +2,7 @@ package order.observer;
 
 import facility.DTO.FacilityDTO;
 import order.exceptions.NoSuchOrderObserverException;
+import order.exceptions.NoSuchOrderProcessorException;
 import order.observer.impl.OrderObserverRegImpl;
 import order.observer.interfaces.OrderObserver;
 
@@ -11,9 +12,9 @@ public class OrderObserverFactory {
 	private OrderObserverFactory() {}; // empty constructor as methods are static
 	
 	//OrderFactory.createOrder("Regular",orderId, startDay, destCity, destState, items)
-	public static OrderObserver createOrderObserver(String type, FacilityDTO facility) throws NoSuchOrderObserverException {
+	public static OrderObserver createOrderObserver(String type, FacilityDTO facility) throws NoSuchOrderObserverException, NoSuchOrderProcessorException {
 		if (type.equals("Regular")) {
-			return new OrderObserverRegImpl(facility); 
+			return new OrderObserverRegImpl(facility, "Regular"); 
 		}
 		else throw new NoSuchOrderObserverException("OrderObserver type :" + type + " does Not Exist");
 	}

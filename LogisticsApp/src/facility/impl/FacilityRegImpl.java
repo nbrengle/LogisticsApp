@@ -92,13 +92,14 @@ public class FacilityRegImpl implements Facility {
 		this.costPerDay = valIn;
 	}
 	
-	public Inventory getInventory() {
-		//this abstraction is present for other potential implementations
-		//functionally the inventory in this case is much like a public member
-		//the inventory is expected to manage its own privacy appropriately
-		
+	public HashMap<String, Integer> getActiveItems() {	
 		//TODO do not return this inventory!
-		return this.inventory;
+		return inventory.getActiveItems();
+	}
+	
+	public HashMap<String, Integer> getDepletedItems() {	
+		//TODO do not return this inventory!
+		return inventory.getDepletedItems();
 	}
 	
 	private void setInventory(HashMap<String, Integer> itemsIn) throws NoSuchInventoryException, NoSuchItemException {

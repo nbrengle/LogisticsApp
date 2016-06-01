@@ -61,11 +61,11 @@ public class GraphDijkstra<T> implements Iterable<T>, EdgeWeightedGraph<T>{
     public List<NeighborNode<T>> getNeighbors(T nodeId) throws InvalidParameterException {
     	
     	//NodeData<T>, Integer
+    	//TODO re-imagine this with Lambdas, currently Lambdas don't handle the exceptions correctly
     	List<NeighborNode<T>> returnList = new ArrayList<>();
-    	graph.get(nodeId).forEach((k,v) -> {
-    		returnList.add(new NeighborNode<T>(k.getNodeId(),v));
-    	});
-    	
+    	for (NodeData<T> k : graph.get(nodeId).keySet()){
+    		returnList.add(new NeighborNode<T>(k.getNodeId(),graph.get(nodeId).get(k)));
+    	}
     	return returnList;
     }
     

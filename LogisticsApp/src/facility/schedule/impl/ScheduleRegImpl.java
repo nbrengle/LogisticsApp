@@ -1,17 +1,20 @@
 package facility.schedule.impl;
 
-//TODO consider moving me to the java.security.InvalidParameterException
-import facility.exceptions.InvalidParameterException;
+import java.security.InvalidParameterException;
+import java.util.ArrayList;
+
 import facility.schedule.interfaces.Schedule;
 
 public class ScheduleRegImpl implements Schedule {
 
 	private int itemsOrdered;
 	private int itemsPerDay;
+	private ArrayList<Integer> itemsOnEachDay;
 
 	public ScheduleRegImpl (int itemsPerDayIn) throws InvalidParameterException  {
 			setItemsPerDay(itemsPerDayIn);
 			this.itemsOrdered = 0;
+			this.itemsOnEachDay = new ArrayList<>();
 	}
 	
 	private void setItemsPerDay(int valIn) throws InvalidParameterException {
