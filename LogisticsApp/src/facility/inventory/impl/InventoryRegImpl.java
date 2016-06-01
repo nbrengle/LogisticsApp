@@ -2,6 +2,8 @@ package facility.inventory.impl;
 
 import item.ItemService;
 import item.exceptions.NoSuchItemException;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import facility.exceptions.InvalidParameterException;
@@ -36,6 +38,18 @@ public class InventoryRegImpl implements Inventory {
 	public boolean itemIsDepleted(String itemTest) throws NoSuchItemException {
 		validateItem(itemTest);
 		return depleted.containsKey(itemTest);
+	}
+	
+	public HashMap<String, Integer> getActiveItems() {
+		HashMap<String, Integer> returnList = new HashMap<>();
+		active.forEach((k,v) -> returnList.put(k,v));
+		return returnList;
+	}
+	
+	public HashMap<String, Integer> getDepletedItems() {
+		HashMap<String, Integer> returnList = new HashMap<>();
+		depleted.forEach((k,v) -> returnList.put(k,v));
+		return returnList;
 	}
 	
 	public void consumeItem(String itemToConsume, int quantityToConsume) throws NoSuchItemException, InvalidParameterException {
