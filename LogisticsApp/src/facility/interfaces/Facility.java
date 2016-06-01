@@ -18,4 +18,7 @@ public interface Facility {
 	public double getCostPerDay();
 	public String toString();
 
+	public int getDayOrderWillComplete(int startDay, int itemsInBatch);
+	public void scheduleItems(int startDay, int itemsInBatch);
+
 }

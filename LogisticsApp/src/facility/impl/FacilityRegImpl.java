@@ -142,7 +142,17 @@ public class FacilityRegImpl implements Facility {
 	public String toString() {
 		return uniqueIdentifier;
 	}
+	
+	@Override
+	public int getDayOrderWillComplete(int startDay, int itemsInBatch) {
+		return schedule.getDayOrderWillComplete(startDay, itemsInBatch);
+	}
 
+	@Override
+	public void scheduleItems(int startDay, int itemsInBatch) {
+		schedule.scheduleItems(startDay, itemsInBatch);
+	}
+	
 	@Override
 	public void printReport() {
 		System.out.println("---------------------------------------------------------------------------------");
@@ -162,7 +172,5 @@ public class FacilityRegImpl implements Facility {
 		System.out.println("---------------------------------------------------------------------------------");
 		
 	}
-	
-	//TODO Add the method for reporting how much data I have
 	
 }

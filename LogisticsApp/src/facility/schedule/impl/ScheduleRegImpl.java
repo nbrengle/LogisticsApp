@@ -38,6 +38,25 @@ public class ScheduleRegImpl implements Schedule {
 		return dayComplete;
 	}
 	
+	@Override
+	public void scheduleItems(int startDay, int itemsInBatch) {
+		int temp = itemsInBatch, tempStart = startDay;
+		if (itemsConsumedEachDay.get(startDay) > 0) {
+			tempStart++;
+			temp = temp - itemsConsumedEachDay.get(startDay);
+		}
+		//TODO Off by one error? 
+		for (int i = tempStart; i < itemsConsumedEachDay.size(); i++){
+			if (temp > itemsPerDay) {
+				itemsConsumedEachDay.set(i, itemsPerDay);
+				temp = temp - itemsPerDay;
+			}
+			else if ( 0 < temp && temp < itemsPerDay) {
+				itemsConsumedEachDay.set(i, temp);
+			}
+		}
+	}
+	
 	//method for adding items to the schedule
 	public void scheduleBatch(int itemsInBatch) {
 		

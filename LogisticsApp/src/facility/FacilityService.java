@@ -109,6 +109,18 @@ public class FacilityService {
 		facilityPathFinder.getBestPathLength(startFac, endFac);
 	}
 	
+	public int getDayOrderWillComplete(String facName, int startDay, int itemsInBatch) {
+		Facility fac = null;
+		for (Facility facPluck : facilities) {
+			if (facPluck.getUniqueIdentifier().equals(facName)) fac = facPluck;
+		}
+		return fac.getDayOrderWillComplete(startDay, itemsInBatch);
+	}
+	
+	public void commitOrder(String facName, int startDay, int itemsInBatch) {
+		scheduleItems(String facName, int startDay, int itemsInBatch);
+	}
+	
 	public ArrayList<FacilityDTO> getFacilities() {
 		ArrayList<FacilityDTO> returnList = new ArrayList<>();
 		for (Facility f : facilities) {
