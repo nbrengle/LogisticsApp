@@ -1,7 +1,6 @@
 package facility;
 
 import facility.DTO.FacilityDTO;
-import facility.exceptions.InvalidParameterException;
 import facility.exceptions.NoSuchFacilityException;
 import facility.exceptions.NoSuchFacilityLoaderException;
 import facility.exceptions.NoSuchGraphException;
@@ -17,6 +16,7 @@ import facility.interfaces.Facility;
 import facility.loader.FacilityLoaderFactory;
 import item.exceptions.NoSuchItemException;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,9 +37,10 @@ public class FacilityService {
 		
 		String filePath = "data/TransportNetwork.xml";
 		
-		try {
 			facilities = new ArrayList<>();
-			facilities.addAll( FacilityLoaderFactory.createFacilityLoader("XML").loadFacilities(filePath) );
+			try {
+				facilities.addAll( FacilityLoaderFactory.createFacilityLoader("XML").loadFacilities(filePath) );
+		
 			facilityGraph = graphBuilder.createGraph("Dijkstra");
 			//TODO move this logic into the factory! Or some alternate interface, I shouldn't own this logic
 			for (Facility fac : facilities) {
@@ -56,20 +57,16 @@ public class FacilityService {
 			}
 			
 			facilityPathFinder = pathFinderBuilder.createPathFinder("Dijkstra", facilityGraph);
-			
-		}
-		//TODO that's a TON of exceptions -- consider re-use options and de-particularizing some of them...
-		catch (NoSuchFacilityLoaderException | 
-				NullPointerException | 
-				NoSuchGraphException | 
-				NoSuchPathFinderException | 
-				NoSuchFacilityException | 
-				InvalidParameterException | 
-				NoSuchInventoryException | 
-				NoSuchScheduleException | 
-				NoSuchItemException e) {
-			//TODO pretty sure I need you to do more here!
-			e.printStackTrace();
+			} catch (InvalidParameterException | 
+					 NoSuchFacilityException | 
+					 NoSuchInventoryException | 
+					 NoSuchScheduleException | 
+					 NoSuchItemException | 
+					 NoSuchFacilityLoaderException | 
+					 NoSuchGraphException | 
+					 NoSuchPathFinderException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 
 	}
@@ -100,14 +97,14 @@ public class FacilityService {
 		facilityPathFinder.printBestPath(startFac, endFac);
 	}
 	
-	public void getBestPathLength(String start, String end) throws InvalidParameterException {
+	public int getBestPathLength(String start, String end) throws InvalidParameterException {
 		Facility startFac = null, endFac = null;
 		for (Facility facPluck : facilities) {
 			if (facPluck.getUniqueIdentifier().equals(start)) startFac = facPluck;
 			if (facPluck.getUniqueIdentifier().equals(end)) endFac = facPluck;
 		}
 		
-		facilityPathFinder.getBestPathLength(startFac, endFac);
+		return facilityPathFinder.getBestPathLength(startFac, endFac);
 	}
 	
 	public int getDayOrderWillComplete(String facName, int startDay, int itemsInBatch) {

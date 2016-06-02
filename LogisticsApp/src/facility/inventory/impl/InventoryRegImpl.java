@@ -5,7 +5,7 @@ import item.exceptions.NoSuchItemException;
 
 import java.util.HashMap;
 
-import facility.exceptions.InvalidParameterException;
+import java.security.InvalidParameterException;
 import facility.inventory.interfaces.Inventory;
 
 public class InventoryRegImpl implements Inventory {

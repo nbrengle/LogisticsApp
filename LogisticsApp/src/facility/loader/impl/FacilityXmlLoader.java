@@ -2,7 +2,6 @@ package facility.loader.impl;
 
 import facility.FacilityFactory;
 import facility.helpers.FacilityNeighborHelper;
-import facility.exceptions.InvalidParameterException;
 import facility.exceptions.NoSuchFacilityException;
 import facility.exceptions.NoSuchInventoryException;
 import facility.exceptions.NoSuchScheduleException;
@@ -12,6 +11,7 @@ import item.exceptions.NoSuchItemException;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.xml.parsers.DocumentBuilder;

@@ -1,6 +1,6 @@
 package facility.graph.helpers;
 
-import facility.exceptions.InvalidParameterException;
+import java.security.InvalidParameterException;
 
 public class NeighborNode<T> {
 	

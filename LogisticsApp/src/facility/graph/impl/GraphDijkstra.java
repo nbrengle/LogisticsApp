@@ -6,10 +6,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.security.InvalidParameterException;
 
 import facility.graph.helpers.NodeData;
 import facility.graph.interfaces.EdgeWeightedGraph;
-import facility.exceptions.InvalidParameterException;
 import facility.graph.helpers.NeighborNode;
 
 /**

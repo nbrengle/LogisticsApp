@@ -2,7 +2,7 @@ package facility.graph.interfaces;
 
 import java.util.List;
 
-import facility.exceptions.InvalidParameterException;
+import java.security.InvalidParameterException;
 import facility.graph.helpers.NeighborNode;
 
 public interface EdgeWeightedGraph<T> {

@@ -1,10 +1,10 @@
 package facility;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import facility.helpers.FacilityNeighborHelper;
-import facility.exceptions.InvalidParameterException;
 import facility.exceptions.NoSuchFacilityException;
 import facility.exceptions.NoSuchInventoryException;
 import facility.exceptions.NoSuchScheduleException;

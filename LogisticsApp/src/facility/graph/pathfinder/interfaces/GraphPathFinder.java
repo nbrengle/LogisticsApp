@@ -2,7 +2,7 @@ package facility.graph.pathfinder.interfaces;
 
 import java.util.List;
 
-import facility.exceptions.InvalidParameterException;
+import java.security.InvalidParameterException;
 
 public interface GraphPathFinder<T>{
 	

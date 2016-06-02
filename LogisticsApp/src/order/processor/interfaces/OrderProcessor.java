@@ -1,6 +1,9 @@
 package order.processor.interfaces;
 
+import order.DTO.QuoteDTO;
+
 public interface OrderProcessor {
 
-	//TODO empty interface is nonsensical
+	QuoteDTO getQuote();
+
 }

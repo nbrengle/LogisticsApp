@@ -1,6 +1,6 @@
 package facility.schedule;
 
-import facility.exceptions.InvalidParameterException;
+import java.security.InvalidParameterException;
 import facility.exceptions.NoSuchScheduleException;
 import facility.schedule.impl.ScheduleRegImpl;
 import facility.schedule.interfaces.Schedule;

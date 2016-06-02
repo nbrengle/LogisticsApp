@@ -5,10 +5,10 @@ import java.util.Observable;
 
 import facility.FacilityService;
 import facility.DTO.FacilityDTO;
+import order.DTO.OrderDTO;
 import order.exceptions.NoSuchOrderObserverException;
-import order.interfaces.Order;
+import order.exceptions.NoSuchOrderProcessorException;
 import order.observer.OrderObserverFactory;
-import order.processor.OrderProcessorFactory;
 
 public class OrderProcessorService extends Observable {
 
@@ -20,10 +20,10 @@ public class OrderProcessorService extends Observable {
 		ArrayList<FacilityDTO> facilities = FacilityService.getInstance().getFacilities();
 		for (FacilityDTO f : facilities) {
 			try {
-				addObserver(OrderObserverFactory.createOrderObserver("Regular", f));
-			} catch (NoSuchOrderObserverException e) {
+				OrderObserverFactory.createOrderObserver("Regular", this, f);
+			} catch (NoSuchOrderObserverException | NoSuchOrderProcessorException e) {
 				e.printStackTrace();
-			}
+			} 
 		}
 		orders.addAll(OrderService.getInstance().getOrders()); //TODO this needs a little thinking through
 	}

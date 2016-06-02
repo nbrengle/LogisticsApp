@@ -1,5 +1,6 @@
 package facility.graph.pathfinder.impl;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,7 +11,6 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 
-import facility.exceptions.InvalidParameterException;
 import facility.graph.helpers.NeighborNode;
 import facility.graph.helpers.NodeData;
 import facility.graph.impl.GraphDijkstra;

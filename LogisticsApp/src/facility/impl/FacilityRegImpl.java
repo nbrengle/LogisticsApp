@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import facility.helpers.FacilityNeighborHelper;
-import facility.exceptions.InvalidParameterException;
+import java.security.InvalidParameterException;
 import facility.exceptions.NoSuchInventoryException;
 import facility.exceptions.NoSuchScheduleException;
 import facility.interfaces.Facility;
