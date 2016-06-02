@@ -14,6 +14,7 @@ import facility.inventory.interfaces.Inventory;
 import facility.schedule.ScheduleFactory;
 import facility.schedule.interfaces.Schedule;
 import item.exceptions.NoSuchItemException;
+import order.DTO.QuoteDTO;
 
 public class FacilityRegImpl implements Facility {
 	
@@ -145,10 +146,23 @@ public class FacilityRegImpl implements Facility {
 	public int getDayOrderWillComplete(int startDay, int itemsInBatch) {
 		return schedule.getDayOrderWillComplete(startDay, itemsInBatch);
 	}
-
+	
+	//These are what I actually need back from the Quote!
+	//Source: Norfolk, VA
+	//Number of Items: 50
+	//Processing End Day: 5
+	//Travel Time: 4d
+	//Arrival Day: 9
+	
 	@Override
-	public void scheduleItems(int startDay, int itemsInBatch) {
-		schedule.scheduleItems(startDay, itemsInBatch);
+	public void commitQuote(QuoteDTO quote) throws InvalidParameterException, NoSuchItemException {
+		//Reduce the inventory of the item at that facility by the number of items taken
+		inventory.consumeItem(quote.getItemName(), quote.getNumItems());
+		//Reduce the quantity of the item that is needed for the order by the amount taken from the selected facility
+		//Update the schedule of the selected site (book the days needed to process the items)
+		//Save this as part of your solution
+		//Get fresh data from the facility!
+		
 	}
 	
 	@Override
@@ -170,5 +184,7 @@ public class FacilityRegImpl implements Facility {
 		System.out.println("---------------------------------------------------------------------------------");
 		
 	}
+
+
 	
 }
