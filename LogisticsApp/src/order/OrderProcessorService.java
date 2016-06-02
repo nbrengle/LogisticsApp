@@ -93,7 +93,7 @@ public class OrderProcessorService extends Observable {
 	//Step 7: Generate the complete logistics record for this order-item (your set of solutions from step 4).
 	//Step 8: If there are more items to process in this order, go back and repeat this process from step 1 with the next item
 
-	
+	//TODO this is a nightmare function, it ought to be broken into much smaller pieces!
 	public void printOrderReport() {
 		//Step1
 		for (OrderDTO order : orders) {
@@ -122,6 +122,22 @@ public class OrderProcessorService extends Observable {
 			});
 			OrderService.getInstance().printOrderReport(order.getId(),index);
 			index ++;
+			double totalCost = 0;
+			for (OrderItemSolution sol : OrderSolution){
+				totalCost += sol.getTotalPrice();
+			}
+			int firstDelivery = 0;
+			//TODO Get the Earliest Delivery
+			
+			int lastDelivery = 0;
+			//TODO Get the Latest Delivery
+			
+			System.out.println("Processing Solution:");
+			System.out.printf("\tTotal Cost:\t\t$%,.0f%n", totalCost);
+			System.out.printf("\t1st Delivery Day: %d%n", firstDelivery);
+			System.out.printf("\tLast Delivery Day:\t%d%n", lastDelivery);
+			System.out.printf("\tOrder Items:%n");
+			System.out.printf("\t\tItem ID\tQuantity\t\tCost\t\t# Sources Used\tFirst Day\tLastDay%n");
 		}
 	}
 	
