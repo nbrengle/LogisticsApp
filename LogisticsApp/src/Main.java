@@ -1,4 +1,5 @@
 import facility.FacilityService;
+import order.OrderProcessorService;
 
 public class Main {
 	
@@ -13,7 +14,9 @@ public class Main {
 
 		printFacilityReport();
 		System.out.println("");
-		
+		printOrderReport();
+		System.out.println("");
+		printFacilityReport();
 	}
 
 }
