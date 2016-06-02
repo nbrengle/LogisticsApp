@@ -16,12 +16,12 @@ public class OrderProcessorRegImpl implements OrderProcessor {
 	private FacilityDTO facility;
 	private OrderDTO order;
 	
-	public OrderProcessorRegImpl(FacilityDTO facilityIn, OrderDTO orderIn) {
+	public OrderProcessorRegImpl(FacilityDTO facilityIn) {
 		setFacility(facilityIn);
-		setOrder(orderIn);
 	}
 	
-	private void setOrder(OrderDTO orderIn) {
+	@Override
+	public void setOrder(OrderDTO orderIn) {
 		if (orderIn.equals(null)) {throw new NullPointerException("OrderProcessor Cannot Have a Null Order");}
 		this.order = orderIn;
 	}

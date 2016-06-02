@@ -78,8 +78,15 @@ public class ScheduleRegImpl implements Schedule {
 	 * 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10
 	 */
 	
+	private void fillConsumed (int valIn) {
+		if (itemsConsumedEachDay.size() < valIn) {
+			for (int i = 0 ; i < valIn +1; i++) itemsConsumedEachDay.add(0);
+		}
+	}
+	
 	@Override
 	public void printReport(int valIn) {
+		fillConsumed(valIn);
 		System.out.println("Schedule:");
 		System.out.printf("%-11s\t","Day:"); 
 		for (int i = 1; i <= valIn; i++) {

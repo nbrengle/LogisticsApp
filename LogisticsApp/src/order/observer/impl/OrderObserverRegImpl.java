@@ -35,6 +35,7 @@ public class OrderObserverRegImpl implements OrderObserver {
 		String target = helper.getTarget();
 		if (facility.getActiveItems().containsKey(target)) {
 			updateFacilityData();
+			processor.setOrder(order);
 			OrderProcessorService.getInstance().addQuote(getQuote(target));
 		}
 	}
@@ -71,8 +72,7 @@ public class OrderObserverRegImpl implements OrderObserver {
 		if (processorType.equals(null)) {throw new NullPointerException("OrderObservers Cannot Have a Null Processor");}
 		this.processor = OrderProcessorFactory.createOrderProcessor("Regular",
 																	//TODO is this an information hiding issue? 
-																	facility,
-																	order);
+																	facility);
 	}
 
 	

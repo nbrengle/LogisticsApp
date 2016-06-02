@@ -1,7 +1,6 @@
 package order.processor;
 
 import facility.DTO.FacilityDTO;
-import order.DTO.OrderDTO;
 import order.exceptions.NoSuchOrderProcessorException;
 import order.processor.impl.OrderProcessorRegImpl;
 import order.processor.interfaces.OrderProcessor;
@@ -13,11 +12,10 @@ public class OrderProcessorFactory {
 	
 	//OrderFactory.createOrder("Regular",orderId, startDay, destCity, destState, items)
 	public static OrderProcessor createOrderProcessor(String type,
-													  FacilityDTO facility,
-													  OrderDTO order
+													  FacilityDTO facility
 													  ) throws NoSuchOrderProcessorException {
 		if (type.equals("Regular")) {
-			return new OrderProcessorRegImpl(facility, order); 
+			return new OrderProcessorRegImpl(facility); 
 		}
 		else throw new NoSuchOrderProcessorException("OrderProcessor type :" + type + " does Not Exist");
 	}
