@@ -16,8 +16,6 @@ public class OrderProcessorRegImpl implements OrderProcessor {
 	private FacilityDTO facility;
 	private OrderDTO order;
 	
-
-	
 	public OrderProcessorRegImpl(FacilityDTO facilityIn, OrderDTO orderIn) {
 		setFacility(facilityIn);
 		setOrder(orderIn);
@@ -34,20 +32,24 @@ public class OrderProcessorRegImpl implements OrderProcessor {
 	}
 
 	@Override
-	public QuoteDTO getQuote() throws InvalidParameterException {
-	//a) Calculate the shortest path (in days) from the facility to the destination.
+	public QuoteDTO getQuote(String targetItem) throws InvalidParameterException {
+		if (targetItem.equals(null)) {throw new NullPointerException("OrderProcessor Cannot Have a Null targetItem");}
+		if (targetItem.equals("")) {throw new InvalidParameterException("OrderProcessor Cannot Have an Empty targetItem");}
+		
+		//a) Calculate the shortest path (in days) from the facility to the destination.
 		int distance = FacilityService.getInstance().getBestPathLength(facility.getUniqueIdentifier(), 
 																	   order.getDestinationUniqueIdentifier());
 		
-	//b) Determine the days needed to process the items located at the facility.
-		int daysNecessary = (int) Math.ceil((order.getItems().size() / facility.getItemsPerDay()));
+		//b) Determine the days needed to process the items located at the facility.
+		int itemQuantity = order.getItems().get(targetItem);
+		int daysNecessary = (int) Math.ceil((itemQuantity / facility.getItemsPerDay()));
 		int endDay = order.getStartDay() + daysNecessary;
 		
-	//c) Add the travel time to the previously calculated processing end day to generate the “Arrival Day”
+		//c) Add the travel time to the previously calculated processing end day to generate the “Arrival Day”
 		int travelTime = (int) Math.ceil(distance / (AVERAGE_MILES_PER_HOUR * DRIVING_HOURS_PER_DAY));
 		int arrivalDay = order.getStartDay() + travelTime;
 		
-	//d) Save this information as a Facility Record (described later) – a potential solution
+		//d) Save this information as a Facility Record (described later) – a potential solution
 		
 		//These are what I actually need back from the Quote!
 		//Source: Norfolk, VA
@@ -57,9 +59,8 @@ public class OrderProcessorRegImpl implements OrderProcessor {
 		//Arrival Day: 9
 		
 		String name = facility.getUniqueIdentifier();
-		int numItems = order.getItems().size();
 		
-		return new QuoteDTO(name, numItems, endDay, travelTime, arrivalDay);
+		return new QuoteDTO(name, itemQuantity, endDay, travelTime, arrivalDay);
 		
 		
 	}

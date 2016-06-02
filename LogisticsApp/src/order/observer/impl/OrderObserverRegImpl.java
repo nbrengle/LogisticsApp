@@ -29,13 +29,14 @@ public class OrderObserverRegImpl implements OrderObserver {
 	public void update(Observable o, Object arg) {
 		ObserverHelper helper = (ObserverHelper) arg; //make sure this case works, it scares me
 		setOrder(helper.getOrder());
-		if (facility.getActiveItems().containsKey(helper.getTarget())) {
-			getQuote();
+		String target = helper.getTarget();
+		if (facility.getActiveItems().containsKey(target)) {
+			getQuote(target);
 		}
 	}
 	
-	public QuoteDTO getQuote() {
-		return processor.getQuote();
+	public QuoteDTO getQuote(String targetItem) {
+		return processor.getQuote(targetItem);
 	}
 	
 	private void setSubject(Observable subjectIn) {
