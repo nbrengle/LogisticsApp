@@ -1,10 +1,12 @@
 package facility.interfaces;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import facility.helpers.FacilityNeighborHelper;
+import item.exceptions.NoSuchItemException;
 import order.DTO.QuoteDTO;
 
 public interface Facility {
@@ -21,6 +23,6 @@ public interface Facility {
 	public int getDayOrderWillComplete(int startDay, int itemsInBatch);
 	public HashMap<String, Integer> getActiveItems();
 	public HashMap<String, Integer> getDepletedItems();
-	public void commitQuote(QuoteDTO quote);
+	public void commitQuote(QuoteDTO quote) throws InvalidParameterException, NoSuchItemException;
 
 }
