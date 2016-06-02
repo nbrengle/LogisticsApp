@@ -133,6 +133,15 @@ public class FacilityService {
 
 	}
 	
+	public double getFacilityCostPerDay(String facName) {
+		for (Facility facPluck : facilities) {
+			if (facPluck.getUniqueIdentifier().equals(facName)) {
+				return facPluck.getCostPerDay();
+			}
+		}
+		return -1.0;
+	}
+	
 	public ArrayList<FacilityDTO> getFacilities() {
 		ArrayList<FacilityDTO> returnList = new ArrayList<>();
 		for (Facility f : facilities) {

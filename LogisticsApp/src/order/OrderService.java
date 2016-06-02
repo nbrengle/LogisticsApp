@@ -48,4 +48,12 @@ public class OrderService {
 		return returnList;
 	}
 	
+	public void printOrderReport(String targetOrderId, int index) {
+		for(Order order : orders) {
+			if (order.getId().equals(targetOrderId)) {
+				order.printReport(index);
+			}
+		}
+	}
+	
 }

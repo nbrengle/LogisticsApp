@@ -1,7 +1,9 @@
 package order.observer.impl;
 
+import java.util.ArrayList;
 import java.util.Observable;
 
+import facility.FacilityService;
 import facility.DTO.FacilityDTO;
 import order.OrderProcessorService;
 import order.DTO.OrderDTO;
@@ -32,7 +34,17 @@ public class OrderObserverRegImpl implements OrderObserver {
 		setOrder(helper.getOrder());
 		String target = helper.getTarget();
 		if (facility.getActiveItems().containsKey(target)) {
+			updateFacilityData();
 			OrderProcessorService.getInstance().addQuote(getQuote(target));
+		}
+	}
+	
+	private void updateFacilityData() {
+		ArrayList<FacilityDTO> facilities = FacilityService.getInstance().getFacilities();
+		for (FacilityDTO f : facilities) {
+			if (f.getUniqueIdentifier().equals(facility.getUniqueIdentifier())) {
+				setFacility(f);
+			}
 		}
 	}
 	

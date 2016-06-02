@@ -11,4 +11,5 @@ public interface Order {
 	public String getDestinationUniqueIdentifier();
 	//TODO I'm bad! such a bad method, fix me!
 	public HashMap<String, Integer> getItems();
+	void printReport(int index);
 }

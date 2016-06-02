@@ -102,6 +102,7 @@ public class OrderRegImpl implements Order {
 			2) Item ID: 	CR2032, 	Quantity: 320
 	*/
 	
+	@Override
 	public void printReport(int index) {
 		System.out.println("----------------------------------------------------------------------------------");
 		System.out.printf("\tOrder #" + index);

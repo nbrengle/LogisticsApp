@@ -9,12 +9,15 @@ import java.security.InvalidParameterException;
 
 import facility.FacilityService;
 import facility.DTO.FacilityDTO;
+import item.ItemService;
+import item.exceptions.InvalidPriceException;
 import item.exceptions.NoSuchItemException;
 import order.DTO.OrderDTO;
 import order.DTO.QuoteDTO;
 import order.exceptions.NoSuchOrderObserverException;
 import order.exceptions.NoSuchOrderProcessorException;
 import order.helpers.ObserverHelper;
+import order.helpers.OrderItemSolution;
 import order.observer.OrderObserverFactory;
 
 
@@ -24,6 +27,7 @@ public class OrderProcessorService extends Observable {
 	private volatile static OrderProcessorService ourInstance;
 	private List<OrderDTO> orders = new ArrayList<>();
 	private List<QuoteDTO> quotes = new ArrayList<>();
+
 
 	private OrderProcessorService() {	
 		ArrayList<FacilityDTO> facilities = FacilityService.getInstance().getFacilities();
@@ -70,33 +74,59 @@ public class OrderProcessorService extends Observable {
 	}
 	
 	//Save this as part of your solution
-	//Get fresh data from the facility!
+
 
 	//Step 5: If there is still more quantity of the item needed, go back to step 4 and continue the process. 
 	//Step 6: Compute the total cost of this item.
 	//The logistics costs of an Order Item consist of: (Total Item Cost + Total Facility Processing Cost + Total Transport Cost)
+	private double calcQuotePrice (QuoteDTO quote) throws NoSuchItemException, InvalidPriceException {
+		double returnPrice = 0;
+		double unitPrice = ItemService.getInstance().getPrice(quote.getItemName());
+		double toalItemPrice = unitPrice * quote.getNumItems();
+		double facCostPerDay = FacilityService.getInstance().getFacilityCostPerDay(quote.getSource());
+		int daysNecessary = quote.getEndDay() - quote.getStartDay();
+		double totalProcessingPrice = facCostPerDay * daysNecessary; //TODO this might need to become partial days 
+		double totalTravelPrice = quote.getTravelTime() * 500; //TODO that 500 should be a CONST! No magic numbers. 
+		returnPrice = toalItemPrice + totalProcessingPrice + totalTravelPrice;
+		return returnPrice;
+	}
 	//Step 7: Generate the complete logistics record for this order-item (your set of solutions from step 4).
 	//Step 8: If there are more items to process in this order, go back and repeat this process from step 1 with the next item
-	//Step 9: Generate output. 
-	// Order Report Info + this info:
+
 	
 	public void printOrderReport() {
 		//Step1
 		for (OrderDTO order : orders) {
+			int index = 1;
+			List<OrderItemSolution> OrderSolution = new ArrayList<>();
 			order.getItems().forEach((item,quantity) -> {
-				int tempItemsNeeded = quantity;
-				notifyOrderObservers(order,item);
-				//Step 3: Sort the (4) records developed in step “2d” above by earliest (lowest) Arrival Day
-				quotes.sort(comparingInt(quote -> quote.getArrivalDay()));
-				//Step 4
-				QuoteDTO bestQuote = quotes.get(0);
-				commitQuote(bestQuote);
-				//Reduce the quantity of the item that is needed for the order by the amount taken from the selected facility
-				tempItemsNeeded -= bestQuote.getNumItems();
-				
+				quotes.clear(); //Make sure quotes are empty each pass through the loop
+				OrderItemSolution itemSolutions = new OrderItemSolution();
+				int tempItemsNeeded = quantity;	
+				while (tempItemsNeeded > 0) {				
+					notifyOrderObservers(order,item);
+					//Step 3: Sort the (4) records developed in step “2d” above by earliest (lowest) Arrival Day
+					quotes.sort(comparingInt(quote -> quote.getArrivalDay()));
+					//Step 4
+					QuoteDTO bestQuote = quotes.get(0);
+					commitQuote(bestQuote);
+					try {
+						itemSolutions.addSolution(bestQuote, calcQuotePrice(bestQuote));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					//Reduce the quantity of the item that is needed for the order by the amount taken from the selected facility
+					tempItemsNeeded -= bestQuote.getNumItems();
+				}
+				OrderSolution.add(itemSolutions);
 			});
+			OrderService.getInstance().printOrderReport(order.getId(),index);
+			index ++;
 		}
 	}
+	
+	//Step 9: Generate output. 
+	// Order Report Info + this info:
 	/*
 	 * 	Processing Solution:
 			Total Cost: 	  $94,355
