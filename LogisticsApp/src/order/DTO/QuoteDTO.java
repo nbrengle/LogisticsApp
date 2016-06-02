@@ -3,10 +3,12 @@ package order.DTO;
 import java.security.InvalidParameterException;
 
 import facility.FacilityService;
+import item.ItemService;
 
 public class QuoteDTO {
 
 	private String source;
+	private String itemName;
 	private int numItems; 
 	private int endDay;
 	private int travelTime; 
@@ -14,17 +16,20 @@ public class QuoteDTO {
 	
 	//These are what I actually need back from the Quote!
 	//Source: Norfolk, VA
+	//Target Item : ItemID
 	//Number of Items: 50
 	//Processing End Day: 5
 	//Travel Time: 4d
 	//Arrival Day: 9
 	
 	public QuoteDTO(String source, 
+					String itemName,
 					int numItems, 
 					int endDay, 
 					int travelTime, 
 					int arrivalDay) {
 		setSource(source);
+		setItemName(itemName);
 		setNumItems(numItems);
 		setEndDay(endDay);
 		setTravelTime(travelTime);
@@ -75,5 +80,15 @@ public class QuoteDTO {
 		if (source.equals(null)) throw new NullPointerException("Source cannot be null");
 		if (!FacilityService.getInstance().isFacility(source)) throw new InvalidParameterException("Sources, must be facilities");
 		this.source = source;
+	}
+	
+	public String getItemName() {
+		return itemName;
+	}
+
+	private void setItemName(String itemName) {
+		if (itemName.equals(null)) throw new NullPointerException("itemName cannot be null");
+		if (!ItemService.getInstance().isItem(itemName)) throw new InvalidParameterException("Sources, must be facilities");
+		this.itemName = itemName;
 	}
 }

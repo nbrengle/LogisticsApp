@@ -1,7 +1,9 @@
 package order;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
+import static java.util.Comparator.comparingInt;
 
 import facility.FacilityService;
 import facility.DTO.FacilityDTO;
@@ -12,12 +14,13 @@ import order.exceptions.NoSuchOrderProcessorException;
 import order.helpers.ObserverHelper;
 import order.observer.OrderObserverFactory;
 
+
 public class OrderProcessorService extends Observable {
 
 	//Singleton Facade for Order Processing
 	private volatile static OrderProcessorService ourInstance;
-	private ArrayList<OrderDTO> orders = new ArrayList<>();
-	private ArrayList<QuoteDTO> quotes = new ArrayList<>();
+	private List<OrderDTO> orders = new ArrayList<>();
+	private List<QuoteDTO> quotes = new ArrayList<>();
 
 	private OrderProcessorService() {	
 		ArrayList<FacilityDTO> facilities = FacilityService.getInstance().getFacilities();
@@ -50,13 +53,19 @@ public class OrderProcessorService extends Observable {
 	public void addQuote (QuoteDTO quote) {
 		quotes.add(quote);
 	}
-	//Step 3: Sort the (4) records developed in step “2d” above by earliest (lowest) Arrival Day
+	
 	//Step 4: Select the facility with the earliest (lowest) Arrival Day and do the following:
 	//Reduce the inventory of the item at that facility by the number of items taken
 	//Reduce the quantity of the item that is needed for the order by the amount taken from the selected facility
 	//Update the schedule of the selected site (book the days needed to process the items)
 	//Save this as part of your solution
 	//Get fresh data from the facility!
+	
+	private void commitQuote (QuoteDTO quote) {
+		FacilityService.getInstance().commitQuote(quote);
+	}
+	
+	
 	//Step 5: If there is still more quantity of the item needed, go back to step 4 and continue the process. 
 	//Step 6: Compute the total cost of this item.
 	//The logistics costs of an Order Item consist of: (Total Item Cost + Total Facility Processing Cost + Total Transport Cost)
@@ -70,6 +79,10 @@ public class OrderProcessorService extends Observable {
 		for (OrderDTO order : orders) {
 			order.getItems().forEach((item,quantity) -> {
 				notifyOrderObservers(order,item);
+				//Step 3: Sort the (4) records developed in step “2d” above by earliest (lowest) Arrival Day
+				quotes.sort(comparingInt(quote -> quote.getArrivalDay()));
+				//Step 4
+				commitQuote(quotes.get(0));
 				
 			});
 		}

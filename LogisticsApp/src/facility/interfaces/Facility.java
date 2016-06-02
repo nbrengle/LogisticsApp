@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import facility.helpers.FacilityNeighborHelper;
+import order.DTO.QuoteDTO;
 
 public interface Facility {
 	
 	public void printReport();
-
 	public List<FacilityNeighborHelper> getConnectingFacilities();
 	public ArrayList<Integer> getSchedule();
 	public String getState();
@@ -18,12 +18,9 @@ public interface Facility {
 	public int getItemsPerDay();
 	public double getCostPerDay();
 	public String toString();
-
 	public int getDayOrderWillComplete(int startDay, int itemsInBatch);
-	public void scheduleItems(int startDay, int itemsInBatch);
-
 	public HashMap<String, Integer> getActiveItems();
-
 	public HashMap<String, Integer> getDepletedItems();
+	public void commitQuote(QuoteDTO quote);
 
 }

@@ -62,7 +62,7 @@ public class OrderProcessorRegImpl implements OrderProcessor {
 		
 		String name = facility.getUniqueIdentifier();
 		
-		return new QuoteDTO(name, itemQuantity, endDay, travelTime, arrivalDay);
+		return new QuoteDTO(name, targetItem, itemQuantity, endDay, travelTime, arrivalDay);
 		
 		
 	}

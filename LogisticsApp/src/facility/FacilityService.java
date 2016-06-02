@@ -15,6 +15,7 @@ import facility.helpers.FacilityNeighborHelper;
 import facility.interfaces.Facility;
 import facility.loader.FacilityLoaderFactory;
 import item.exceptions.NoSuchItemException;
+import order.DTO.QuoteDTO;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
@@ -123,8 +124,13 @@ public class FacilityService {
 		return fac.getDayOrderWillComplete(startDay, itemsInBatch);
 	}
 	
-	public void commitOrder(String facName, int startDay, int itemsInBatch) {
-		scheduleItems(String facName, int startDay, int itemsInBatch);
+	public void commitQuote(QuoteDTO quote) {
+		String targetFacility = quote.getSource();
+		for (Facility facPluck : facilities) {
+			if (facPluck.getUniqueIdentifier().equals(targetFacility)) {
+				facPluck.commitQuote(quote);
+			}
+		}
 
 	}
 	
