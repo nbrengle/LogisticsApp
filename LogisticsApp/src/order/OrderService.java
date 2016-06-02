@@ -1,11 +1,13 @@
 package order;
 
 import java.util.ArrayList;
-
+import java.util.HashMap;
+import java.util.List;
 import order.exceptions.NoSuchOrderException;
 import order.exceptions.NoSuchOrderLoaderException;
 import order.interfaces.Order;
 import order.loader.OrderLoaderFactory;
+import order.DTO.OrderDTO;
 
 public class OrderService {
 	
@@ -32,6 +34,19 @@ public class OrderService {
 			}
 		}
 		return ourInstance;
+	}
+
+	public List<OrderDTO> getOrders() {
+		List<OrderDTO> returnList = new ArrayList<>();
+		for (Order o : orders) {
+			returnList.add(new OrderDTO(o.getId(),
+										o.getStartDay(),
+										o.getDestinationCity(),
+										o.getDestinationState(),
+										o.getItems()
+										));
+		}
+		return returnList;
 	}
 	
 }

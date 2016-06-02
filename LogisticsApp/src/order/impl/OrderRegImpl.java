@@ -90,6 +90,7 @@ public class OrderRegImpl implements Order {
 		validateStringInput(destinationState); 
 		this.destinationUniqueIdentifier = String.format("%s, %s", destinationCity, destinationState);
 	}
+	//Top half of the mandatory report, there's another half that exists
 	/*
 	----------------------------------------------------------------------------------
 	Order #1
