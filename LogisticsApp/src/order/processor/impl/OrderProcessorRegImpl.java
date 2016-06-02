@@ -24,6 +24,6 @@ public class OrderProcessorRegImpl implements OrderProcessor {
 		int daysOfTravel = (int) Math.ceil(distance / (averageMilesPerHour * drivingHoursPerDay));
 		int arrivalDay = fac1.getStartDay() + (daysOfTravel);
 	//d) Save this information as a Facility Record (described later) – a potential solution
-		
+		return new QuoteDTO(distance, daysNecessary, daysOfTravel, arrivalDay);
 	}
 }
