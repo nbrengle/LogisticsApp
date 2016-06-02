@@ -19,7 +19,6 @@ import order.DTO.QuoteDTO;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class FacilityService {
@@ -124,7 +123,7 @@ public class FacilityService {
 		return fac.getDayOrderWillComplete(startDay, itemsInBatch);
 	}
 	
-	public void commitQuote(QuoteDTO quote) {
+	public void commitQuote(QuoteDTO quote) throws InvalidParameterException, NoSuchItemException {
 		String targetFacility = quote.getSource();
 		for (Facility facPluck : facilities) {
 			if (facPluck.getUniqueIdentifier().equals(targetFacility)) {

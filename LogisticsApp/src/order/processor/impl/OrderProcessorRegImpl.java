@@ -49,7 +49,9 @@ public class OrderProcessorRegImpl implements OrderProcessor {
 		
 		//c) Add the travel time to the previously calculated processing end day to generate the “Arrival Day”
 		int travelTime = (int) Math.ceil(distance / (AVERAGE_MILES_PER_HOUR * DRIVING_HOURS_PER_DAY));
-		int arrivalDay = order.getStartDay() + travelTime;
+		int startDay = order.getStartDay();
+		int arrivalDay = startDay + travelTime;
+
 		
 		//d) Save this information as a Facility Record (described later) – a potential solution
 		
@@ -62,7 +64,7 @@ public class OrderProcessorRegImpl implements OrderProcessor {
 		
 		String name = facility.getUniqueIdentifier();
 		
-		return new QuoteDTO(name, targetItem, itemQuantity, endDay, travelTime, arrivalDay);
+		return new QuoteDTO(name, targetItem, itemQuantity, startDay, endDay, travelTime, arrivalDay);
 		
 		
 	}

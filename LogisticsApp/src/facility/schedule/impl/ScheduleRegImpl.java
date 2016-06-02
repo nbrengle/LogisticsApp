@@ -44,6 +44,7 @@ public class ScheduleRegImpl implements Schedule {
 		if (itemsConsumedEachDay.get(startDay) > 0) {
 			tempStart++;
 			temp = temp - itemsConsumedEachDay.get(startDay);
+			itemsConsumedEachDay.set(startDay, itemsPerDay);
 		}
 		//TODO Off by one error? 
 		for (int i = tempStart; i < itemsConsumedEachDay.size(); i++){

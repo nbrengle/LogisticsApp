@@ -11,6 +11,7 @@ public class QuoteDTO {
 	private String itemName;
 	private int numItems; 
 	private int endDay;
+	private int startDay;
 	private int travelTime; 
 	private int arrivalDay;
 	
@@ -24,7 +25,8 @@ public class QuoteDTO {
 	
 	public QuoteDTO(String source, 
 					String itemName,
-					int numItems, 
+					int numItems,
+					int startDay,
 					int endDay, 
 					int travelTime, 
 					int arrivalDay) {
@@ -32,6 +34,7 @@ public class QuoteDTO {
 		setItemName(itemName);
 		setNumItems(numItems);
 		setEndDay(endDay);
+		setStartDay(startDay);
 		setTravelTime(travelTime);
 		setArrivalDay(arrivalDay);
 	}
@@ -50,9 +53,19 @@ public class QuoteDTO {
 	}
 
 	private void setEndDay(int endDayIn) {
-		if (endDayIn <= 0) throw new InvalidParameterException("endDay must be > 0");
+		if (endDayIn <= 0) throw new InvalidParameterException("startDay must be > 0");
 		this.endDay = endDayIn;
 	}
+	
+	public int getStartDay() {
+		return startDay;
+	}
+
+	private void setStartDay(int startDayIn) {
+		if (startDayIn <= 0) throw new InvalidParameterException("startDay must be > 0");
+		this.startDay = startDayIn;
+	}
+
 
 	public int getTravelTime() {
 		return travelTime;

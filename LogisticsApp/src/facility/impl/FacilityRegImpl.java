@@ -158,10 +158,8 @@ public class FacilityRegImpl implements Facility {
 	public void commitQuote(QuoteDTO quote) throws InvalidParameterException, NoSuchItemException {
 		//Reduce the inventory of the item at that facility by the number of items taken
 		inventory.consumeItem(quote.getItemName(), quote.getNumItems());
-		//Reduce the quantity of the item that is needed for the order by the amount taken from the selected facility
 		//Update the schedule of the selected site (book the days needed to process the items)
-		//Save this as part of your solution
-		//Get fresh data from the facility!
+		schedule.scheduleItems(quote.getStartDay(), quote.getNumItems());
 		
 	}
 	
