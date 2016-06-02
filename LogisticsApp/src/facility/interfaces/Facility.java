@@ -1,6 +1,7 @@
 package facility.interfaces;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import facility.helpers.FacilityNeighborHelper;
@@ -20,5 +21,9 @@ public interface Facility {
 
 	public int getDayOrderWillComplete(int startDay, int itemsInBatch);
 	public void scheduleItems(int startDay, int itemsInBatch);
+
+	public HashMap<String, Integer> getActiveItems();
+
+	public HashMap<String, Integer> getDepletedItems();
 
 }

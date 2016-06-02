@@ -92,10 +92,12 @@ public class FacilityRegImpl implements Facility {
 		this.costPerDay = valIn;
 	}
 	
+	@Override
 	public HashMap<String, Integer> getActiveItems() {	
 		return inventory.getActiveItems();
 	}
 	
+	@Override
 	public HashMap<String, Integer> getDepletedItems() {	
 		return inventory.getDepletedItems();
 	}

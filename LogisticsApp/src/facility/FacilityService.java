@@ -18,6 +18,7 @@ import facility.loader.FacilityLoaderFactory;
 import item.exceptions.NoSuchItemException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class FacilityService {
@@ -124,7 +125,15 @@ public class FacilityService {
 	public ArrayList<FacilityDTO> getFacilities() {
 		ArrayList<FacilityDTO> returnList = new ArrayList<>();
 		for (Facility f : facilities) {
-			returnList.add(new FacilityDTO(facility.))
+			returnList.add(new FacilityDTO(f.getCity(),
+										   f.getState(),
+										   f.getItemsPerDay(),
+										   f.getCostPerDay(),
+										   f.getConnectingFacilities(),
+										   f.getActiveItems(),
+										   f.getDepletedItems(),
+										   f.getSchedule()
+										   ));
 		}
 		return returnList;
 		
