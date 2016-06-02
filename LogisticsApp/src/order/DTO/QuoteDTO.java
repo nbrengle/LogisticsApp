@@ -2,48 +2,60 @@ package order.DTO;
 
 import java.security.InvalidParameterException;
 
+import facility.FacilityService;
+
 public class QuoteDTO {
 
-	private int distance;
-	private int daysNecessary;
-	private int daysOfTravel;
+	private String source;
+	private int numItems; 
+	private int endDay;
+	private int travelTime; 
 	private int arrivalDay;
 	
-	public QuoteDTO(int distance,
-					int daysNecessary,
-					int daysOfTravel,
+	//These are what I actually need back from the Quote!
+	//Source: Norfolk, VA
+	//Number of Items: 50
+	//Processing End Day: 5
+	//Travel Time: 4d
+	//Arrival Day: 9
+	
+	public QuoteDTO(String source, 
+					int numItems, 
+					int endDay, 
+					int travelTime, 
 					int arrivalDay) {
-		setDistance(distance);
-		setDaysNecessary(daysNecessary);
-		setDaysOfTravel(daysOfTravel);
+		setSource(source);
+		setNumItems(numItems);
+		setEndDay(endDay);
+		setTravelTime(travelTime);
 		setArrivalDay(arrivalDay);
 	}
 
-	public int getDistance() {
-		return distance;
+	public int getNumItems() {
+		return numItems;
 	}
 
-	private void setDistance(int distanceIn) {
-		if (distanceIn <= 0) throw new InvalidParameterException("distance must be > 0");
-		this.distance = distanceIn;
+	private void setNumItems(int numItemsIn) {
+		if (numItemsIn <= 0) throw new InvalidParameterException("distance must be > 0");
+		this.numItems = numItemsIn;
 	}
 
-	public int getDaysNecessary() {
-		return daysNecessary;
+	public int getEndDay() {
+		return endDay;
 	}
 
-	private void setDaysNecessary(int daysNecessaryIn) {
-		if (daysNecessaryIn <= 0) throw new InvalidParameterException("daysNecessary must be > 0");
-		this.daysNecessary = daysNecessaryIn;
+	private void setEndDay(int endDayIn) {
+		if (endDayIn <= 0) throw new InvalidParameterException("endDay must be > 0");
+		this.endDay = endDayIn;
 	}
 
-	public int getDaysOfTravel() {
-		return daysOfTravel;
+	public int getTravelTime() {
+		return travelTime;
 	}
 
-	private void setDaysOfTravel(int daysOfTravelIn) {
+	private void setTravelTime(int daysOfTravelIn) {
 		if (daysOfTravelIn <= 0) throw new InvalidParameterException("daysOfTravel must be > 0");
-		this.daysOfTravel = daysOfTravelIn;
+		this.travelTime = daysOfTravelIn;
 	}
 
 	public int getArrivalDay() {
@@ -53,5 +65,15 @@ public class QuoteDTO {
 	private void setArrivalDay(int arrivalDayIn) {
 		if (arrivalDayIn <= 0) throw new InvalidParameterException("arrivalDay must be > 0");
 		this.arrivalDay = arrivalDayIn;
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	private void setSource(String source) {
+		if (source.equals(null)) throw new NullPointerException("Source cannot be null");
+		if (!FacilityService.getInstance().isFacility(source)) throw new InvalidParameterException("Sources, must be facilities");
+		this.source = source;
 	}
 }

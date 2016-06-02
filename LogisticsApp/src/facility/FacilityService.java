@@ -97,6 +97,14 @@ public class FacilityService {
 		facilityPathFinder.printBestPath(startFac, endFac);
 	}
 	
+	public boolean isFacility(String fac) {
+		boolean tester = false;
+		for (Facility facCheck : facilities) {
+			if (facCheck.getUniqueIdentifier().equals(fac)) tester = true;
+		}
+		return tester;
+	}
+	
 	public int getBestPathLength(String start, String end) throws InvalidParameterException {
 		Facility startFac = null, endFac = null;
 		for (Facility facPluck : facilities) {
@@ -117,23 +125,7 @@ public class FacilityService {
 	
 	public void commitOrder(String facName, int startDay, int itemsInBatch) {
 		scheduleItems(String facName, int startDay, int itemsInBatch);
-		/*
-		Reduce the inventory of the item at that facility by the number of items taken
-		Old Inventory of RL123A: 12 – New Inventory of RL123A: 0 [Item RL123A is now Depleted]
-		b. Reduce the quantity of the item that is needed for the order by the amount taken from the selected facility
-		Previous Required Quantity: 180 – New Required Quantity: 168
-		c. Update the schedule of the selected site (book the days needed to process the items) – 12 items
-		Schedule:
-		Day: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
-		Available: 2 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14
-		d. Save this as part of your solution
-		Facility Record:
-		 Source: New York City, NY
-		 Number of Items: 12
-		 Processing End Day: 1
-		 Travel Time: 5d
-		 Arrival Day: 6
-		*/
+
 	}
 	
 	public ArrayList<FacilityDTO> getFacilities() {
