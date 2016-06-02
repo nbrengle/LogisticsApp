@@ -9,6 +9,7 @@ import order.DTO.OrderDTO;
 import order.DTO.QuoteDTO;
 import order.exceptions.NoSuchOrderObserverException;
 import order.exceptions.NoSuchOrderProcessorException;
+import order.helpers.ObserverHelper;
 import order.observer.OrderObserverFactory;
 
 public class OrderProcessorService extends Observable {
@@ -16,6 +17,7 @@ public class OrderProcessorService extends Observable {
 	//Singleton Facade for Order Processing
 	private volatile static OrderProcessorService ourInstance;
 	private ArrayList<OrderDTO> orders = new ArrayList<>();
+	private ArrayList<QuoteDTO> quotes = new ArrayList<>();
 
 	private OrderProcessorService() {	
 		ArrayList<FacilityDTO> facilities = FacilityService.getInstance().getFacilities();
@@ -41,7 +43,13 @@ public class OrderProcessorService extends Observable {
 	
 	//Step 1: Identify all facilities with the desired item 
 	//NOTE: Destinations cannot be their own source.
+	private void notifyOrderObservers(OrderDTO order, String itemName) {
+		notifyObservers(new ObserverHelper(order, itemName));
+	}
 	//Step 2: For each Facility Identified, get a Quote
+	public void addQuote (QuoteDTO quote) {
+		quotes.add(quote);
+	}
 	//Step 3: Sort the (4) records developed in step “2d” above by earliest (lowest) Arrival Day
 	//Step 4: Select the facility with the earliest (lowest) Arrival Day and do the following:
 	//Reduce the inventory of the item at that facility by the number of items taken
@@ -56,6 +64,16 @@ public class OrderProcessorService extends Observable {
 	//Step 8: If there are more items to process in this order, go back and repeat this process from step 1 with the next item
 	//Step 9: Generate output. 
 	// Order Report Info + this info:
+	
+	public void printOrderReport() {
+		//Step1
+		for (OrderDTO order : orders) {
+			order.getItems().forEach((item,quantity) -> {
+				notifyOrderObservers(order,item);
+				
+			});
+		}
+	}
 	/*
 	 * 	Processing Solution:
 			Total Cost: 	  $94,355

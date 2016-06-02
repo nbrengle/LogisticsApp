@@ -10,6 +10,10 @@ public class Main {
 		FacilityService.getInstance().printFacilityReport();
 	}
 	
+	private static void printOrderReport() {
+		OrderProcessorService.getInstance().printOrderReport();
+	}
+	
 	public static void main(String[] args) {
 
 		printFacilityReport();

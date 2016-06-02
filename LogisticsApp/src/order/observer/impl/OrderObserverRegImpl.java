@@ -6,6 +6,7 @@ import facility.DTO.FacilityDTO;
 import order.DTO.OrderDTO;
 import order.DTO.QuoteDTO;
 import order.exceptions.NoSuchOrderProcessorException;
+import order.helpers.ObserverHelper;
 import order.observer.interfaces.OrderObserver;
 import order.processor.OrderProcessorFactory;
 import order.processor.interfaces.OrderProcessor;
@@ -26,8 +27,11 @@ public class OrderObserverRegImpl implements OrderObserver {
 	
 	@Override
 	public void update(Observable o, Object arg) {
-		OrderDTO orderIn = (OrderDTO) arg; //make sure this cast works!
-		this.order = orderIn;
+		ObserverHelper helper = (ObserverHelper) arg; //make sure this case works, it scares me
+		setOrder(helper.getOrder());
+		if (facility.getActiveItems().containsKey(helper.getTarget())) {
+			getQuote();
+		}
 	}
 	
 	public QuoteDTO getQuote() {
@@ -39,9 +43,14 @@ public class OrderObserverRegImpl implements OrderObserver {
 		this.subject = subjectIn;
 	}
 	
-	public void setFacility(FacilityDTO facility) {
+	private void setFacility(FacilityDTO facility) {
 		if (facility.equals(null)) {throw new NullPointerException("OrderObservers Cannot Have a Null Facility");}
 		this.facility = facility;
+	}
+	
+	private void setOrder(OrderDTO order) {
+		if (order.equals(null)) {throw new NullPointerException("OrderObservers Cannot Have a Null Order");}
+		this.order = order;
 	}
 	
 	private void setProcessor(String processorType) throws NoSuchOrderProcessorException {
