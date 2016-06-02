@@ -2,8 +2,6 @@ package order.impl;
 
 import java.security.InvalidParameterException;
 import java.util.HashMap;
-
-import facility.graph.helpers.NeighborNode;
 import order.interfaces.Order;
 
 public class OrderRegImpl implements Order {
@@ -72,10 +70,9 @@ public class OrderRegImpl implements Order {
 	}
 
 	public HashMap<String, Integer> getItems() {
-		//TODO THIS IS ALL WRONG HUGE INFORMATION HIDING VIOLATON
-		return items;
-		//TODO fix this syntax error and the associated information hiding issue
-		/
+		HashMap<String, Integer> returnList = new HashMap<>();
+		items.forEach((k,v) -> returnList.put(k,v));
+		return returnList;
 	}
 
 	private void setItems(HashMap<String, Integer> items) {

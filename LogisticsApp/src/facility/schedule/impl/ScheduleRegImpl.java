@@ -57,12 +57,16 @@ public class ScheduleRegImpl implements Schedule {
 		}
 	}
 	
-	//method for adding items to the schedule
-	public void scheduleBatch(int itemsInBatch) {
-		
-	}
 	//method for reporting how many days are consumed
-	//method of printing days by amount consumed
+	@Override
+	public ArrayList<Integer> getSchedule() {
+		ArrayList<Integer> returnList = new ArrayList<>();
+		//TODO Off by one error? 
+		for (int i = 1; i < itemsConsumedEachDay.size() ; i++ ) {
+			returnList.add(itemsPerDay - itemsConsumedEachDay.get(i));
+		}
+		return returnList;
+	}
 	
 	
 	/*

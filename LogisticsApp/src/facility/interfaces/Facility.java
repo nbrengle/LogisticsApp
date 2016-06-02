@@ -1,16 +1,16 @@
 package facility.interfaces;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import facility.helpers.FacilityNeighborHelper;
-import facility.schedule.interfaces.Schedule;
 
 public interface Facility {
 	
 	public void printReport();
 
 	public List<FacilityNeighborHelper> getConnectingFacilities();
-	public Schedule getSchedule();
+	public ArrayList<Integer> getSchedule();
 	public String getState();
 	public String getCity();
 	public String getUniqueIdentifier();

@@ -93,12 +93,10 @@ public class FacilityRegImpl implements Facility {
 	}
 	
 	public HashMap<String, Integer> getActiveItems() {	
-		//TODO do not return this inventory!
 		return inventory.getActiveItems();
 	}
 	
 	public HashMap<String, Integer> getDepletedItems() {	
-		//TODO do not return this inventory!
 		return inventory.getDepletedItems();
 	}
 	
@@ -112,7 +110,10 @@ public class FacilityRegImpl implements Facility {
 	}
 	
 	public List<FacilityNeighborHelper> getConnectingFacilities() {
-		return connectingFacilities;
+		//TODO this might not amount to much in terms of information hiding
+		List<FacilityNeighborHelper>  returnList = new ArrayList<>();
+		for (FacilityNeighborHelper fnh : connectingFacilities) { returnList.add(fnh);}
+		return returnList;
 	}
 	
 	private void printConnectFacilities(List<FacilityNeighborHelper> connectsIn) {
@@ -125,13 +126,8 @@ public class FacilityRegImpl implements Facility {
 		}
 	}
 	
-	public Schedule getSchedule() {
-		//this abstraction is present for other potential implementations
-		//functionally the schedule in this case is much like a public member
-		//the schedule is expected to manage its own privacy appropriately
-		
-		//TODO do not return this schedule raw!
-		return this.schedule;
+	public ArrayList<Integer> getSchedule() {
+		return schedule.getSchedule();
 	}
 	
 	private void setSchedule() throws NoSuchScheduleException, InvalidParameterException {
