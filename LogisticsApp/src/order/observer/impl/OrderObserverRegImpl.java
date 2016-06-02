@@ -3,6 +3,7 @@ package order.observer.impl;
 import java.util.Observable;
 
 import facility.DTO.FacilityDTO;
+import order.OrderProcessorService;
 import order.DTO.OrderDTO;
 import order.DTO.QuoteDTO;
 import order.exceptions.NoSuchOrderProcessorException;
@@ -31,7 +32,7 @@ public class OrderObserverRegImpl implements OrderObserver {
 		setOrder(helper.getOrder());
 		String target = helper.getTarget();
 		if (facility.getActiveItems().containsKey(target)) {
-			getQuote(target);
+			OrderProcessorService.getInstance().addQuote(getQuote(target));
 		}
 	}
 	

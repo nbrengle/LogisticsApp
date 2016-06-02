@@ -41,7 +41,9 @@ public class OrderProcessorRegImpl implements OrderProcessor {
 																	   order.getDestinationUniqueIdentifier());
 		
 		//b) Determine the days needed to process the items located at the facility.
-		int itemQuantity = order.getItems().get(targetItem);
+		int itemsAtFacility = facility.getActiveItems().get(targetItem);
+		int itemsRequested = order.getItems().get(targetItem);
+		int itemQuantity =  (itemsAtFacility < itemsRequested) ? itemsAtFacility : itemsRequested;
 		int daysNecessary = (int) Math.ceil((itemQuantity / facility.getItemsPerDay()));
 		int endDay = order.getStartDay() + daysNecessary;
 		
