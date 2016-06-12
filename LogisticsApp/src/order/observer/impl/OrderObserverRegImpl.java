@@ -2,6 +2,7 @@ package order.observer.impl;
 
 import java.util.ArrayList;
 import java.util.Observable;
+import java.util.Observer;
 
 import facility.FacilityService;
 import facility.DTO.FacilityDTO;
@@ -14,7 +15,7 @@ import order.observer.interfaces.OrderObserver;
 import order.processor.OrderProcessorFactory;
 import order.processor.interfaces.OrderProcessor;
 
-public class OrderObserverRegImpl implements OrderObserver {
+public class OrderObserverRegImpl implements OrderObserver, Observer {
 
 	private Observable subject;
 	private OrderProcessor processor;

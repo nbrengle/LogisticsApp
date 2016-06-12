@@ -55,6 +55,8 @@ public class OrderProcessorService extends Observable {
 	//NOTE: Destinations cannot be their own source.
 	private void notifyOrderObservers(OrderDTO order, String itemName) {
 		notifyObservers(new ObserverHelper(order, itemName));
+		if (quotes.isEmpty()) 
+			throw new InvalidParameterException();
 	}
 	//Step 2: For each Facility Identified, get a Quote
 	public void addQuote (QuoteDTO quote) {
@@ -101,9 +103,11 @@ public class OrderProcessorService extends Observable {
 			List<OrderItemSolution> OrderSolution = new ArrayList<>();
 			order.getItems().forEach((item,quantity) -> {
 				quotes.clear(); //Make sure quotes are empty each pass through the loop
+				clearChanged();
 				OrderItemSolution itemSolutions = new OrderItemSolution();
 				int tempItemsNeeded = quantity;	
 				while (tempItemsNeeded > 0) {				
+					setChanged();
 					notifyOrderObservers(order,item);
 					//Step 3: Sort the (4) records developed in step “2d” above by earliest (lowest) Arrival Day
 					quotes.sort(comparingInt(quote -> quote.getArrivalDay()));

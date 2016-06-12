@@ -93,9 +93,11 @@ public class DijkstraPathFinder<T> implements GraphPathFinder<T>{
     }
 	
 	@Override
-	public int getBestPathLength(T init, T dest) throws InvalidParameterException {
-		//TODO Implement me!
-		return 0;
+	public int getBestPathLength(T init, T dest) {
+		if (init.equals(null) || (dest.equals(null))) throw new NullPointerException("Paths cannot be determined for null data");
+		pathLength = 0;
+		findBestPath(init, dest);
+		return  pathLength;
 	}
 	
 	//equivalent to calling findBestPath but includes a print step
