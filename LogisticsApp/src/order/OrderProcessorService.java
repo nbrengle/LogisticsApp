@@ -102,17 +102,17 @@ public class OrderProcessorService extends Observable {
 			int index = 1;
 			List<OrderItemSolution> OrderSolution = new ArrayList<>();
 			order.getItems().forEach((item,quantity) -> {
-				quotes.clear(); //Make sure quotes are empty each pass through the loop
 				clearChanged();
 				OrderItemSolution itemSolutions = new OrderItemSolution();
 				int tempItemsNeeded = quantity;	
 				while (tempItemsNeeded > 0) {				
-					setChanged();
+					quotes.clear(); //Make sure quotes are empty each pass through the loop
+					setChanged();	
 					notifyOrderObservers(order,item);
 					//Step 3: Sort the (4) records developed in step “2d” above by earliest (lowest) Arrival Day
 					quotes.sort(comparingInt(quote -> quote.getArrivalDay()));
 					//Step 4
-					QuoteDTO bestQuote = quotes.get(0);
+					QuoteDTO bestQuote = quotes.remove(0);
 					commitQuote(bestQuote);
 					try {
 						itemSolutions.addSolution(bestQuote, calcQuotePrice(bestQuote));
@@ -121,6 +121,7 @@ public class OrderProcessorService extends Observable {
 					}
 					//Reduce the quantity of the item that is needed for the order by the amount taken from the selected facility
 					tempItemsNeeded -= bestQuote.getNumItems();
+					order.setItemQuantityNeeded(item, tempItemsNeeded);
 				}
 				OrderSolution.add(itemSolutions);
 			});

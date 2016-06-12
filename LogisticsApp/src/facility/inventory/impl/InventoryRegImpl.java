@@ -52,12 +52,17 @@ public class InventoryRegImpl implements Inventory {
 	}
 	
 	public void consumeItem(String itemToConsume, int quantityToConsume) throws NoSuchItemException, InvalidParameterException {
+		if (itemToConsume.equals(null)) throw new NullPointerException("Item to Consume cannot be null");
+		if (itemToConsume.equals("")) throw new InvalidParameterException("Item cannot be empty");
+		if (quantityToConsume <= 0) throw new InvalidParameterException("Quantity to consume must be greater than 0");
+		if (!itemIsActive(itemToConsume)) throw new InvalidParameterException("Cannot consume depleted items");
+		
 		int currentQuantity = active.get(itemToConsume);
-		if (itemIsActive(itemToConsume) && (currentQuantity > quantityToConsume)) {
+ 		if (currentQuantity > quantityToConsume) {
 			depleted.put(itemToConsume, quantityToConsume);
 			active.replace(itemToConsume, (currentQuantity - quantityToConsume));
 		}
-		else if (itemIsActive(itemToConsume) && (currentQuantity == quantityToConsume)) {
+		else if (currentQuantity == quantityToConsume) {
 			depleted.put(itemToConsume, quantityToConsume);
 			active.remove(itemToConsume);
 		}

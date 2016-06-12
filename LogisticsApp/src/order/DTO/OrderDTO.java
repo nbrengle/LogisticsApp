@@ -91,4 +91,9 @@ public class OrderDTO {
 			validateStringInput(destinationState); 
 			this.destinationUniqueIdentifier = String.format("%s, %s", destinationCity, destinationState);
 		}
+		
+		public void setItemQuantityNeeded(String itemIn, int valIn) {
+			validateStringInput(itemIn);
+			items.replace(itemIn, valIn);
+		}
 }
